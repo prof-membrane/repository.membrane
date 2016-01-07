@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
+<addon id="plugin.video.unithek" name="Unithek" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">Unithek</summary>
+        <description lang="en">Unithek</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="2.2.5" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -21,5 +35,35 @@
         <email>AddonScriptorDE at yahoo dot de</email>
         <website>http://www.zdf.de/ZDFmediathek</website>
     </extension>
+</addon>
+
+<addon id="script.module.ardlib"
+	     name="ardlib"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">ardlib</summary>
+    <description lang="en">ardlib</description>
+  </extension>
+</addon>
+
+<addon id="script.module.zdflib"
+	     name="zdflib"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">zdflib</summary>
+    <description lang="en">zdflib</description>
+  </extension>
 </addon>
 </addons>
