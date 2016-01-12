@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.unithek" name="Unithek" version="0.0.2" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.0.3" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.ardlib" version="0.0.1"/>
