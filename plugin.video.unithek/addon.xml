@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.unithek" name="Unithek" version="0.0.3" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.0.4" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.ardlib" version="0.0.1"/>
-		<import addon="script.module.zdflib" version="0.0.1"/>
+		<import addon="script.module.ardlib" version="0.0.2"/>
+		<import addon="script.module.zdflib" version="0.0.2"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
