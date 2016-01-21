@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.unithek" name="Unithek" version="0.0.5" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.0.6" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.ardlib" version="0.0.3"/>
-		<import addon="script.module.zdflib" version="0.0.3"/>
+		<import addon="script.module.libArd" version="0.0.5"/>
+		<import addon="script.module.libArte" version="0.0.1"/>
+		<import addon="script.module.libZdf" version="0.0.5"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -39,9 +40,9 @@
     </extension>
 </addon>
 
-<addon id="script.module.ardlib"
-	     name="ardlib"
-	     version="0.0.3"
+<addon id="script.module.libArd"
+	     name="libArd"
+	     version="0.0.5"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -49,14 +50,14 @@
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">ardlib</summary>
-    <description lang="en">ardlib</description>
+    <summary lang="en">libArd</summary>
+    <description lang="en">libArd</description>
   </extension>
 </addon>
 
-<addon id="script.module.zdflib"
-	     name="zdflib"
-	     version="0.0.3"
+<addon id="script.module.libArte"
+	     name="libArte"
+	     version="0.0.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -64,8 +65,23 @@
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">zdflib</summary>
-    <description lang="en">zdflib</description>
+    <summary lang="en">libArte</summary>
+    <description lang="en">libArte</description>
+  </extension>
+</addon>
+
+<addon id="script.module.libZdf"
+	     name="libZdf"
+	     version="0.0.5"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">libZdf</summary>
+    <description lang="en">libZdf</description>
   </extension>
 </addon>
 </addons>
