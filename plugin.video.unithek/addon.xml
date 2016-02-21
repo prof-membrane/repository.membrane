@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.unithek" name="Unithek" version="0.0.9" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.0.10" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libArd" version="0.0.7"/>
+		<import addon="script.module.libArd" version="0.0.8"/>
 		<import addon="script.module.libArte" version="0.0.1"/>
 		<import addon="script.module.libZdf" version="0.0.7"/>
     </requires>
