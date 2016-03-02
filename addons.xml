@@ -17,6 +17,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libZdf" version="0.1.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">ZDF Beta</summary>
+        <description lang="en">ZDF Beta</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="2.2.5" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -72,7 +87,7 @@
 
 <addon id="script.module.libZdf"
 	     name="libZdf"
-	     version="0.0.9"
+	     version="0.1.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
