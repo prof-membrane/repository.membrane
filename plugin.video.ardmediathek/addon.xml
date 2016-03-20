@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.1.0" provider-name="membrane">
+<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libZdf" version="0.2.0"/>
+		<import addon="script.module.libArd" version="0.0.10"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-        <summary lang="en">ZDF Beta</summary>
-        <description lang="en">ZDF Beta</description>
+        <summary lang="en">ARD Beta</summary>
+        <description lang="en">ARD Beta</description>
     </extension>
 </addon>
