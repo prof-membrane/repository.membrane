@@ -1,11 +1,44 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.unithek" name="Unithek" version="0.1.3" provider-name="membrane">
+<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libArd" version="0.0.10"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">ARD Beta</summary>
+        <description lang="en">ARD Beta</description>
+    </extension>
+</addon>
+
+<addon id="plugin.video.servushockeynight" name="Servus Hockey Night" version="0.1.0" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.common.plugin.cache" version="0.9.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="de">Videos aus der DEL, EBEL und CHL.</summary>
+        <description lang="de">Dieses Add-on listet die Videos von servustv.com, del.de und erstebankliga.at</description>
+        <summary lang="en">Videos from the DEL, EBEL and CHL.</summary>
+
+        <description lang="en">This Add-on presents the videos of servustv.com, del.de and erstebankliga.at.</description>
+    </extension>
+</addon>
+
+<addon id="plugin.video.unithek" name="Unithek" version="0.2.0" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libArd" version="0.1.0"/>
 		<import addon="script.module.libArte" version="0.0.1"/>
-		<import addon="script.module.libZdf" version="0.0.9"/>
+		<import addon="script.module.libZdf" version="0.2.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -17,10 +50,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.0.1" provider-name="membrane">
+<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.1.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libZdf" version="0.1.0"/>
+		<import addon="script.module.libZdf" version="0.2.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -57,7 +90,7 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.0.10"
+	     version="0.1.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -70,24 +103,9 @@
   </extension>
 </addon>
 
-<addon id="script.module.libArte"
-	     name="libArte"
-	     version="0.0.1"
-	     provider-name="membrane">
-  <requires>
-    <import addon="xbmc.python" version="2.1.0" />
-  </requires>
-  <extension point="xbmc.python.module" library="lib" />
-  <extension point="xbmc.addon.metadata">
-    <platform>all</platform>
-    <summary lang="en">libArte</summary>
-    <description lang="en">libArte</description>
-  </extension>
-</addon>
-
 <addon id="script.module.libZdf"
 	     name="libZdf"
-	     version="0.1.4"
+	     version="0.2.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
