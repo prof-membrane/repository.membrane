@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
-<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.1" provider-name="membrane">
+<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.2" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libArd" version="0.0.10"/>
+		<import addon="script.module.libArd" version="0.1.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -12,6 +12,33 @@
         <platform>all</platform>
         <summary lang="en">ARD Beta</summary>
         <description lang="en">ARD Beta</description>
+    </extension>
+</addon>
+
+<addon id="plugin.video.relive" name="PVR ReLive Beta" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libZdf" version="0.2.1"/>
+		<import addon="script.module.libArd" version="0.1.1"/>
+    </requires>
+	<extension point="kodi.context.item" library="context.py">
+		<item>
+			<label>30000</label>
+			<visible>StringCompare(Container.Content(LiveTV),true)</visible>
+		</item>
+	</extension>
+	<!--
+	<extension point="kodi.context.item" library="similar.py">
+		<item>
+			<label>30002</label>
+			<visible>StringCompare(Container.Content(LiveTV),true)</visible>
+		</item>
+	</extension>
+	-->
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">PVR relive Beta</summary>
+        <description lang="en">PVR relive Beta</description>
     </extension>
 </addon>
 
@@ -33,12 +60,12 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.unithek" name="Unithek" version="0.2.0" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.2.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libArd" version="0.1.0"/>
+		<import addon="script.module.libArd" version="0.1.1"/>
 		<import addon="script.module.libArte" version="0.0.1"/>
-		<import addon="script.module.libZdf" version="0.2.0"/>
+		<import addon="script.module.libZdf" version="0.2.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -50,10 +77,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.1.0" provider-name="membrane">
+<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.1.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libZdf" version="0.2.0"/>
+		<import addon="script.module.libZdf" version="0.2.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -90,11 +117,14 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.1.0"
+	     version="0.1.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
   </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>executable</provides>
+    </extension>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
@@ -103,9 +133,24 @@
   </extension>
 </addon>
 
+<addon id="script.module.libArte"
+	     name="libArte"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">libArte</summary>
+    <description lang="en">libArte</description>
+  </extension>
+</addon>
+
 <addon id="script.module.libZdf"
 	     name="libZdf"
-	     version="0.2.0"
+	     version="0.2.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
