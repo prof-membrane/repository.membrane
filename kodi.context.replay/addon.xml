@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.relive" name="PVR ReLive Beta" version="0.0.1" provider-name="membrane">
+<addon id="kodi.context.replay" name="PVR RePlay Beta" version="0.0.2" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libZdf" version="0.2.1"/>
@@ -21,7 +21,7 @@
 	-->
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-        <summary lang="en">PVR relive Beta</summary>
-        <description lang="en">PVR relive Beta</description>
+        <summary lang="en">PVR RePlay Beta</summary>
+        <description lang="en">PVR RePlay Beta</description>
     </extension>
 </addon>
