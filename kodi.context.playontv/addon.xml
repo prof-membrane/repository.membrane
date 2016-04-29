@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="kodi.context.playontv" name="Play on TV ALPHA" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+    </requires>
+	<extension point="kodi.context.item" library="context.py">
+		<item>
+			<label>30000</label>
+			<visible>true</visible>
+		</item>
+	</extension>
+	<!--
+	<extension point="kodi.context.item" library="similar.py">
+		<item>
+			<label>30002</label>
+			<visible>StringCompare(Container.Content(LiveTV),true)</visible>
+		</item>
+	</extension>
+	-->
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">Play on TV BETA</summary>
+        <description lang="en">Play on TV BETA</description>
+    </extension>
+</addon>
