@@ -102,41 +102,18 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.zdfmediathek" name="ZDF Mediathek Beta" version="0.1.1" provider-name="membrane">
+<addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="3.0.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libZdf" version="0.2.1"/>
+		<import addon="script.module.libZdf" version="1.0.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-        <summary lang="en">ZDF Beta</summary>
-        <description lang="en">ZDF Beta</description>
-    </extension>
-</addon>
-
-<addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="2.2.5" provider-name="membrane">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary lang="de">ZDF, ZDFneo, ZDFkultur, ZDFinfo und 3sat Mediathek</summary>
-        <summary lang="en">ZDF, ZDFneo, ZDFkultur, ZDFinfo and 3sat Media Library</summary>
-        <language>de</language>
-        <description lang="de">ZDF, ZDFneo, ZDFkultur, ZDFinfo und 3sat Mediathek</description>
-        <description lang="en">ZDF, ZDFneo, ZDFkultur, ZDFinfo and 3sat Media Library</description>
-        <disclaimer lang="en">Some parts of this addon may not be legal in your country of residence - please check with your local laws before installing.</disclaimer>
-        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-        <source>https://github.com/AddonScriptorDE/plugin.video.zdf_de_lite</source>
-        <forum>http://forum.xbmc.org/showthread.php?tid=132563</forum>
-        <email>AddonScriptorDE at yahoo dot de</email>
-        <website>http://www.zdf.de/ZDFmediathek</website>
+        <summary lang="en">Watch videos on demand from the ZDF Mediathek.</summary>
+        <description lang="en">Watch videos on demand from the ZDF Mediathek.</description>
     </extension>
 </addon>
 
@@ -173,9 +150,9 @@
   </extension>
 </addon>
 
-<addon id="script.module.libZdf"
-	     name="libZdf"
-	     version="0.2.2"
+<addon id="script.module.libMediathek"
+	     name="libMediathek"
+	     version="1.0.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -183,8 +160,24 @@
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">libZdf</summary>
-    <description lang="en">libZdf</description>
+    <summary lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</summary>
+    <description lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</description>
+  </extension>
+</addon>
+
+<addon id="script.module.libZdf"
+	     name="libZdf"
+	     version="1.0.0"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libMediathek" version="1.0.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Core lib for the ZDF Mediathek</summary>
+    <description lang="en">Handles everything related to the ZDF Mediathek. Used in multiple add-ons.</description>
   </extension>
 </addon>
 </addons>
