@@ -25,11 +25,12 @@
     </extension>
 </addon>
 
-<addon id="kodi.context.replay" name="PVR RePlay Beta" version="0.0.2" provider-name="membrane">
+<addon id="kodi.context.replay" name="PVR RePlay Beta" version="0.0.3" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libZdf" version="0.2.1"/>
 		<import addon="script.module.libArd" version="0.1.1"/>
+		<import addon="script.module.libBr" version="0.0.1"/>
     </requires>
 	<extension point="kodi.context.item" library="context.py">
 		<item>
@@ -119,10 +120,11 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.1.4"
+	     version="0.1.5"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libMediathek" version="0.0.1"/>
   </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>executable</provides>
@@ -147,6 +149,22 @@
     <platform>all</platform>
     <summary lang="en">libArte</summary>
     <description lang="en">libArte</description>
+  </extension>
+</addon>
+
+<addon id="script.module.libBr"
+	     name="libBr"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libMediathek" version="0.0.1"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">libBr</summary>
+    <description lang="en">libBr</description>
   </extension>
 </addon>
 

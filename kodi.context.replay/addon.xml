@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="kodi.context.replay" name="PVR RePlay Beta" version="0.0.2" provider-name="membrane">
+<addon id="kodi.context.replay" name="PVR RePlay Beta" version="0.0.3" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libZdf" version="0.2.1"/>
 		<import addon="script.module.libArd" version="0.1.1"/>
+		<import addon="script.module.libBr" version="0.0.1"/>
     </requires>
 	<extension point="kodi.context.item" library="context.py">
 		<item>
