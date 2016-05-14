@@ -53,10 +53,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.2" provider-name="membrane">
+<addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.3" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libArd" version="0.1.1"/>
+		<import addon="script.module.libArd" version="0.2.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -120,11 +120,11 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.1.5"
+	     version="0.2.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="0.0.1"/>
+    <import addon="script.module.libMediathek" version="1.0.1"/>
   </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>executable</provides>
@@ -170,7 +170,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.0.0"
+	     version="1.0.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
