@@ -1,0 +1,2 @@
+0.2.1
+- Prevent unwanted enties to show up

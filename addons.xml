@@ -120,7 +120,7 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.2.0"
+	     version="0.2.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -170,7 +170,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.0.1"
+	     version="1.0.2"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />

@@ -1,0 +1,6 @@
+1.0.2
+- Cleaning up HTML strings (e.g. "&amp;" -> "&")
+1.0.1
+- Added support for next page items
+1.0.0
+- Initial release
