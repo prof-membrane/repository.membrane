@@ -1,0 +1,5 @@
+0.2.2
+- Added accumulative lists
+- Added dir caching function
+0.2.1
+- Prevent unwanted enties to show up

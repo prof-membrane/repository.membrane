@@ -1,3 +1,6 @@
+1.0.3
+- Added support for accumulative lists
+- Added support for caching the current directory
 1.0.2
 - Cleaning up HTML strings (e.g. "&amp;" -> "&")
 1.0.1
