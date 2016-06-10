@@ -1,3 +1,6 @@
+1.0.0
+- Plays video directly if only one is available
+- Added video count
 0.2.0
 - Added player-/highlights search
 0.1.0
