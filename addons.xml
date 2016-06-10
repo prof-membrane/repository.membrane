@@ -103,7 +103,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.zdfmyview" name="ZDF Myview" version="0.1.0" provider-name="membrane">
+<addon id="plugin.video.zdfmyview" name="ZDF Myview" version="0.2.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libMediathek" version="1.0.5"/>
@@ -185,7 +185,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.0.5"
+	     version="1.0.6"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />

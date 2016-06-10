@@ -1,3 +1,5 @@
+0.2.0
+- Added player-/highlights search
 0.1.0
 - Added sorting methodes
 0.0.1
