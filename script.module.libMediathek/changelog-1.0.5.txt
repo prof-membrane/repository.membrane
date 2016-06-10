@@ -1,3 +1,8 @@
+1.0.5
+- extended codebase
+1.0.4
+- Fixed unicode error
+- Fixed view bug
 1.0.3
 - Added support for accumulative lists
 - Added support for caching the current directory

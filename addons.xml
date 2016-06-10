@@ -103,6 +103,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.zdfmyview" name="ZDF Myview" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libMediathek" version="1.0.5"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="de">ZDF Myview</summary>
+        <description lang="de">ZDF Myview</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="3.0.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -170,7 +185,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.0.3"
+	     version="1.0.5"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
