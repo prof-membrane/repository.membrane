@@ -68,7 +68,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.ardmulticam" name="ARD MultiCam" version="0.0.1" provider-name="membrane">
+<addon id="plugin.video.ardmulticam" name="ARD MultiCam" version="0.1.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libMediathek" version="1.0.5"/>
