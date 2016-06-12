@@ -68,6 +68,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.ardmulticam" name="ARD MultiCam" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libMediathek" version="1.0.5"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="de">ARD MultiCam</summary>
+        <description lang="de">ARD MultiCam</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.servushockeynight" name="Servus Hockey Night" version="0.1.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -103,7 +118,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.zdfmyview" name="ZDF MyView" version="1.0.0" provider-name="membrane">
+<addon id="plugin.video.zdfmyview" name="ZDF MyView" version="1.0.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libMediathek" version="1.0.5"/>
