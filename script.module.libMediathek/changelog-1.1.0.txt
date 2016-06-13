@@ -1,3 +1,5 @@
+1.1.0
+- Added a way to build dirs "date" and "AZ"
 1.0.6
 - Small fix for empty dirs
 1.0.5
