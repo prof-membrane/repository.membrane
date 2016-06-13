@@ -1,3 +1,5 @@
+1.0.2
+- Added "EM 2016" special
 1.0.1
 - Limited "New"/"Most viewed" to 150 entries
 - Switched to akkumulative lists
