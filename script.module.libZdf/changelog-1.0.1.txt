@@ -1,0 +1,8 @@
+1.0.1
+- Limited "New"/"Most viewed" to 150 entries
+- Switched to akkumulative lists
+- Switched to HLS only
+- RTMP streams are disabled (for now)
+- Various other fixes and improvements
+1.0.0
+- Initial release
