@@ -1,0 +1,12 @@
+0.3.0
+- Added EM 2016 Special
+- Improved lots functions
+0.2.3
+- Added support for FSK ratings
+- Improved tags for subtitles
+- Improved tags for hearing impeded versions
+0.2.2
+- Added accumulative lists
+- Added dir caching function
+0.2.1
+- Prevent unwanted enties to show up
