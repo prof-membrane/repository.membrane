@@ -68,6 +68,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.ardmediathek_de" name="ARD Mediathek" version="4.9.0" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libArd" version="0.3.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">ARD Mediathek</summary>
+        <description lang="en">ARD Mediathek</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.ardmulticam" name="ARD MultiCam" version="0.3.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -150,11 +165,11 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.3.0"
+	     version="0.3.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.0"/>
+    <import addon="script.module.libMediathek" version="1.1.1"/>
   </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>executable</provides>
@@ -200,7 +215,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.1.0"
+	     version="1.1.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />

@@ -1,3 +1,5 @@
+0.3.1
+- Misc fixes
 0.3.0
 - Added EM 2016 Special
 - Improved lots functions
