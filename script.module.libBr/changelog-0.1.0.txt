@@ -1,0 +1,3 @@
+0.1.0
+- Improved PVR support
+- Added code for a standalone add-on
