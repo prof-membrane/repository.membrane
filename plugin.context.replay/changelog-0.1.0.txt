@@ -1,0 +1,8 @@
+0.1.0
+- Rerelease for Krypton
+- Added custom context menu
+- Added "Mediathek" shortcuts
+- Added support for direct search
+- Added support for hardcoded shows
+- Added support for libBr
+- Rewrote large portions of the add-on
