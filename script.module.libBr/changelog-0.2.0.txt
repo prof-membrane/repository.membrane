@@ -1,3 +1,5 @@
+0.2.0
+- Finalised support for a standalone add-on
 0.1.0
 - Improved PVR support
 - Added code for a standalone add-on
