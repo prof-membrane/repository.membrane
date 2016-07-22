@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.context.replay" name="PVR RePlay Beta - Krypton only!" version="0.1.0" provider-name="membrane">
+<addon id="plugin.context.replay" name="PVR RePlay Beta - Krypton only!" version="0.1.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.libZdf" version="0.2.1"/>
