@@ -1,3 +1,6 @@
+1.1.5
+- Improved art support
+- Added support for viewmodes
 1.1.4
 - Added mode for listing shows by date
 1.1.3

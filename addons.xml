@@ -61,6 +61,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.3satmediathek" name="3sat Mediathek" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.lib3sat" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">3sat Mediathek</summary>
+        <description lang="en">3sat Mediathek</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.ardmediathek" name="ARD Mediathek Beta" version="0.0.4" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -201,6 +216,23 @@
     </extension>
 </addon>
 
+<addon id="script.module.lib3sat"
+	     name="lib3sat"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libMediathek" version="1.1.4"/>
+    <import addon="script.module.libZdf" version="0.0.1"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">lib3sat</summary>
+    <description lang="en">lib3sat</description>
+  </extension>
+</addon>
+
 <addon id="script.module.libArd"
 	     name="libArd"
 	     version="0.3.2"
@@ -254,7 +286,7 @@
 
 <addon id="script.module.libMediathek"
 	     name="libMediathek"
-	     version="1.1.4"
+	     version="1.1.5"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />

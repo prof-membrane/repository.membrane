@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.libMediathek" 
-	     name="libMediathek" 
-	     version="1.1.5" 
+<addon id="script.module.lib3sat" 
+	     name="lib3sat" 
+	     version="0.0.1" 
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libMediathek" version="1.1.4"/>
+    <import addon="script.module.libZdf" version="0.0.1"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</summary>
-    <description lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</description>
+    <summary lang="en">lib3sat</summary>
+    <description lang="en">lib3sat</description>
   </extension>
 </addon>
