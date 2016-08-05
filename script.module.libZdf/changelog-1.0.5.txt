@@ -1,3 +1,6 @@
+1.0.5
+- Added thumbnails to "Olympia 2016" special
+- Impoved show thumbnails
 1.0.4
 - Added "Olympia 2016" special
 - Removed "EM 2016" special
