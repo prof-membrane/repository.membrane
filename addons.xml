@@ -136,6 +136,21 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.olympia" name="Olympia Livestreams" version="0.0.1" provider-name="membrane,eminga">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libMediathek" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">Credits to eminga</summary>
+        <description lang="en">Credits to eminga</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.servushockeynight" name="Servus Hockey Night" version="0.1.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
