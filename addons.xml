@@ -136,7 +136,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.olympia" name="Olympia Livestreams" version="0.0.1" provider-name="membrane,eminga">
+<addon id="plugin.video.olympia" name="Olympia Livestreams" version="0.0.2" provider-name="membrane,eminga">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libMediathek" version="0.0.1"/>
