@@ -1,3 +1,11 @@
+1.0.6
+- Added support for show name
+- Added support for channel name
+- Added support for episode numbers
+- Added support for season numbers
+- Added support for aired date
+- Added subtitle support
+- Removed "Olympia 2016" special
 1.0.5
 - Added thumbnails to "Olympia 2016" special
 - Impoved show thumbnails

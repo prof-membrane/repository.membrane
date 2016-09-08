@@ -1,3 +1,9 @@
+1.1.6
+- Added support for show name
+- Added support for channel name
+- Added support for episode numbers
+- Added support for season numbers
+- Added support for aired date
 1.1.5
 - Improved art support
 - Added support for viewmodes
