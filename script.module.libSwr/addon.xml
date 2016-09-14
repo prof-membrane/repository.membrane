@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.lib3sat" 
-	     name="lib3sat" 
-	     version="0.1.0" 
+<addon id="script.module.libSwr" 
+	     name="libSwr" 
+	     version="0.0.1" 
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.7"/>
-    <import addon="script.module.mediathekxmlservice" version="0.0.1"/>
+    <import addon="script.module.libMediathek" version="1.1.3"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">lib3sat</summary>
-    <description lang="en">lib3sat</description>
+    <summary lang="en">libSwr</summary>
+    <description lang="en">libSwr</description>
   </extension>
 </addon>

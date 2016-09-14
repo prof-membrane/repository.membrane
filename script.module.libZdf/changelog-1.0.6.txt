@@ -1,4 +1,5 @@
 1.0.6
+- Added preparation for external xmlservice
 - Added support for show name
 - Added support for channel name
 - Added support for episode numbers
