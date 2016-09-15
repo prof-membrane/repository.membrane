@@ -1,0 +1,5 @@
+0.1.0
+- Switched to RSS interface
+- Added "list by date"
+0.0.1
+- Initial release
