@@ -1,3 +1,6 @@
+0.1.2
+- Enabled every tv show
+- Fixed playback for some videos
 0.1.1
 - Added "list by date"
 0.1.0

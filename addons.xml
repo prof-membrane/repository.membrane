@@ -332,7 +332,7 @@
 
 <addon id="script.module.libWdr"
 	     name="libWdr"
-	     version="0.1.1"
+	     version="0.1.2"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
