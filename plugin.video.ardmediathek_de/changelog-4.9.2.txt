@@ -1,5 +1,4 @@
 4.9.2
-- Added Fanart
-- Added Icon
+- Added fanart and icon (thanks slix)
 4.9.0
 - Re-release
