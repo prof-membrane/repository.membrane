@@ -1,0 +1,5 @@
+4.9.2
+- Added Fanart
+- Added Icon
+4.9.0
+- Re-release
