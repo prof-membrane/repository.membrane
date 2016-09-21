@@ -1,3 +1,7 @@
+0.3.3
+- Improved thumbnail support
+- Using a resolution of 1920x1080 for TV shows
+- Using a resolution of 384x216 for episodes
 0.3.2
 - Improved PVR support
 0.3.1

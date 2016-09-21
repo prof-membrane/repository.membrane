@@ -250,7 +250,7 @@
 
 <addon id="script.module.libArd"
 	     name="libArd"
-	     version="0.3.2"
+	     version="0.3.3"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
