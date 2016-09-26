@@ -1,3 +1,6 @@
+0.3.3
+- Added "Most viewed"
+- Added subtitle support
 0.3.2
 - Fixed exception when viewing empty shows
 0.3.1
