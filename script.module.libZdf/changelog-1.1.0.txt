@@ -1,10 +1,11 @@
-1.0.6
+1.1.0
 - Added preparation for external xmlservice
 - Added support for show name
 - Added support for channel name
 - Added support for episode numbers
 - Added support for season numbers
 - Added support for aired date
+1.0.6
 - Added subtitle support
 - Removed "Olympia 2016" special
 1.0.5
