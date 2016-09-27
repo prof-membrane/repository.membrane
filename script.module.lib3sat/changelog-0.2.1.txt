@@ -1,3 +1,7 @@
+0.2.1
+- Switched to new libMediathek infrastructure
+0.2.0
+- Search added
 0.1.0
 - Added the usual categories
 - Switched to the xmlservice interface
