@@ -1,3 +1,4 @@
+- Added support for posters
 1.1.10
 - Small improvements
 1.1.9
