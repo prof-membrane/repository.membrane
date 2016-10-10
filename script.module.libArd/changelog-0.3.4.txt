@@ -1,3 +1,5 @@
+0.3.4
+- Fixed "New" section
 0.3.3
 - Improved thumbnail support
 - Using a resolution of 1920x1080 for TV shows
