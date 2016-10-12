@@ -1,0 +1,18 @@
+1.9.0
+- Moved to new API
+1.0.4
+- Bugfix
+1.0.3
+- Fixed add-on
+- Ability to hide the score added
+- Implemented a simple webcache (add-on should be quicker)
+- Experimental support for a special labels (not relevant for users)
+- Now Helix compatible
+1.0.2
+- Fix for NHL Tonight
+- Team channels added
+- Listing improved
+1.0.1
+- Fix for OSX
+1.0.0
+- Re-Relase
