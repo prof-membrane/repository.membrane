@@ -10,10 +10,16 @@ Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://git
 - 3sat Mediathek
 - ARD Mediathek
 - BR Mediathek
-- MDR Mediathek (demnächst)
-- WDR Mediathek
+- Das Erste Mediathek
+- Funk Mediathek
+- MDR Mediathek
+- Phoenix Mediathek
+- SR Mediathek
 - SWR Mediathek
+- WDR Mediathek
 - ZDF Mediathek
 
 ## Sonstige Add-ons
+- NHL Videocenter
 - PVR RePlay Beta
+- Unithek
