@@ -154,7 +154,7 @@
 <addon id="plugin.video.nhlvideocenter" name="NHL Videocenter" version="1.9.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libMediathek" version="1.1.10"/>
+		<import addon="script.module.libMediathek2" version="1.1.10"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -421,6 +421,21 @@
   </extension>
 </addon>
 
+<addon id="script.module.libMediathek2"
+	     name="libMediathek2"
+	     version="1.1.11"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</summary>
+    <description lang="en">Supplementary lib for libArd, libArte, libBr, libServus and libZdf</description>
+  </extension>
+</addon>
+
 <addon id="script.module.libSr"
 	     name="libSr"
 	     version="0.0.2"
@@ -439,7 +454,7 @@
 
 <addon id="script.module.libSwr"
 	     name="libSwr"
-	     version="0.1.0"
+	     version="0.1.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
