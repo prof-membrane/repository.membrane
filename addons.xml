@@ -292,6 +292,22 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.wdrrockpalast" name="WDR Rockpalast" version="0.0.1" provider-name="membrane">
+    <requires>
+		<import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libMediathek" version="0.0.1"/>
+		<import addon="script.module.libWdr" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="en">WDR Rockpalast</summary>
+        <description lang="en">WDR Rockpalast</description>
+    </extension>
+</addon>
+
 <addon id="plugin.video.zdfmyview" name="ZDF MyView" version="1.0.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
@@ -470,7 +486,7 @@
 
 <addon id="script.module.libWdr"
 	     name="libWdr"
-	     version="0.1.5"
+	     version="0.1.7"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />

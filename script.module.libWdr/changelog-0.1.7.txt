@@ -1,3 +1,7 @@
+0.1.7
+- Misc improvements
+0.1.6
+- Version bump
 0.1.5
 - Fixed thumbnail of some shows
 0.1.4
