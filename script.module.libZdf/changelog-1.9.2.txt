@@ -1,3 +1,7 @@
+1.9.3
+- Added "Search"
+- Removed unused modules
+- Cleaned up the add-on
 1.9.2
 - Fixed error
 1.9.1
