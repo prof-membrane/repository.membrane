@@ -1,6 +1,9 @@
+1.9.1
+- Added "Shows by date"
 1.9.0
 - Rewrote everything to use the new JSON API
 - Switched ro libMediathek2
+- Using Gzip for url requests now
 1.1.0
 - Added preparation for external xmlservice
 - Added support for show name
