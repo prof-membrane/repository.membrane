@@ -502,7 +502,7 @@
 
 <addon id="script.module.libZdf"
 	     name="libZdf"
-	     version="1.9.2"
+	     version="1.9.3"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
