@@ -1,3 +1,5 @@
+1.0.1
+- Version bump
 1.0.0
 - Switched to JSON interface
 - Added subtitles
