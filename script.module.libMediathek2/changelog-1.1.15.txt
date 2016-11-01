@@ -1,3 +1,7 @@
+1.1.15
+- Added internal "play" support
+1.1.14
+- Added rating
 1.1.13 
 - Added support for ISO8601 dates
 1.1.12

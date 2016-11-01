@@ -1,3 +1,8 @@
+1.0.0
+- Switched to JSON interface
+- Added subtitles
+- Added metadata
+- Added option to hide formats
 0.1.0
 - Cleaned up shows
 - Add-on shows every video of a TV show now
