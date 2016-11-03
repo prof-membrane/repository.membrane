@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="script.module.libZdf" 
 	     name="libZdf" 
-	     version="1.9.4" 
+	     version="1.9.5" 
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek2" version="1.1.12"/>
+    <import addon="script.module.libMediathek2" version="1.1.16"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
