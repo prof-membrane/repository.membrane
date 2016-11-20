@@ -250,6 +250,7 @@
         <description lang="en">This add-on fetches videos and livestreams from www.sportschau.de. Most of the streams are geolocked to Germany.</description>
         <summary lang="de">Videos und Livesendungnen der Sportschau.</summary>
         <description lang="de">Dieses Add-on bietet Zugriff auf Videos und Livestreams von www.sportschau.de. Fast alle Streams sind nur aus Deutschland erreichbar.</description>
+        <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
 
@@ -313,7 +314,7 @@
         <summary lang="en">View videos from the German tv broadcaster "WDR".</summary>
         <description lang="en">This add-on lists the videos of the WDR Mediathek (www1.wdr.de/mediathek/video). Videos may be geolocked.</description>
         <summary lang="de">Die Mediathek des WDR.</summary>
-        <description lang="DE">Dieses Add-on bietet Zugriff auf die Mediathek des WDR.</description>
+        <description lang="de">Dieses Add-on bietet Zugriff auf die Mediathek des WDR.</description>
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
@@ -332,7 +333,8 @@
         <summary lang="en">This add-on lists all videos of the WDR Rockpalast.</summary>
         <description lang="en">This is a video add-on for the WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). The content may be geolocked.</description>
         <summary lang="de">Dies ist ein Video Add-on für den WDR Rockpalast.</summary>
-        <description lang="en">Dieses Add-on listet alle Videos vom WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). Die Inhalte sind unter Umständen nur aus Deutschland erreichbar.</description>
+        <description lang="de">Dieses Add-on listet alle Videos vom WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). Die Inhalte sind unter Umständen nur aus Deutschland erreichbar.</description>
+        <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
 

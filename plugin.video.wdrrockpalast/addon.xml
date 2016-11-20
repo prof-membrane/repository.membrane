@@ -13,6 +13,7 @@
         <summary lang="en">This add-on lists all videos of the WDR Rockpalast.</summary>
         <description lang="en">This is a video add-on for the WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). The content may be geolocked.</description>
         <summary lang="de">Dies ist ein Video Add-on für den WDR Rockpalast.</summary>
-        <description lang="en">Dieses Add-on listet alle Videos vom WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). Die Inhalte sind unter Umständen nur aus Deutschland erreichbar.</description>
+        <description lang="de">Dieses Add-on listet alle Videos vom WDR Rockpalast (www1.wdr.de/mediathek/video/sendungen/rockpalast/rockpalast-106.html). Die Inhalte sind unter Umständen nur aus Deutschland erreichbar.</description>
+        <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
