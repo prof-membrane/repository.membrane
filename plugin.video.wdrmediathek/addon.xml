@@ -12,7 +12,7 @@
         <summary lang="en">View videos from the German tv broadcaster "WDR".</summary>
         <description lang="en">This add-on lists the videos of the WDR Mediathek (www1.wdr.de/mediathek/video). Videos may be geolocked.</description>
         <summary lang="de">Die Mediathek des WDR.</summary>
-        <description lang="en">Dieses Add-on bietet Zugriff auf die Mediathek des WDR.</description>
+        <description lang="DE">Dieses Add-on bietet Zugriff auf die Mediathek des WDR.</description>
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
