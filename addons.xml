@@ -235,6 +235,19 @@
     </extension>
 </addon>
 
+<addon id="plugin.video.servustvmediathek" name="ServusTV Mediathek" version="0.0.1" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.module.libservus" version="0.0.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+    </extension>
+</addon>
+
 <addon id="plugin.video.sportschau" name="Sportschau" version="1.0.0" provider-name="membrane">
     <requires>
 		<import addon="xbmc.python" version="2.1.0"/>
@@ -494,6 +507,21 @@
     <platform>all</platform>
     <summary lang="en">Supplementary lib for Mediathek add-ons.</summary>
     <description lang="en">This lib is a mini framework. It is used in following "Mediathek" Scrapers: 3sat, ARD, BR, Das Erste, MDR, SR, SWR, WDR, ZDF. It is also used in the add-ons Funk Mediathek, NHL Videocenter and Phoenix Mediathek.</description>
+  </extension>
+</addon>
+
+<addon id="script.module.libservus"
+	     name="libservus"
+	     version="0.0.1"
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libmediathek3" version="1.2.0"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">This is a scraper for content of ServusTV.</summary>
   </extension>
 </addon>
 
