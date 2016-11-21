@@ -1,6 +1,6 @@
 # Wilkommen zu meinem Kodi Repo
 
-Dieses Repo stellt Add-ons zu verschiedenen Mediatheken zur Verfügung. Dies kann [hier](https://github.com/prof-membrane/repository.membrane/raw/master/repository.membrane.zip) heruntergeladen werden. Im [Wiki](https://github.com/prof-membrane/repository.membrane/wiki) finden sich Informationen zu den einzelnen Add-ons. 
+Dieses Repo stellt Add-ons zu verschiedenen Mediatheken zur Verfügung. Dies kann [hier](https://github.com/prof-membrane/repository.membrane/raw/master/repository.membrane.zip) heruntergeladen werden. Im kodi.tv Wiki gibt es eine [Installationsanleitung](http://kodi.wiki/view/HOW-TO:Install_add-ons_from_zip_files). Im [Wiki](https://github.com/prof-membrane/repository.membrane/wiki) finden sich Informationen zu den einzelnen Add-ons. 
 
 Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://github.com/prof-membrane/repository.membrane/wiki/Wie-Bugs-und-Featurerequests-zu-%C3%BCbermitteln-sind) vor.
 
@@ -14,6 +14,7 @@ Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://git
 - Funk Mediathek
 - MDR Mediathek
 - Phoenix Mediathek
+- ServusTV Mediathek
 - SR Mediathek
 - SWR Mediathek
 - WDR Mediathek
@@ -22,4 +23,6 @@ Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://git
 ## Sonstige Add-ons
 - NHL Videocenter
 - PVR RePlay Beta
+- Sportschau
 - Unithek
+- WDR Rockpalast
