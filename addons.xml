@@ -559,7 +559,7 @@
 
 <addon id="script.module.libwdr"
 	     name="libwdr"
-	     version="0.2.0"
+	     version="0.2.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
