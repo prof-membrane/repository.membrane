@@ -1,3 +1,6 @@
+1.2.1
+- Added date selection
+- Moved to strings.po
 1.2.0
 - Code cleanup
 1.1.16

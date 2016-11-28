@@ -389,12 +389,12 @@
 
 <addon id="script.module.lib3sat"
 	     name="lib3sat"
-	     version="0.2.1"
+	     version="0.2.2"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.7"/>
-    <import addon="script.module.mediathekxmlservice" version="0.0.1"/>
+    <import addon="script.module.libmediathek3" version="1.2.1"/>
+    <import addon="script.module.mediathekxmlservice" version="0.1.0"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
@@ -503,10 +503,10 @@
 
 <addon id="script.module.libmediathek3"
 	     name="libmediathek3"
-	     version="1.2.0"
+	     version="1.2.1"
 	     provider-name="membrane">
   <requires>
-    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="xbmc.python" version="2.24.0" />
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
@@ -569,7 +569,7 @@
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libmediathek3" version="1.2.0"/>
+    <import addon="script.module.libmediathek3" version="1.2.1"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
@@ -581,7 +581,7 @@
 
 <addon id="script.module.libzdf"
 	     name="libzdf"
-	     version="1.10.0"
+	     version="1.10.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -601,7 +601,7 @@
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.1"/>
+    <import addon="script.module.libmediathek3" version="1.1.1"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">

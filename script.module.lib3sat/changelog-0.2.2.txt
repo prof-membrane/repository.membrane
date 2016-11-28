@@ -1,3 +1,6 @@
+0.2.2
+- Improved date search
+- Small fixes
 0.2.1
 - Switched to new libMediathek infrastructure
 0.2.0

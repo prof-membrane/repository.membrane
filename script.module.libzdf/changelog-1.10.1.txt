@@ -1,3 +1,6 @@
+1.10.1
+- Fixed "By date"
+- Added search by date
 1.10.0
 - Upgraded to libmediathek3
 - changed name to libzdf

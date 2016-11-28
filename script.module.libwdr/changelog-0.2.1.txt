@@ -1,3 +1,5 @@
+0.2.2
+- improved date selection
 0.2.1
 - Fixed search
 0.2.0
