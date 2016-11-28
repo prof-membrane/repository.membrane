@@ -1,4 +1,0 @@
-3.0.0
-- Added subtitle option
-3.0.0
-- Re-release

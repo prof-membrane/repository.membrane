@@ -1,5 +1,9 @@
+1.10.0
+- Upgraded to libmediathek3
+- changed name to libzdf
+- Fixed some API quirks
 1.9.5
-- Improvements for externak cals
+- Improvements for external cals
 1.9.4
 - Added function to get the m3u8 from the html
 1.9.3

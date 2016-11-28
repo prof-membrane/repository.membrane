@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.libSr" 
-	     name="libSr" 
-	     version="0.0.2" 
+<addon id="script.module.libsr" 
+	     name="libsr" 
+	     version="0.1.0" 
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.3"/>
+    <import addon="script.module.libmediathek3" version="1.2.0"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
