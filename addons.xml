@@ -121,7 +121,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.funkmediathek" name="Funk Mediathek" version="1.1.0" provider-name="membrane">
+<addon id="plugin.video.funkmediathek" name="Funk Mediathek" version="1.1.1" provider-name="membrane">
     <requires>
 		<import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.libmediathek3" version="1.2.0"/>

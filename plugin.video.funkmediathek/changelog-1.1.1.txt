@@ -1,3 +1,5 @@
+1.1.1
+- Fix for an API quirk
 1.1.0
 - Upgraded to libmediathek3
 - Added fanart
