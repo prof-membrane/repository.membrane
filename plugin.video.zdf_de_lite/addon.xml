@@ -2,8 +2,8 @@
 <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="3.1.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libzdf" version="1.10.2"/>
-		<!--<import addon="script.module.libMediathek2" version="1.2.0"/>-->
+	<import addon="script.module.libzdf" version="1.10.2"/>
+	<!--<import addon="script.module.libMediathek2" version="1.2.0"/>-->
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
