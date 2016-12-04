@@ -1,3 +1,5 @@
+1.10.2
+- Removed relict that required libMediathek
 1.10.1
 - Fixed "By date"
 - Added search by date
