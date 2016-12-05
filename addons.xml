@@ -141,10 +141,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.mdrmediathek" name="MDR Mediathek" version="0.0.1" provider-name="membrane">
+<addon id="plugin.video.mdrmediathek" name="MDR Mediathek" version="0.2.0" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libMdr" version="0.0.1"/>
+		<import addon="script.module.libmdr" version="0.2.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -455,13 +455,13 @@
   </extension>
 </addon>
 
-<addon id="script.module.libMdr"
-	     name="libMdr"
-	     version="0.0.1"
+<addon id="script.module.libmdr"
+	     name="libmdr"
+	     version="0.2.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
-    <import addon="script.module.libMediathek" version="1.1.3"/>
+    <import addon="script.module.libmediathek3" version="1.1.3"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
