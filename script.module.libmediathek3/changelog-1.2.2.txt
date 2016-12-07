@@ -1,3 +1,5 @@
+1.2.2
+- Fixed problem with picking dates
 1.2.1
 - Added date selection
 - Moved to strings.po
