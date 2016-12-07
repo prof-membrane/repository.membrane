@@ -389,7 +389,7 @@
 
 <addon id="script.module.lib3sat"
 	     name="lib3sat"
-	     version="0.2.2"
+	     version="0.2.3"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
@@ -597,7 +597,7 @@
 
 <addon id="script.module.mediathekxmlservice"
 	     name="mediathekxmlservice"
-	     version="0.1.0"
+	     version="0.1.2"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
