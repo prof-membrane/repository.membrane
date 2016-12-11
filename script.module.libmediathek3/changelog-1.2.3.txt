@@ -1,3 +1,5 @@
+1.2.3
+- Added SSL workaround
 1.2.2
 - Fixed problem with picking dates
 1.2.1

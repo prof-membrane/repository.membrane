@@ -1,3 +1,5 @@
+3.1.2
+- Added option to disable SSL checks
 3.1.1
 - Moved to external libzdf
 3.1.0
