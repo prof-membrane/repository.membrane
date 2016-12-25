@@ -408,7 +408,7 @@
 
 <addon id="script.module.lib3sat"
 	     name="lib3sat"
-	     version="0.2.3"
+	     version="0.2.4"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
