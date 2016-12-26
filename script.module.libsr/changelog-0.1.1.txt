@@ -1,3 +1,5 @@
+0.1.1
+- Small fixes
 0.1.0
 - Switched to libmediathek3
 - Various cleanups
