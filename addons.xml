@@ -476,7 +476,7 @@
 
 <addon id="script.module.libdaserste"
 	     name="libdaserste"
-	     version="0.0.1"
+	     version="0.1.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.24.0" />
