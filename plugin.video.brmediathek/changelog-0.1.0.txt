@@ -1,3 +1,5 @@
+0.1.0
+- Moved to libbr
 0.0.2
 - Added subtitle option
 0.0.1
