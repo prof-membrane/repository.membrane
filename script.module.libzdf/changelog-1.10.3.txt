@@ -1,3 +1,5 @@
+1.10.3
+- Added "Most viewed" shortcut for the unithek
 1.10.2
 - Removed relict that required libMediathek
 1.10.1
