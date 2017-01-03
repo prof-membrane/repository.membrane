@@ -433,7 +433,7 @@
 
 <addon id="script.module.libard"
 	     name="libard"
-	     version="0.4.0"
+	     version="0.4.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
