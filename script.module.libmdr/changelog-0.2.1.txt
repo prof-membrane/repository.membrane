@@ -1,0 +1,10 @@
+0.2.1
+- Improved thumbnail fetching
+0.2.0
+- Renamed to libmdr
+- Fixed AZ
+0.1.0
+- Upgraded to libmediathek3
+- Fixed some parsing errors
+0.0.1
+- Initial release

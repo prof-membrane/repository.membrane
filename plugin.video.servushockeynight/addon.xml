@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.servushockeynight" name="Servus Hockey Night" version="0.1.0" provider-name="membrane">
+    <requires>
+        <import addon="xbmc.python" version="2.1.0"/>
+		<import addon="script.common.plugin.cache" version="0.9.1"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <summary lang="de">Videos aus der DEL, EBEL und CHL.</summary>
+        <description lang="de">Dieses Add-on listet die Videos von servustv.com, del.de und erstebankliga.at</description>
+        <summary lang="en">Videos from the DEL, EBEL and CHL.</summary>
+
+        <description lang="en">This Add-on presents the videos of servustv.com, del.de and erstebankliga.at.</description>
+    </extension>
+</addon>

@@ -1,0 +1,11 @@
+0.1.2
+- Fixed "list by date"
+0.1.1
+- Small fixes
+0.1.0
+- Switched to libmediathek3
+- Various cleanups
+0.0.2
+- Fixed error in "date"
+0.0.1
+- Initial release

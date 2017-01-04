@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.libbr" 
+	     name="libbr" 
+	     version="0.4.0" 
+	     provider-name="membrane">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0" />
+    <import addon="script.module.libmediathek3" version="1.1.7"/>
+  </requires>
+  <extension point="xbmc.python.module" library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <platform>all</platform>
+    <summary lang="en">libBr</summary>
+    <description lang="en">libBr</description>
+  </extension>
+</addon>
