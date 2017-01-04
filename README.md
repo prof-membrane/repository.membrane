@@ -13,6 +13,7 @@ Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://git
 - Das Erste Mediathek
 - Funk Mediathek
 - MDR Mediathek
+- NDR Mediathek
 - Phoenix Mediathek
 - ServusTV Mediathek
 - SR Mediathek

@@ -1,3 +1,6 @@
+1.2.4
+- Added yyyymmdd param to the predefined date directory
+- Added support to order the page items
 1.2.3
 - Added SSL workaround
 1.2.2
