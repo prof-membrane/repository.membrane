@@ -1,3 +1,6 @@
+0.3.1
+- Added support for NDR Mediathek
+- Added support for ordering tv shows/episodes
 0.3.0
 - Added support for 3sat, BR, Das Erste, SR, SWR and WDR Mediathek
 - Reworked support for ARD and ZDF

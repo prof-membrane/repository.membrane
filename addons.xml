@@ -333,7 +333,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.unithek" name="Unithek" version="0.3.0" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.3.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.lib3sat" version="0.0.1"/>
@@ -342,11 +342,12 @@
 		<import addon="script.module.libbr" version="0.0.1"/>
 		<import addon="script.module.libdaserste" version="0.0.1"/>
 		<import addon="script.module.libmdr" version="0.0.1"/>
+		<import addon="script.module.libndr" version="0.0.1"/>
 		<import addon="script.module.libsr" version="0.0.1"/>
 		<import addon="script.module.libswr" version="0.0.1"/>
 		<import addon="script.module.libwdr" version="0.0.1"/>
 		<import addon="script.module.libzdf" version="0.2.1"/>
-		<import addon="script.module.libmediathek3" version="0.0.1"/>
+		<import addon="script.module.libmediathek3" version="1.2.4"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
