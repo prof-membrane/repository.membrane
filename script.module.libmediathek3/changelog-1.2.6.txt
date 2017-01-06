@@ -1,3 +1,5 @@
+1.2.6
+- Added support for webvtt subtitles
 1.2.5
 - Fixed bug in the time handling
 - Added url request retry
