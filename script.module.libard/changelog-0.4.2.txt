@@ -1,3 +1,5 @@
+0.4.2
+- Improved date view
 0.4.1
 - Added "Next page" function
 - Fetching "By date" from the JSON API now
