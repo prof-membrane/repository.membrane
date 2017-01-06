@@ -506,11 +506,11 @@
 
 <addon id="script.module.libdaserste"
 	     name="libdaserste"
-	     version="0.1.0"
+	     version="0.1.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.24.0" />
-    <import addon="script.module.libmediathek3" version="1.1.7"/>
+    <import addon="script.module.libmediathek3" version="1.2.6"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
