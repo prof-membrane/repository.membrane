@@ -1,3 +1,5 @@
+1.10.4
+- Removed 3sat
 1.10.3
 - Added "Most viewed" shortcut for the unithek
 1.10.2
