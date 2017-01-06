@@ -1,3 +1,9 @@
+0.2.0
+- Restructured the add-on for the new libs
+0.1.2
+- Fixed shows starting between 0 am and 1 am
+- Adding function to compare epg/video runtime to filter short clips
+- Improved video search by ommiting the episode number
 0.1.1
 - Added channel ARD-Alpha
 - Calling "Search" of libBr with the channels ARD-Alpha and BR
