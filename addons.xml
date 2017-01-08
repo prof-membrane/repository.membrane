@@ -553,7 +553,7 @@
 
 <addon id="script.module.libmdr"
 	     name="libmdr"
-	     version="0.2.1"
+	     version="0.3.0"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
