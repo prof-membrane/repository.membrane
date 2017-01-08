@@ -357,7 +357,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.unithek" name="Unithek" version="0.3.1" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="0.3.2" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.1.0"/>
 		<import addon="script.module.lib3sat" version="0.0.1"/>
@@ -365,6 +365,7 @@
 		<import addon="script.module.libard" version="0.1.1"/>
 		<import addon="script.module.libbr" version="0.0.1"/>
 		<import addon="script.module.libdaserste" version="0.0.1"/>
+		<import addon="script.module.libhr" version="0.0.1"/>
 		<import addon="script.module.libmdr" version="0.0.1"/>
 		<import addon="script.module.libndr" version="0.0.1"/>
 		<import addon="script.module.libsr" version="0.0.1"/>

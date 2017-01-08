@@ -1,3 +1,5 @@
+0.3.2
+- Added support for HR and MDR Mediathek
 0.3.1
 - Added support for NDR Mediathek
 - Added support for ordering tv shows/episodes
