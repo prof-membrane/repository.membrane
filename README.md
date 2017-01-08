@@ -12,6 +12,7 @@ Für Bugs/Veränderungswünsche geht bitte [wie im Wiki beschrieben](https://git
 - BR Mediathek
 - Das Erste Mediathek
 - Funk Mediathek
+- HR Mediathek
 - MDR Mediathek
 - NDR Mediathek
 - Phoenix Mediathek
