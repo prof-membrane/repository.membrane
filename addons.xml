@@ -694,7 +694,7 @@
 
 <addon id="script.module.libzdf"
 	     name="libzdf"
-	     version="1.10.4"
+	     version="1.10.5"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
