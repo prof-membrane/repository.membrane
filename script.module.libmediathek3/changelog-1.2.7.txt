@@ -1,5 +1,7 @@
+1.2.7
+- Improved TTML support
 1.2.6
-- Added support for webvtt subtitles
+- Added support for WebVTT subtitles
 1.2.5
 - Fixed bug in the time handling
 - Added url request retry

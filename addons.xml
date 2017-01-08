@@ -600,7 +600,7 @@
 
 <addon id="script.module.libmediathek3"
 	     name="libmediathek3"
-	     version="1.2.6"
+	     version="1.2.7"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.24.0" />
