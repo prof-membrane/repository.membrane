@@ -1,3 +1,5 @@
+0.3.1
+- Added duration to "By date" entries
 0.3.0
 - Added "By date" entry
 - Misc improvements
