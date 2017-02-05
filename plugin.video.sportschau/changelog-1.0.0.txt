@@ -1,3 +1,2 @@
 1.0.0
-- Rewrote the add-on to use the libwdr
-- Added description
+- Code cleanup

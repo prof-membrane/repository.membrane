@@ -1,6 +1,0 @@
-0.1.1
-- Moved to webvtt subtitles
-0.1.0
-- Misc Fixes
-0.0.1
-- Initial release
