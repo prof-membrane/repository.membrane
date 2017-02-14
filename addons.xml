@@ -188,21 +188,6 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.nhlvideocenter" name="NHL Videocenter" version="1.9.0" provider-name="membrane">
-    <requires>
-        <import addon="xbmc.python" version="2.1.0"/>
-		<import addon="script.module.libMediathek2" version="1.1.10"/>
-    </requires>
-    <extension point="xbmc.python.pluginsource" library="default.py">
-        <provides>video</provides>
-    </extension>
-    <extension point="xbmc.addon.metadata">
-        <platform>all</platform>
-        <summary lang="en">NHL Videocenter VOD</summary>
-        <description lang="en">With NHL Videocenter you get all videos from http://video.nhl.com/videocenter/ on demand</description>
-    </extension>
-</addon>
-
 <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="1.1.0" provider-name="membrane">
     <requires>
 		<import addon="xbmc.python" version="2.25.0"/>
@@ -614,7 +599,7 @@
 
 <addon id="script.module.libzdf"
 	     name="libzdf"
-	     version="2.0.0"
+	     version="2.0.1"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
