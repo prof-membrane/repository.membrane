@@ -1,3 +1,5 @@
+1.0.1
+- Added Arte
 1.0.0
 - Added fanart
 - Added thumbnail

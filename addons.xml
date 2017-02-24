@@ -288,11 +288,11 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.unithek" name="Unithek" version="1.0.0" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="1.0.1" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.lib3sat" version="1.0.0"/>
-		<!--<import addon="script.module.libarte" version="0.0.1"/>-->
+		<import addon="script.module.libarte" version="0.0.1"/>
 		<import addon="script.module.libard" version="1.0.0"/>
 		<import addon="script.module.libbr" version="1.0.0"/>
 		<import addon="script.module.libdaserste" version="1.0.0"/>
@@ -304,7 +304,7 @@
 		<import addon="script.module.libswr" version="1.0.0"/>
 		<import addon="script.module.libwdr" version="1.0.0"/>
 		<import addon="script.module.libzdf" version="1.0.0"/>
-		<import addon="script.module.libmediathek3" version="1.3.1"/>
+		<import addon="script.module.libmediathek3" version="1.3.4"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -315,9 +315,9 @@
 		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
 		<source>https://github.com/prof-membrane/plugin.video.unithek</source>
         <summary lang="en">This is an add-on for German TV broadcasters.</summary>
-        <description lang="en">This add-on provides access to the German VOD platforms of 3sat, ARD, BR, Das Erste, HR, KiKa, MDR, NDR, SR, SWR, WDR and ZDF.</description>
+        <description lang="en">This add-on provides access to the German VOD platforms of 3sat, ARD, Arte, BR, Das Erste, HR, KiKa, MDR, NDR, SR, SWR, WDR and ZDF.</description>
         <summary lang="de">Sendebeiträge von vielen Mediatheken des öffentlich rechtlichen Fernsehens.</summary>
-        <description lang="de">Dieses Add-on vereint die Mediatheken von 3sat, ARD, BR, Das Erste, HR, KiKa, MDR, NDR, SR, SWR, WDR und ZDF. Dies ermöglicht einen besseren und einfacheren Zugang zu 18 Sendern.</description>
+        <description lang="de">Dieses Add-on vereint die Mediatheken von 3sat, ARD, Arte, BR, Das Erste, HR, KiKa, MDR, NDR, SR, SWR, WDR und ZDF. Dies ermöglicht einen besseren und einfacheren Zugang auf 19 Sender.</description>
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
     </extension>
 </addon>
