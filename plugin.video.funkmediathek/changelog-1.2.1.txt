@@ -1,3 +1,5 @@
+1.2.1
+- Fixed incompatiblity with libmediathek3
 1.2.0
 - Removed SSL hack
 - Code cleanup
