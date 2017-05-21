@@ -1,3 +1,5 @@
+1.1.1
+- Added detailed search
 1.1.0
 - The add-on uses a cached list for all available shows (from 3sat, ARD, Arte, BR, Das Erste, MDR, NDR, SR, SWR, WDR, ZDF)
 1.0.2
