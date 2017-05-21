@@ -1,3 +1,5 @@
+1.0.2
+- Removed xbmc* dependencies
 1.0.1
 - Added regional videos in "list by date" 
 1.0.0
