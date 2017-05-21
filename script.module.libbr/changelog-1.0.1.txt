@@ -1,3 +1,6 @@
+1.0.1
+- Removed xbmc* dependencies
+- Fixed error when browsing the empty directory "Y"
 1.0.0
 - Code cleanup
 0.4.1
