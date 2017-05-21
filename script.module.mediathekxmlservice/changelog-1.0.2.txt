@@ -1,3 +1,7 @@
+1.0.2
+- Misc improvements
+1.0.1
+- Code cleanup
 1.0.0
 - Code cleanup
 0.1.4
