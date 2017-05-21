@@ -289,7 +289,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.unithek" name="Unithek" version="1.1.1" provider-name="membrane">
+<addon id="plugin.video.unithek" name="Unithek" version="1.1.2" provider-name="membrane">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.lib3sat" version="1.0.0"/>
