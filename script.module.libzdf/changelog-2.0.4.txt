@@ -1,3 +1,5 @@
+2.0.4
+- Removed xbmc* dependencies
 2.0.3
 - Fixed error with video entries without url
 2.0.2
