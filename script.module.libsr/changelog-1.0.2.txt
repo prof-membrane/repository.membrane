@@ -1,3 +1,5 @@
+1.0.2
+- Removing xbmc* dependencies
 1.0.1
 - Fixed "list by date"
 1.0.0
