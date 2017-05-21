@@ -1,3 +1,7 @@
+1.0.1
+- Removed xbmc* dependencies
+1.0.0
+- Code cleanup
 0.1.2
 - Code cleanup
 0.1.1
