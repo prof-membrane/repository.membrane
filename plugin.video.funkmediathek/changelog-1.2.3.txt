@@ -1,3 +1,5 @@
+1.2.3
+- Added requirement for inputstream.adaptive
 1.2.2
 - Moved to Funk API 1.1
 - Moved to Nexx CMS
