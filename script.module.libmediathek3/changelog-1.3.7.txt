@@ -1,3 +1,5 @@
+1.3.7
+- Added support for epoch tag
 1.3.6
 - Added support dor DASH streams
 1.3.5
