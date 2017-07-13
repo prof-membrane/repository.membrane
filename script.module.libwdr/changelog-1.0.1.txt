@@ -1,6 +1,0 @@
-1.0.1
-- Misc improvements
-1.0.0
-- Misc improvements
-0.0.1
-- Initial release
