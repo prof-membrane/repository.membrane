@@ -1,3 +1,5 @@
+1.0.2
+- Added subtitle support
 1.0.1
 - Fixed bug with date selection
 1.0.0

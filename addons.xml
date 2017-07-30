@@ -507,7 +507,7 @@
 
 <addon id="script.module.libhr"
 	     name="libhr"
-	     version="1.0.1"
+	     version="1.0.2"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
