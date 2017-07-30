@@ -579,7 +579,7 @@
 
 <addon id="script.module.libndr"
 	     name="libndr"
-	     version="1.0.2"
+	     version="1.0.3"
 	     provider-name="membrane">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />

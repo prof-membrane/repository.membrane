@@ -1,3 +1,5 @@
+1.0.3
+- Added subtitle support
 1.0.2
 - Removed xbmc* dependencies
 1.0.1
