@@ -1,3 +1,5 @@
+1.0.1
+- Code cleanup
 0.1.0
 - Added full API features
 0.0.2
