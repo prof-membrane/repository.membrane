@@ -1,3 +1,6 @@
+1.0.0
+- Code cleanup
+- Improved language selection	
 0.1.3
 - Forced German audio track (for now)
 0.1.2
