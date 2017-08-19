@@ -10,7 +10,7 @@
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
-    <summary lang="en">libArte</summary>
-    <description lang="en">libArte</description>
+    <summary lang="en">This is a scraper for http://arte.tv.</summary>
+    <description lang="en">This is a scraper for http://arte.tv.</description>
   </extension>
 </addon>
