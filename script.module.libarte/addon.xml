@@ -2,7 +2,7 @@
 <addon id="script.module.libarte" 
 	     name="libarte" 
 	     version="1.0.0" 
-	     provider-name="membrane">
+	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
     <import addon="script.module.libmediathek3" version="1.4.0"/>

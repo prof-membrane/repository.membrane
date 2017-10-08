@@ -2,7 +2,7 @@
 <addon id="script.module.libservus" 
 	     name="libservus" 
 	     version="0.0.2" 
-	     provider-name="membrane">
+	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.1.0" />
     <import addon="script.module.libmediathek3" version="1.2.0"/>

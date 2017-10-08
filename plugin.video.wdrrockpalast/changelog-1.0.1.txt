@@ -1,6 +1,0 @@
-1.0.1
-- Added 2017 entry
-1.0.0
-- Added Fanart
-- Added icon
-- Added description
