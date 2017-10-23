@@ -1,3 +1,5 @@
+2.1.6
+- Loading API keys from website now
 2.1.5
 - Changed API keys again
 2.1.4
