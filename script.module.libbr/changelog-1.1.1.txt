@@ -1,3 +1,5 @@
+1.1.1
+- Temp fix 
 1.1.0
 - Code cleanup
 - Fixed list by date
