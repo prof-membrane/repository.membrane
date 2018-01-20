@@ -509,7 +509,7 @@
 
 <addon id="script.module.libbr"
 	     name="libbr"
-	     version="1.1.1"
+	     version="2.0.0"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
