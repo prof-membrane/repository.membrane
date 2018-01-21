@@ -1,3 +1,5 @@
+2.0.1
+- Added search function
 2.0.0
 - Rewrote libbr to cover the new API
 1.1.1
