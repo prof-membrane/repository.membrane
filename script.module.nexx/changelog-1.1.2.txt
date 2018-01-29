@@ -1,5 +1,7 @@
+1.1.2
+- Improved playback token selection
 1.1.1
-- Fixed playback
+- Fixed playback token selection
 1.1.0
 - Code cleanup
 1.0.1

@@ -733,7 +733,7 @@
 
 <addon id="script.module.nexx"
 	     name="Nexx Video API service module"
-	     version="1.1.1"
+	     version="1.1.2"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
