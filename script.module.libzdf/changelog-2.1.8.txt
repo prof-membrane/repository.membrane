@@ -1,3 +1,5 @@
+2.1.8
+- Enables Tivi listing
 2.1.7
 - Added function to play by id
 2.1.6

@@ -765,7 +765,7 @@
 
 <addon id="script.module.libzdf"
 	     name="libzdf"
-	     version="2.1.7"
+	     version="2.1.8"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
