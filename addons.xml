@@ -610,11 +610,11 @@
 
 <addon id="script.module.libhr"
 	     name="libhr"
-	     version="1.1.0"
+	     version="1.9.0"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
-    <import addon="script.module.libmediathek3" version="1.4.0"/>
+    <import addon="script.module.libmediathek3" version="1.5.0"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
