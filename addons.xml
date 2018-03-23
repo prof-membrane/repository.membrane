@@ -665,7 +665,7 @@
 
 <addon id="script.module.libmediathek3"
 	     name="libmediathek3"
-	     version="1.4.1"
+	     version="1.5.3"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
