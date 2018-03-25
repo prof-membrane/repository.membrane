@@ -1,3 +1,5 @@
+1.1.1
+- Fixed the AZ listing
 1.1.0
 - Fixed error in some plots
 1.0.3
