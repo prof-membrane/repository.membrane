@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.funkmediathek" name="Funk Mediathek" version="1.4.0" provider-name="sarbes">
+<addon id="plugin.video.funkmediathek" name="Funk Mediathek" version="1.4.1" provider-name="sarbes">
     <requires>
 		<import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.libmediathek3" version="1.5.0"/>
