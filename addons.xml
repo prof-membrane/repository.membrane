@@ -556,7 +556,7 @@
 
 <addon id="script.module.libard"
 	     name="libard"
-	     version="5.1.0"
+	     version="5.1.1"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
