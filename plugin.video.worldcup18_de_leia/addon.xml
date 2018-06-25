@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.worldcup18_de_leia" name="Fußball WM 2018 - Leia" version="0.0.3" provider-name="sarbes">
+    <requires>
+		<import addon="xbmc.python" version="2.25.0"/>
+		<import addon="script.module.libmediathek3" version="1.5.0"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+		<language>de</language>
+		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
+    </extension>
+</addon>
