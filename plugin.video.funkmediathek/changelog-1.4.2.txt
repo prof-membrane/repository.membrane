@@ -1,3 +1,5 @@
+1.4.2
+- Fix for API change
 1.4.1
 - Fixed Playback
 1.4.0
