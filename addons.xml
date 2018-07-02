@@ -488,7 +488,7 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.worldcup18_de_leia" name="Fußball WM 2018 - Leia" version="0.0.3" provider-name="sarbes">
+<addon id="plugin.video.worldcup18_de_leia" name="Fußball WM 2018 - Leia" version="0.0.4" provider-name="sarbes">
     <requires>
 		<import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.libmediathek3" version="1.5.0"/>
