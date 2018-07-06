@@ -591,7 +591,7 @@
 
 <addon id="script.module.libarte"
 	     name="libarte"
-	     version="1.0.0"
+	     version="1.0.1"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
