@@ -121,10 +121,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.daserstemediathek" name="Das Erste Mediathek" version="1.1.0" provider-name="sarbes">
+<addon id="plugin.video.daserstemediathek" name="Das Erste Mediathek" version="1.1.1" provider-name="sarbes">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libdaserste" version="1.1.0"/>
+		<import addon="script.module.libdaserste" version="1.1.1"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -625,11 +625,11 @@
 
 <addon id="script.module.libdaserste"
 	     name="libdaserste"
-	     version="1.1.0"
+	     version="1.1.1"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
-    <import addon="script.module.libmediathek3" version="1.4.0"/>
+    <import addon="script.module.libmediathek3" version="1.5.3"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
