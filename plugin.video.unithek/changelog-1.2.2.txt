@@ -1,3 +1,5 @@
+1.2.2
+- Added SR search
 1.2.1
 - Added multiple search channels
 - Bumped required dependency versions
