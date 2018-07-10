@@ -1,3 +1,5 @@
+1.1.2
+- Added search
 1.1.1
 - Fixed the AZ listing
 1.1.0
