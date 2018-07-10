@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.unithek" name="Unithek" version="1.2.2" provider-name="sarbes">
+<addon id="plugin.video.unithek" name="Unithek" version="1.2.3" provider-name="sarbes">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
 		<import addon="script.module.lib3sat" version="1.2.0"/>
@@ -10,7 +10,7 @@
 		<import addon="script.module.libhr" version="1.9.0"/>
 		<import addon="script.module.libkika" version="1.1.0"/>
 		<import addon="script.module.libmdr" version="1.1.2"/>
-		<import addon="script.module.libndr" version="1.1.1"/>
+		<import addon="script.module.libndr" version="1.1.2"/>
 		<import addon="script.module.libsr" version="2.0.0"/>
 		<import addon="script.module.libswr" version="1.1.0"/>
 		<import addon="script.module.libwdr" version="1.1.4"/>

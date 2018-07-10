@@ -1,3 +1,5 @@
+1.2.3
+- Added NDR Search
 1.2.2
 - Added SR search
 1.2.1
