@@ -1,3 +1,5 @@
+2.0.0
+- Rewrite to use the new API
 1.1.0
 - Version bump
 1.0.2
