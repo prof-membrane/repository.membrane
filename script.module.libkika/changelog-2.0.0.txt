@@ -1,3 +1,5 @@
+2.0.0
+- Rewrite for the recent API change
 1.1.0
 - Code cleanup
 1.0.1

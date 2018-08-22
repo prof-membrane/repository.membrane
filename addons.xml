@@ -208,10 +208,10 @@
     </extension>
 </addon>
 
-<addon id="plugin.video.kikamediathek" name="KiKa Mediathek" version="1.1.0" provider-name="sarbes">
+<addon id="plugin.video.kikamediathek" name="KiKa Mediathek" version="2.0.0" provider-name="sarbes">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libkika" version="1.1.0"/>
+		<import addon="script.module.libkika" version="2.0.0"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -660,12 +660,11 @@
 
 <addon id="script.module.libkika"
 	     name="libkika"
-	     version="1.1.0"
+	     version="2.0.0"
 	     provider-name="sarbes">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
-    <import addon="script.module.libmediathek3" version="1.4.0"/>
-    <import addon="script.module.libmdr" version="1.1.0"/>
+    <import addon="script.module.libmediathek3" version="1.5.3"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">
