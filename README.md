@@ -1,4 +1,4 @@
-# Willkommen zu meinem Kodi-Krypton Mediatheken-Repository
+# Willkommen zu meinem Kodi-Krypton Repository
 
 Dieses Repository stellt Add-ons zu verschiedenen deutschen öffentlich-rechtlichen Mediatheken zur Verfügung.
 Es kann [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek.zip) heruntergeladen werden.
