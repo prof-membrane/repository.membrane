@@ -29,8 +29,19 @@ def parseVideos(id):
 		for item in j:
 			d = {}
 			d['_name'] = item['title']
+			if not d['_name']:
+				d['_name'] = item['smubl']
 			d['_plot'] = item['text_vorspann']
-			d['_thumb'] = 'https://www.phoenix.de' + item['thumbnail_large']['systemurl']
+			thumbnail_item = None
+			if 'thumbnail_large' in item and item['thumbnail_large']:
+				thumbnail_item = item['thumbnail_large']
+			elif 'thumbnail_medium' in item and item['thumbnail_medium']:
+				thumbnail_item = item['thumbnail_medium']
+			if thumbnail_item:
+				if 'systemurl' in thumbnail_item and thumbnail_item['systemurl']:
+					d['_thumb'] = 'https://www.phoenix.de' + thumbnail_item['systemurl']
+				elif 'systemurl_gsid' in thumbnail_item and thumbnail_item['systemurl_gsid']:
+					d['_thumb'] = 'https://www.phoenix.de' + thumbnail_item['systemurl_gsid']
 			d['_type'] = 'video'
 			d['smubl'] = item['smubl']
 			d['mode'] = 'play'
