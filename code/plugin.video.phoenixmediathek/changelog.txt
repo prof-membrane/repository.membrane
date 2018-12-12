@@ -1,3 +1,6 @@
+2.0.1
+- Die Auswahl eines beliebigen Unterordners schlug fehl.
+  Im Kodi-Log erschien eine Meldung der Art "KeyError: 'thumbnail_large'"
 2.0.0
 - Complete rewrite 
 1.2.0
