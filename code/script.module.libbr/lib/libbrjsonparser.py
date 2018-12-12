@@ -194,7 +194,14 @@ def parseDate(day,channel):
 		publicationOf = broadcastEvent['publicationOf']
 		if len(publicationOf['essences']['edges']) != 0:
 			d = _buildVideoDict(publicationOf)
-			d['_airedtime'] = broadcastEvent['start'][11:16]
+			start = broadcastEvent['start'].split('+')
+			if (len(start) == 1): 
+				airedtime = datetime.datetime.strptime(start[0], "%Y-%m-%dT%H:%M:%S.%fZ")
+				tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
+				airedtime += tz_offset
+			else: 
+				airedtime = datetime.datetime.strptime(start[0], "%Y-%m-%dT%H:%M:%S.%f")
+			d['_airedtime'] = airedtime.strftime("%H:%M") 
 			d['_type'] = 'date'
 			l.append(d)
 	return l
@@ -241,7 +248,7 @@ def _parseAllClips(filter):
 	
 def _buildVideoDict(node):
 	d = {}
-	d['_name'] = node['title']
+	d['_name'] = node['kicker'] + ' | ' + node['title'] 
 	d['_tvshowtitle'] = node['kicker']
 	d['_plotoutline'] = node['kicker']
 	d['_plot'] = node['kicker']
