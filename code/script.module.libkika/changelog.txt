@@ -1,3 +1,7 @@
+2.0.1
+- Einige Sendungen wie z.B. "Rita und das Krokodil" konnten abgespielt werden, 
+  während andere Sendungen wie z.B. "Shaun das Schaf" im kodi.log eine Fehlermeldung 
+  der Art "local variable 'url' referenced before assignment" lieferten
 2.0.0
 - Rewrite for the recent API change
 1.1.0
