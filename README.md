@@ -1,8 +1,11 @@
-# Wilkommen zu meinem Kodi Krypton Repo
+# Willkommen zu meinem Kodi-Krypton Mediatheken-Repository
 
-Dieses Repo stellt Add-ons zu verschiedenen deutschen öffentlich-rechtlichen Mediatheken zur Verfügung.
-Dies kann [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek.zip) heruntergeladen werden.
+Dieses Repository stellt Add-ons zu verschiedenen deutschen öffentlich-rechtlichen Mediatheken zur Verfügung.
+Es kann [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek.zip) heruntergeladen werden.
 Im kodi.tv Wiki gibt es eine [Installationsanleitung](https://kodi.wiki/view/HOW-TO:Install_add-ons_from_zip_files).
+
+Die Gigathek ist eine Fortführung des [repository.membrane](https://github.com/prof-membrane/repository.membrane)
+das dieses offenbar nicht mehr weiterentwickelt wird.
 
 # Inhalt des Repos
 
