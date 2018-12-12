@@ -8,7 +8,7 @@ import libwdrrssandroidparser as libWdrRssAndroidParser
 import libmediathek3 as libMediathek
 
 translation = libMediathek.getTranslation
-ignoreLetters=['#','q','x']
+ignoreLetters=['#']
 
 def libWdrListMain():
 	libMediathek.searchWorkaroundRemove()
@@ -58,7 +58,10 @@ def libWdrListDateVideos():
 	
 def libWdrSearch():
 	import libwdrhtmlparser as libWdrHtmlParser
-	search_string = libMediathek.getSearchString()
+	if not params['search']:
+		search_string = libMediathek.getSearchString()
+	else:
+		search_string = params['search']  
 	return libWdrHtmlParser.parse("http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string)
 	
 def libWdrListSearch():

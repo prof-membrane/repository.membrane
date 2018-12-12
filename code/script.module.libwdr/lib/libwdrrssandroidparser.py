@@ -8,24 +8,39 @@ base = 'http://www1.wdr.de'
 
 
 def parseShows(letter):
-	response = libMediathek.getUrl(base+'/sendungen-'+letter+'-102~_variant-android.mobile')
-	items = re.compile('<mp:additionallink>(.+?)</mp:additionallink>', re.DOTALL).findall(response)
-	creator = re.compile('<dc:creator>(.+?)</dc:creator>', re.DOTALL).findall(response)[0]
 	l = []
-	for item in items:
+	if (letter == 'x'):
+		pass
+	elif (letter == 'q'):
 		d = {}
-		d['name'] = re.compile('<mp:label>(.+?)</mp:label>', re.DOTALL).findall(item)[0]
-		if len(l) != 0 and d['name'] == l[-1]['name']: continue
-		d['id'],extension = re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0].split('/')[-1].split('~')
-		#libMediathek.log(d['id'])
-		#libMediathek.log(re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0])
-		d['_channel'] = creator		
-		d['_thumb'] = _chooseThumb(re.compile('<mp:image>(.+?)</mp:image>', re.DOTALL).findall(item))
+		d['name'] = 'Quarks'
+		d['id'] = 'quarks-und-co'
+		d['_channel'] = 'WDR'		
+		d['_thumb'] = 'https://www1.wdr.de/fernsehen/quarks/quarks-logo-102~_v-ARDKleinerTeaser.jpg'
 		d['_type'] = 'dir'
-		if extension.endswith('rss'):
-			d['grepShowFromVideo'] = 'True'
-		d['mode'] = 'libWdrListVideos'
+		d['mode'] = 'libWdrSearch'
+		d['search'] = 'quarks'
 		l.append(d)
+	else:
+		response = libMediathek.getUrl(base+'/sendungen-'+letter+'-102~_variant-android.mobile')
+		items = re.compile('<mp:additionallink>(.+?)</mp:additionallink>', re.DOTALL).findall(response)
+		l = []
+		if len(items) > 0:
+			creator = re.compile('<dc:creator>(.+?)</dc:creator>', re.DOTALL).findall(response)[0]
+			for item in items:
+				d = {}
+				d['name'] = re.compile('<mp:label>(.+?)</mp:label>', re.DOTALL).findall(item)[0]
+				if len(l) != 0 and d['name'] == l[-1]['name']: continue
+				d['id'],extension = re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0].split('/')[-1].split('~')
+				#libMediathek.log(d['id'])
+				#libMediathek.log(re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0])
+				d['_channel'] = creator		
+				d['_thumb'] = _chooseThumb(re.compile('<mp:image>(.+?)</mp:image>', re.DOTALL).findall(item))
+				d['_type'] = 'dir'
+				if extension.endswith('rss'):
+					d['grepShowFromVideo'] = 'True'
+				d['mode'] = 'libWdrListVideos'
+				l.append(d)
 	return l
 	
 def parseVideos(url,ty=False,grepShowFromVideo=False):

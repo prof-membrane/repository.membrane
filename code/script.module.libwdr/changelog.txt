@@ -1,3 +1,9 @@
+1.2.1
+- In der Übersicht "Sendungen A-Z" fehlten die Buchstaben Q und X.
+  Der Grund dafür: der RSS-Server vom WDR liefert für diese Buchstaben einen Fehlercode.
+  Deshalb werden diese Buchstaben jetzt "synthetisiert".
+  Unter "Q" erscheint jetzt "Quarks" (wie im Web), und unter "X" gar nichts (wie im Web).
+  Ausserdem funktionierte der Buchstabe Y nicht, weil kein Inhalt
 1.2.0
 - Moved to a other, more complete API
 1.1.4
