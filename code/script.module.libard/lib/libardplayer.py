@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+# import xbmc
 import re
 import sys
 import json
@@ -30,13 +31,27 @@ def fetchJsonVideo(id):
 	j = json.loads(response)
 	if '_subtitleUrl' in j:
 		d['subtitle'] = [{'url':j['_subtitleUrl'], 'type': 'ttml', 'lang':'de'}]
+	quality = -1
 	for mediaArray in j['_mediaArray']:
 		for mediaStreamArray in mediaArray['_mediaStreamArray']:
-			if '_cdn' in mediaStreamArray and mediaStreamArray['_cdn'] == 'flashls':
-				finalUrl = mediaStreamArray['_stream']
+			if '_quality' in mediaStreamArray \
+			   and mediaStreamArray['_quality'] \
+			   and type(mediaStreamArray['_quality']) == type(quality):
+				currentQuality = mediaStreamArray['_quality']
+			else:
+				currentQuality = 0
+			if currentQuality > quality:
+				if type(mediaStreamArray['_stream']) == type([]):
+					# xbmc.log('%s' % ( mediaStreamArray['_stream'][0] ), xbmc.LOGFATAL)
+					finalUrl = mediaStreamArray['_stream'][0]
+					quality = currentQuality
+				else:
+					# xbmc.log('%s' % ( mediaStreamArray['_stream'] ), xbmc.LOGFATAL)
+					finalUrl = mediaStreamArray['_stream']
+					quality = currentQuality
 	if finalUrl.startswith('//'):
 		finalUrl = 'http:' + finalUrl
-	if finalUrl.startswith('http://wdradaptiv'):
+	if finalUrl.startswith('http://wdradaptiv') or finalUrl.endswith('.mp4'):
 		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 	else:
 		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]

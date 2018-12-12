@@ -1,3 +1,5 @@
+5.1.2
+- Qualitätsverbesserungen
 5.1.1
 - Disabled inputstream.adaptive for WDR streams
 5.1.0
