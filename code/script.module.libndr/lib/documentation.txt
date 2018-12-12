@@ -1,0 +1,26 @@
+cfg :	{
+					'initialized'		: false,
+					'imageNoScriptSelector' : '.image-container noscript',
+					'containerSelector' : '',
+					'exclude'			: ['.mt_slider', '.stage_slider','.detailview','.twentytwenty-container','.ndrgallerystage'],
+					'initSmall'			: ['.ndrgallery', '.ndrgallerystage'],
+					'defaultImageType'	: 'einspaltig',
+					'imageTypes'		: 	{
+												'thumbnailgross'		: 128,
+												'einspaltig' 			: 184,								
+												'contentklein'		 	: 256,
+												'anderthalbspaltig'		: 280,
+												'zweispaltig' 			: 376,	
+												'ardgrosswidescreen' 	: 512,
+												'contentgross'			: 568,
+												'vierspaltig'			: 760,
+												'ardgalerie' 			: 784,	
+												'contentxl' 			: 1067,
+												'original' 				: 1067,
+												'mediateasersmall'		: 144,
+												'podcast'				: 300,
+												'quadratl'				: 900,
+												'portraits'				: 256,
+												'portraitm'				: 384,
+												'portraitl'				: 600
+											}

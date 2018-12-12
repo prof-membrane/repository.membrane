@@ -1,0 +1,21 @@
+1.1.2
+- Added search
+1.1.1
+- Fixed the AZ listing
+1.1.0
+- Fixed error in some plots
+1.0.3
+- Added subtitle support
+1.0.2
+- Removed xbmc* dependencies
+1.0.1
+- Added regional videos in "list by date" 
+1.0.0
+- Code cleanup
+0.1.1
+- Code cleanup
+0.1.0
+- Added shows entry
+- Misc improvements
+0.0.1
+- Initial release
