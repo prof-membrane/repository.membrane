@@ -3,7 +3,7 @@ import re
 import libmediathek3 as libMediathek
 
 def grepToken():
-	response = libMediathek.getUrl('https://www.zdf.de/')
+	response = libMediathek.getUrl('https://www.zdf.de/live-tv')
 	tokenMenu = re.compile("apiToken: '(.+?)'", re.DOTALL).findall(response)[0]
 	tokenPlayer = re.compile('"apiToken": "(.+?)"', re.DOTALL).findall(response)[0]
 	

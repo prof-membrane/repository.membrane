@@ -1,3 +1,15 @@
+2.1.9
+- Es gibt zwei verschiedene API-Tokens.
+  Einen für das Menü (als tokenMenu bezeichnet), um also sämtliche Sendungen erst einmal aufzulisten
+  und einen zum Abspielen der Sendungen (als tokenPlayer bezeichnet).
+  Der Menü-Token ist der, der per Suche nach apiToken (ohne "") auf der Startseite (https://www.zdf.de) gefunden werden kann.
+  Der Player-Token wäre wiederum mittels Suche nach "apiToken" (mit "") zu finden.
+  Nur ist der inzwischen nicht mehr immer auf der Startseite vorhanden, sondern anscheinend nur ab und an
+  (vermutlich abhängig davon,  ob eine direkt abspielbare Sendung auf der Startseite angezeigt wird oder nur Links auf Sendungsseiten)
+  und deshalb wirft der TokenGrabber dort ursprünglich einen Fehler, weil er den Player-Token dann nicht findet.
+  Die Grabber-URL wude deshalb geändert, nämlich nicht mehr https://www.zdf.de/ sondern https://www.zdf.de/live-tv.
+  Es braucht nämlich unbedingt eine Seite, die immer einen Player eingebettet hat, damit der Player-Token dort erscheint.
+  Das dürfte auf der Live-TV-Seite vermutlich garantiert sein
 2.1.8
 - Enables Tivi listing
 2.1.7
