@@ -38,10 +38,8 @@ def _findLiEntries(response,type,mode):
 			d['_airedtime'] = HHMM.replace(' Uhr','')
 			if len(d['_airedtime']) == 4:
 				d['_airedtime'] = '0' + d['_airedtime']
-			if '| Spielfilm' in d['_name']:
-				d['_tvshowtitle'] = 'Spielfilm'
-			else:
-				d['_tvshowtitle'] = s[0]
+			d['_tvshowtitle'] = s[0]
+			d['_name'] = d['_tvshowtitle'] + ' | ' + d['_name'] 
 		
 		d['_type'] = type
 		d['mode'] = mode

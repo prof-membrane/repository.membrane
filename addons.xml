@@ -224,10 +224,10 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.swrmediathek" name="SWR Mediathek" version="1.1.0" provider-name="sarbes">
+    <addon id="plugin.video.swrmediathek" name="SWR Mediathek" version="1.1.1" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libswr" version="1.1.0"/>
+            <import addon="script.module.libswr" version="1.1.1"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -462,7 +462,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libswr" name="libswr" version="1.1.0" provider-name="sarbes">
+    <addon id="script.module.libswr" name="libswr" version="1.1.1" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.4.0"/>

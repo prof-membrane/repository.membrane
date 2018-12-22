@@ -1,3 +1,5 @@
+1.1.1
+- Statt dem Titel einer Sendung wurde deren Inhalt angezeigt
 1.1.0
 - Fixed playback
 1.0.3
