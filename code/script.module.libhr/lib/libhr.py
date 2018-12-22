@@ -13,7 +13,7 @@ ardhack = True
 def libHrListMain():
 	l = []
 	l.append({'_name':translation(31032), 'mode':'libHrListShows','_type':'dir'})
-	l.append({'_name':translation(31033), 'mode':'libHrListDate','_type':'dir'})
+	# l.append({'_name':translation(31033), 'mode':'libHrListDate','_type':'dir'})
 	return l
 	
 def libHrListDate():
