@@ -32,10 +32,10 @@ def getEpisodes(showid):
 		if 'zum Video' in item:
 			d = {}
 			d['url'] = re.compile('<a href="(.+?)"', re.DOTALL).findall(item)[0]
-			d['_name'] = re.compile('<span class="c-teaser__underline text__underline">(.+?)</span>', re.DOTALL).findall(item)[0].strip()
-			headline = re.compile('<span class="c-teaser__headline text__headline">(.+?)</span>', re.DOTALL).findall(item)[0].strip()
-			if headline: 
-				d['_name'] = headline  + ' | ' + d['_name']  
+			d['_name'] = re.compile('<span class="c-teaser__headline text__headline">(.+?)</span>', re.DOTALL).findall(item)[0].strip()  
+			underlines = re.compile('<span class="c-teaser__underline text__underline">(.+?)</span>', re.DOTALL).findall(item)
+			if (len(underlines) > 0):
+				d['_name'] = d['_name'] + ' | ' + underlines[0].strip()
 			d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(item)[0]
 			d['_type'] = 'video'
 			d['mode'] = 'libHrPlay'
@@ -45,18 +45,17 @@ def getEpisodes(showid):
 	
 def getVideo(url):
 	response = libMediathek.getUrl(url)
-	json_str = re.compile('<div class="videoElement  ar--16x9 js-loadScript" data-hr-video-adaptive=\'(.+?)\'>', re.DOTALL).findall(response)[0]
-	json_str = json_str.replace("&quot;", "\"")
+	video_str = re.compile("<div.+?data-hr-video-(player|adaptive)='(.+?)'.+?>", re.DOTALL).findall(response)[0]
+	json_str = video_str[1].replace("&quot;", "\"")
 	j = json.loads(json_str)
 	d = {}
 	d['media'] = []
-	url = j['adaptiveStreamingUrl']
-	if not url:
-		url = j['videoUrl']
-		d['media'] = [{'url':url, 'type': 'video', 'stream':'mp4'}]
-	else:
-		if url.endswith('.mp4'):
-			d['media'] = [{'url':url, 'type': 'video', 'stream':'mp4'}]
-		else:
-			d['media'] = [{'url':url, 'type': 'video', 'stream':'HLS'}]
+	if video_str[0] == 'adaptive':
+		url = j['adaptiveStreamingUrl']
+		d['media'].append({'url':url, 'type': 'video', 'stream':'HLS'})
+	else: # video_str[0] == 'player'
+		metadata = j['mediaMetadata']
+		agf = metadata['agf'] 
+		url = 'https://hr-a.akamaihd.net/video/' + agf['uurl']
+		d['media'].append({'url':url, 'type': 'video', 'stream':'mp4'})
 	return d
