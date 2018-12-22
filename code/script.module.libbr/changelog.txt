@@ -1,3 +1,7 @@
+2.0.4
+- Menüpunkt "Meistgesehen" hinzugefügt
+- "BRde" entfernt, jetzt nur noch "ARD Alpha" und "BR"
+- Sporadische Exception "NameError: global name 'datetime' is not defined" bei Anwahl einer Sendung behoben
 2.0.3
 - Es wurde die falsche Uhrzeit der Sendungen angezeigt, nämlich UTC statt lokaler Zeit (MEZ oder MESZ).
   Ausserdem wurde statt dem Titel einer Sendung deren Inhalt angezeigt

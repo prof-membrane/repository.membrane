@@ -26,7 +26,7 @@ def play(dict):
 def libBrListMain():
 	#libBrJsonParser.getIntrospection()
 	l = []
-	#l.append({'name':translation(31031), 'mode':'libBrListNew', '_type':'dir'})
+	l.append({'name':translation(31031), 'mode':'libBrListNew', '_type':'dir'})
 	l.append({'name':translation(31032), 'mode':'libBrListSeries', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libBrListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libBrListBoards', '_type':'dir'})
@@ -79,7 +79,6 @@ def libBrListChannel():
 	l = []
 	l.append({'_name':'ARD-Alpha', 'mode':'libBrListChannelDate','channel':'ARD_alpha', '_type':'dir'})
 	l.append({'_name':'BR', 'mode':'libBrListChannelDate','channel':'BR_Fernsehen', '_type':'dir'})
-	l.append({'_name':'BRde', 'mode':'libBrListChannelDate','channel':'BRde', '_type':'dir'})
 	return l
 
 def libBrListChannelDate():

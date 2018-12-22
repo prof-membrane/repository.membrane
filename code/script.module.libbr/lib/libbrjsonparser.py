@@ -2,6 +2,7 @@
 import json
 import urllib
 import time
+from datetime import date, datetime, timedelta
 
 import libmediathek3 as libMediathek
 import libbrgraphqlqueries
@@ -195,12 +196,18 @@ def parseDate(day,channel):
 		if len(publicationOf['essences']['edges']) != 0:
 			d = _buildVideoDict(publicationOf)
 			start = broadcastEvent['start'].split('+')
-			if (len(start) == 1): 
-				airedtime = datetime.datetime.strptime(start[0], "%Y-%m-%dT%H:%M:%S.%fZ")
+			zulutime = (len(start) == 1) 
+			if zulutime: 
+				format = "%Y-%m-%dT%H:%M:%S.%fZ"
+			else:
+				format = "%Y-%m-%dT%H:%M:%S.%f"
+			try:
+				airedtime = datetime.strptime(start[0], format)
+			except TypeError:
+				airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
+			if zulutime: 
 				tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
 				airedtime += tz_offset
-			else: 
-				airedtime = datetime.datetime.strptime(start[0], "%Y-%m-%dT%H:%M:%S.%f")
 			d['_airedtime'] = airedtime.strftime("%H:%M") 
 			d['_type'] = 'date'
 			l.append(d)
@@ -284,7 +291,7 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 	libMediathek.log(response)
 	j = json.loads(response)
 	l = []
-	for edge in j['data']['viewer']['board']['stageTeaserSection']['edges'][1]['node']['verticalSectionContents']['edges']:
+	for edge in j['data']['viewer']['board']['sections']['edges'][1]['node']['contents']['edges']:
 		d = {}
 		node = edge['node']['represents']
 		d['_name'] = node['title']
