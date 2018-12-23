@@ -44,18 +44,23 @@ def getEpisodes(showid):
 	return l
 	
 def getVideo(url):
-	response = libMediathek.getUrl(url)
-	video_str = re.compile("<div.+?data-hr-video-(player|adaptive)='(.+?)'.+?>", re.DOTALL).findall(response)[0]
-	json_str = video_str[1].replace("&quot;", "\"")
-	j = json.loads(json_str)
 	d = {}
 	d['media'] = []
-	if video_str[0] == 'adaptive':
-		url = j['adaptiveStreamingUrl']
-		d['media'].append({'url':url, 'type': 'video', 'stream':'HLS'})
-	else: # video_str[0] == 'player'
-		metadata = j['mediaMetadata']
-		agf = metadata['agf'] 
-		url = 'https://hr-a.akamaihd.net/video/' + agf['uurl']
-		d['media'].append({'url':url, 'type': 'video', 'stream':'mp4'})
+	response = libMediathek.getUrl(url)
+	video_str = re.compile("<div.+?data-hr-video-(player|adaptive)='(.+?)'.+?>", re.DOTALL).findall(response)[0]
+	if (len(video_str) == 2):
+		json_str = video_str[1].replace("&quot;", "\"")
+		j = json.loads(json_str)
+		if video_str[0] == 'adaptive':
+			url = j['adaptiveStreamingUrl']
+			d['media'].append({'url':url, 'type': 'video', 'stream':'HLS'})
+		else: # video_str[0] == 'player'
+			metadata = j['mediaMetadata']
+			agf = metadata['agf'] 
+			url = agf['uurl']
+			if url.startswith('//'):
+				url = 'http:' + url
+			elif not (url.startswith('http://') or url.startswith('https://')):
+				url = 'http://hr-a.akamaihd.net/video/' + url
+			d['media'].append({'url':url, 'type': 'video', 'stream':'mp4'})
 	return d
