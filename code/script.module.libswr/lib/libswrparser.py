@@ -50,6 +50,8 @@ def getVideo(url):
 	d = {}
 	response = libMediathek.getUrl(url)
 	file = re.compile('media.push\("(.+?)"').findall(response)[0]
+	if file.startswith('//'):
+		file = 'http:' + file
 	if file.endswith('.m3u8'):
 		d['media'] = [{'url':file, 'type':'video', 'stream':'HLS'}]
 	elif file.endswith('.m.mp4'):
