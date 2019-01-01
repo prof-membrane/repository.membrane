@@ -82,7 +82,7 @@ def libBrListChannel():
 	return l
 
 def libBrListChannelDate():
-	return libMediathek.populateDirDate('libBrListChannelDateVideos',params['channel'],True)
+	return libMediathek.populateDirDate('libBrListChannelDateVideos',params['channel'])
 	
 def libBrListChannelDateVideos():
 	#xdatum = date.today() - timedelta(int(params['datum']))

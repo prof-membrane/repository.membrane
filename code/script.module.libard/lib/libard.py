@@ -110,7 +110,7 @@ def libArdListChannel():
 	return l
 	
 def libArdListChannelDate():
-	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'],True)
+	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
 	
 def libArdListChannelDateVideos():
 	if False:

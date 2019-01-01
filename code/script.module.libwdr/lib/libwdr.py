@@ -43,7 +43,7 @@ def libWdrListFeed():
 	return libWdrRssParser.parseFeed(params['url'])
 
 def libWdrListDate():
-	return libMediathek.populateDirDate('libWdrListDateVideos',False,True)
+	return libMediathek.populateDirDate('libWdrListDateVideos')
 	
 def libWdrListDateVideos():
 	if 'datum' in params:

@@ -37,7 +37,7 @@ def lib3satListShows():
 	return xmlservice.getXML('http://www.3sat.de/mediathek/xmlservice/web/sendungenAbisZ?characterRangeEnd='+letter+'&detailLevel=2&characterRangeStart='+letter)
 	
 def lib3satListDate():
-	l = libMediathek.populateDirDate('lib3satListDateVideos',False,True)
+	l = libMediathek.populateDirDate('lib3satListDateVideos')
 	return l
 	
 def lib3satListDateVideos():

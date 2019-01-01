@@ -64,7 +64,7 @@ def libZdfListChannel():
 	return l
 
 def libZdfListChannelDate():
-	return libMediathek.populateDirDate('libZdfListChannelDateVideos',params['channel'],True)
+	return libMediathek.populateDirDate('libZdfListChannelDateVideos',params['channel'])
 	
 def libZdfListChannelDateVideos():
 	if 'datum' in params:

@@ -38,7 +38,7 @@ def populateDirAZ(mode,ignore=[]):
 			l.append(d)
 	return l
 	
-def populateDirDate(mode,channel=False,dateChooser=False):
+def populateDirDate(mode,channel=False):
 	l = []
 	d = {}
 	d['mode'] = mode
@@ -47,7 +47,8 @@ def populateDirDate(mode,channel=False,dateChooser=False):
 	d['_name'] = getTranslation(31020)
 	d['datum'] = '0'
 	d['yyyymmdd'] = _calcyyyymmdd(0)
-	
+	if d['_name'] and d['yyyymmdd']:
+		d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
 	l.append(d)
 	
 	d = {}
@@ -57,6 +58,8 @@ def populateDirDate(mode,channel=False,dateChooser=False):
 	d['_name'] = getTranslation(31021)
 	d['datum']  = '1'
 	d['yyyymmdd'] = _calcyyyymmdd(1)
+	if d['_name'] and d['yyyymmdd']:
+		d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
 	l.append(d)
 	
 	i = 2
@@ -69,15 +72,11 @@ def populateDirDate(mode,channel=False,dateChooser=False):
 		d['_type'] = 'dir'
 		if channel: d['channel'] = channel
 		d['yyyymmdd'] = _calcyyyymmdd(i)
+		if d['_name'] and d['yyyymmdd']:
+			d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
 		l.append(d)
 		i += 1
-	if dateChooser:
-		d = {}
-		d['mode'] = mode
-		d['_type'] = 'dir'
-		if channel: d['channel'] = channel
-		d['name'] = getTranslation(31022)
-		l.append(d)
+		
 	return l
 	
 def _calcyyyymmdd(d):
