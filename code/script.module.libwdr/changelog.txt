@@ -1,3 +1,6 @@
+1.2.2
+- Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
 1.2.1
 - In der Übersicht "Sendungen A-Z" fehlten die Buchstaben Q und X.
   Der Grund dafür: der RSS-Server vom WDR liefert für diese Buchstaben einen Fehlercode.

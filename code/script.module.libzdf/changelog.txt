@@ -1,3 +1,6 @@
+2.1.10
+- Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
 2.1.9
 - Es gibt zwei verschiedene API-Tokens.
   Einen für das Menü (als tokenMenu bezeichnet), um also sämtliche Sendungen erst einmal aufzulisten

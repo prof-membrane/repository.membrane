@@ -1,3 +1,6 @@
+1.5.4
+- Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
 1.5.3
 - Using inputstream for HLS
 1.5.2
@@ -60,7 +63,7 @@
 - Added internal "play" support
 1.1.14
 - Added rating
-1.1.13 
+1.1.13
 - Added support for ISO8601 dates
 1.1.12
 - Added support for clips
