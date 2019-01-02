@@ -38,48 +38,41 @@ def populateDirAZ(mode,ignore=[]):
 			l.append(d)
 	return l
 	
-def populateDirDate(mode,channel=False):
+def populateDirDate(mode,channel=False,dateChooser=False):
 	l = []
+	
 	d = {}
+	day = date.today()
 	d['mode'] = mode
 	d['_type'] = 'dir'
 	if channel: d['channel'] = channel
-	d['_name'] = getTranslation(31020)
+	d['_name'] = day.strftime('%d. %b | ') +  getTranslation(31020)
 	d['datum'] = '0'
-	d['yyyymmdd'] = _calcyyyymmdd(0)
-	if d['_name'] and d['yyyymmdd']:
-		d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
+	d['yyyymmdd'] = day.strftime('%Y-%m-%d')
 	l.append(d)
 	
 	d = {}
+	day = day - timedelta(1)
 	d['mode'] = mode
 	d['_type'] = 'dir'
 	if channel: d['channel'] = channel
-	d['_name'] = getTranslation(31021)
+	d['_name'] = day.strftime('%d. %b | ') +  getTranslation(31021)
 	d['datum']  = '1'
-	d['yyyymmdd'] = _calcyyyymmdd(1)
-	if d['_name'] and d['yyyymmdd']:
-		d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
+	d['yyyymmdd'] = day.strftime('%Y-%m-%d')
 	l.append(d)
 	
 	i = 2
 	while i <= 6:
 		d = {}
-		day = date.today() - timedelta(i)
-		d['_name'] = weekdayDict[day.strftime("%w")]
+		day = day - timedelta(1)
+		d['_name'] = day.strftime('%d. %b | ') + weekdayDict[day.strftime("%w")]
 		d['datum']  = str(i)
 		d['mode'] = mode
 		d['_type'] = 'dir'
 		if channel: d['channel'] = channel
-		d['yyyymmdd'] = _calcyyyymmdd(i)
-		if d['_name'] and d['yyyymmdd']:
-			d['_name'] = d['yyyymmdd'] + ' | ' + d['_name']  
+		d['yyyymmdd'] = day.strftime('%Y-%m-%d')
 		l.append(d)
 		i += 1
 		
 	return l
 	
-def _calcyyyymmdd(d):
-	day = date.today() - timedelta(d)
-	return day.strftime('%Y-%m-%d')
-
