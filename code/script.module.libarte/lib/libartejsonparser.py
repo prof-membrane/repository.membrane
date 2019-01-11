@@ -61,7 +61,7 @@ def getPlaylists():#,playlists, highlights
 	l = []
 	response = libMediathek.getUrl('http://www.arte.tv/hbbtvv2/services/web/index.php/EMAC/teasers/home/de')
 	j = json.loads(response)
-	for playlist in j['teasers']['playlists']:
+	for playlist in j['teasers']['highlights']:
 		d = {}
 		d['_name'] = playlist['title']
 		d['_subtitle'] = playlist['subtitle']

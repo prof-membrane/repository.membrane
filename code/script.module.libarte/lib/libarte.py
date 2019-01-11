@@ -33,7 +33,7 @@ def libArteListDateVideos():
 	
 def libArteSearch():
 	search_string = libMediathek.getSearchString()
-	return libArteJsonParser.getSearch(search_string)
+	return libArteJsonParser.getSearch(search_string) if search_string else None 
 
 def libArteListSearch(searchString=False):
 	if not searchString:
@@ -78,5 +78,6 @@ def list():
 		libMediathek.play(libArtePlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	

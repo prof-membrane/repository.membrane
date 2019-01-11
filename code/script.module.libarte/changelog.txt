@@ -1,3 +1,6 @@
+1.0.3
+- Abbruch der "Suche" hatte "HTTP Error 404: Not Found" zur Folge
+- Menüpunkt "Themen" funktionierte nicht mehr
 1.0.2
 - Fixed playback for some videos
 1.0.1
