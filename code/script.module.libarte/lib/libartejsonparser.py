@@ -6,7 +6,7 @@ import urllib
 from operator import itemgetter
 #import xml.etree.ElementTree as ET
 
-	
+
 def getVideos(url):
 	l = []
 	response = libMediathek.getUrl(url)
@@ -18,7 +18,7 @@ def getVideos(url):
 			d['_name'] = video['subtitle']
 		else:
 			d['_name'] = video['title']
-		
+
 		d['_tvshowtitle'] = video['title']
 		if video['imageUrl'] != None:
 			d['_thumb'] = video['imageUrl']
@@ -56,7 +56,7 @@ def getAZ():
 		d['mode'] = 'libArteListVideos'
 		l.append(d)
 	return l
-	
+
 def getPlaylists():#,playlists, highlights
 	l = []
 	response = libMediathek.getUrl('http://www.arte.tv/hbbtvv2/services/web/index.php/EMAC/teasers/home/de')
@@ -72,9 +72,9 @@ def getPlaylists():#,playlists, highlights
 		d['mode'] = 'libArteListVideos'
 		l.append(d)
 	return l
-		
-	
-	
+
+
+
 def getDate(yyyymmdd):
 	l = []
 	response = libMediathek.getUrl('http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/programs/'+yyyymmdd+'/de')
@@ -91,10 +91,10 @@ def getDate(yyyymmdd):
 			#d['url'] = 'http://www.arte.tv/papi/tvguide/videos/stream/player/D/'+program['video']['emNumber']+'_PLUS7-D/ALL/ALL.json'
 			#d['url'] = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/streams/'+program['video']['programId']+'/SHOW/ARTEPLUS7/de/DE'
 			#d['url'] = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/streams/'+program['video']['programId']+'/'+program['video']['kind']+'/'+program['video']['platform']+'/de/DE'
-			
+
 			d['url'] = 'https://api.arte.tv/api/player/v1/config/de/'+program['video']['programId']+'?autostart=0&lifeCycle=1&lang=de_DE&config=arte_tvguide'
 			#d['programId'] = program['video']['programId']
-			
+
 			if program['video']['imageUrl'] != None:
 				d['_thumb'] = program['video']['imageUrl']
 			if program['video']['durationSeconds'] != None:
@@ -117,7 +117,7 @@ def getSearch(s):
 	for video in j['teasers']:
 		d = {}
 		d['_name'] = video['title']
-		
+
 		d['_tvshowtitle'] = video['title']
 		if video['imageUrl'] != None:
 			d['_thumb'] = video['imageUrl']
@@ -129,23 +129,24 @@ def getSearch(s):
 preferences = {
 				'ignore':0,
 				'FR':1,
-				'OV':2,
-				'OMU':3,
-				'DE':4,}
-	
+				'AUD':2,
+				'OV':3,
+				'OMU':4,
+				'DE':5,}
+
 languages = {
 				'FR':'FR',
 				'OMU':'DE',
 				'DE':'DE'}
-				
+
 bitrates = {
 				'EQ':800,
 				'HQ':1500,
 				'SQ':2200,}
-	
+
 #legend:
 #
-#VO Original Voice	
+#VO Original Voice
 #VOA Original Voice	Allemande
 #VOF Original Voice Francaise
 #VA Voice Allemande
@@ -176,19 +177,19 @@ lang = {
 		'VF':'fr',
 		'VA-STA':'de',
 		'VF-STF':'fr',
-		
+
 		'VOA':'de',
 		'VOF':'fr',
 		'VOA-STA':'omu',
 		'VOA-STE':'omu',
 		'VOF-STA':'omu',
 		'VOF-STE':'omu',
-		'VAAUD':'de',
-		'VFAUD':'fr',
+		'VAAUD':'aud',
+		'VFAUD':'aud',
 		'VE[ANG]':'en',
 		'VE[ESP]':'es',
 		'VE[POL]':'pl',
-		
+
 		'STA':'de',
 		'STF':'fr',
 		'STMA':'de',
@@ -207,7 +208,7 @@ def getVideoUrl(url):
 		properties = {}
 		properties['url'] = stream['url']
 		properties['bitrate'] = bitrates[stream['quality']]
-		
+
 		s = stream['audioCode'].split('-')
 		properties['lang'] = lang[s[0]]
 		if s[0] == 'VAAUD' or s[0] == 'VFAUD':
@@ -216,12 +217,12 @@ def getVideoUrl(url):
 			properties['subtitlelang'] = lang[s[1]]
 			if s[1] == 'STMA' or s[1] == 'STMF':
 				properties['sutitlemute'] = True
-		
+
 		properties['type'] = 'video'
 		properties['stream'] = 'MP4'
 		d['media'].append(properties)
 	return d
-	
+
 def getVideoUrlWeb(url):
 	d = {}
 	d['media'] = []
@@ -233,13 +234,21 @@ def getVideoUrlWeb(url):
 	#	#elif caption['format'] == 'webvtt':
 	#	#	d['subtitle'] = [{'url':caption['uri'], 'type':'webvtt', 'lang':'de', 'colour':False}]
 	storedLang = 0
-	for key in j['videoJsonPlayer']['VSR']:#oh, this is such bullshit. there are endless and senseless permutations of language/subtitle permutations. i'll have to rewrite this in the future for french and other languages, subtitles, hearing disabled, ... who the hell uses baked in subtitles in 2017?!?!
-		l = lang.get(j['videoJsonPlayer']['VSR'][key]['versionCode'].split('[')[0],'ignore').upper()
-		if preferences.get(l,0) > storedLang and j['videoJsonPlayer']['VSR'][key]['mediaType'] == 'hls':
-			storedLang = preferences.get(l,0)
-			result = {'url':j['videoJsonPlayer']['VSR'][key]['url'], 'type': 'video', 'stream':'HLS'}
+	bitrate = 0
+	# oh, this is such bullshit. there are endless and senseless permutations of language/subtitle permutations.
+	# i'll have to rewrite this in the future for french and other languages, subtitles, hearing disabled, ...
+	# who the hell uses baked in subtitles in 2017?!?!
+	for key in j['videoJsonPlayer']['VSR']:
+		if j['videoJsonPlayer']['VSR'][key]['mediaType'] == 'hls':
+			l = lang.get(j['videoJsonPlayer']['VSR'][key]['versionCode'].split('[')[0],'ignore').upper()
+			currentLang = preferences.get(l,0)
+			currentBitrate = j['videoJsonPlayer']['VSR'][key]['bitrate']
+			if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
+				storedLang = currentLang
+				bitrate = currentBitrate
+				result = {'url':j['videoJsonPlayer']['VSR'][key]['url'], 'type': 'video', 'stream':'HLS'}
 	d['media'].append(result)
-	
+
 	d['metadata'] = {}
 	d['metadata']['name'] = j['videoJsonPlayer']['VTI']
 	if 'VDE' in j['videoJsonPlayer']:

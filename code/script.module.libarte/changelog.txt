@@ -1,3 +1,5 @@
+1.0.4
+- Bugfix: Sendungen mit Audiodeskription wurden fälschlicherweise bevorzugt
 1.0.3
 - Abbruch der "Suche" hatte "HTTP Error 404: Not Found" zur Folge
 - Menüpunkt "Themen" funktionierte nicht mehr
