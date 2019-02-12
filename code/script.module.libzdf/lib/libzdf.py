@@ -81,8 +81,11 @@ def libZdfListChannelDateVideos():
 	
 def libZdfSearch():
 	search_string = libMediathek.getSearchString()
-	params['url'] = "https://api.zdf.de/search/documents?q="+search_string
-	return libZdfListPage()
+	if (search_string):
+		params['url'] = "https://api.zdf.de/search/documents?q="+search_string
+		return libZdfListPage()
+	else:
+		return None
 		
 def libZdfGetVideoHtml(url):
 	import re
@@ -100,8 +103,9 @@ def list():
 		
 	else:
 		l = modes.get(mode,libZdfListMain)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
 	
 modes = {
 	'libZdfListMain':libZdfListMain,
