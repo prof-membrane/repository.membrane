@@ -32,7 +32,7 @@ def libNdrListDateVideos():
 
 def libNdrSearch():
 	search_string = libMediathek.getSearchString()
-	return libNdrParser.getSearch(search_string)
+	return libNdrParser.getSearch(search_string) if search_string else None
 	
 def libNdrPlay():
 	return libNdrJsonParser.getVideo(params['id'])
@@ -71,5 +71,6 @@ def list():
 		libMediathek.play(libNdrPlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()

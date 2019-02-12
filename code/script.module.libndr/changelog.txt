@@ -1,3 +1,5 @@
+1.1.3
+- Behoben: Abbruch der Suche hatte Exception "list index out of range" zur Folge
 1.1.2
 - Added search
 1.1.1
@@ -9,7 +11,7 @@
 1.0.2
 - Removed xbmc* dependencies
 1.0.1
-- Added regional videos in "list by date" 
+- Added regional videos in "list by date"
 1.0.0
 - Code cleanup
 0.1.1
