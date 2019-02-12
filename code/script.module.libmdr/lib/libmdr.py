@@ -63,7 +63,7 @@ def libMdrListDateVideos():
 	
 def libMdrListSearch():
 	search_string = libMediathek.getSearchString()
-	return libMdrHtmlParser.getSearch(search_string)
+	return libMdrHtmlParser.getSearch(search_string) if search_string else None
 	
 def libMdrPlay():
 	return libMdrMetaParser.parseVideo(params['url'])
@@ -92,5 +92,6 @@ def list():
 		libMediathek.play(libMdrPlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()
