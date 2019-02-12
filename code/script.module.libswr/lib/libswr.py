@@ -32,8 +32,7 @@ def libSwrListVideos():
 
 def libSwrSearch():
 	search_string = libMediathek.getSearchString()
-	url = 'http://swrmediathek.de/app-2/suche/' + search_string
-	return libSwrParser.getList(url,'video','libSwrPlay')
+	return libSwrParser.getList('http://swrmediathek.de/app-2/suche/'+search_string,'video','libSwrPlay') if search_string else None  
 
 def libSwrPlay():
 	return libSwrParser.getVideo(params['url'])
@@ -74,5 +73,6 @@ def list():
 		libMediathek.play(libSwrPlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
