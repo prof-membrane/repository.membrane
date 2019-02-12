@@ -91,7 +91,7 @@ def libBrListChannelDateVideos():
 	
 def libBrSearch():
 	search_string = libMediathek.getSearchString()
-	return libBrJsonParser.parseSearch(search_string)
+	return libBrJsonParser.parseSearch(search_string) if search_string else None
 	#return libBrListSearch(search_string)
 
 def libBrListSearch(searchString=False):
@@ -137,6 +137,7 @@ def list():
 		libMediathek.play(libBrPlayOld())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
 	
