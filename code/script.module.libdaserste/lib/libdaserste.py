@@ -50,7 +50,7 @@ def libDasErsteListDateVideos():
 	
 def libDasErsteSearch():
 	search_string = libMediathek.getSearchString()
-	return libDasErsteListSearch(search_string)
+	return libDasErsteListSearch(search_string) if search_string else None
 
 def libDasErsteListSearch(searchString=False):
 	if not searchString:
@@ -90,5 +90,6 @@ def list():
 		libMediathek.play(libDasErstePlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
