@@ -1,3 +1,5 @@
+1.2.2
+- Behoben: Abbruch der Suche lieferte eine leere Trefferliste
 1.2.1
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
 - Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag

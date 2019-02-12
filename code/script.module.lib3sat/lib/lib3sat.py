@@ -64,7 +64,10 @@ def lib3satListTopics():#not supported by the mediathek
 	
 def lib3satSearch():
 	search_string = libMediathek.getSearchString()
-	return xmlservice.getXML(baseXml + "/xmlservice/web/detailsSuche?maxLength=50&types=Video&properties=HD%2CUntertitel%2CRSS&searchString="+search_string)
+	return\
+		xmlservice.getXML(\
+			baseXml + "/xmlservice/web/detailsSuche?maxLength=50&types=Video&properties=HD%2CUntertitel%2CRSS&searchString="+search_string\
+		) if search_string else None 
 	
 def lib3satXmlListPage():
 	return xmlservice.getXML(params['url'])
@@ -81,8 +84,9 @@ def list():
 	else:
 		#l = modes.get(mode,lib3satListMain)()
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()
 
 modes = {
 	'lib3satListMain': lib3satListMain,
