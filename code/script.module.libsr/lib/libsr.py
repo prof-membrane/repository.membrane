@@ -40,7 +40,7 @@ def libSrListVideos():
 	
 def libSrSearch():
 	search_string = libMediathek.getSearchString()
-	return libSrListSearch(search_string)
+	return libSrListSearch(search_string) if search_string else None
 
 def libSrListSearch(searchString=False):
 	if not searchString:
@@ -73,5 +73,6 @@ def list():
 		libMediathek.play(libSrPlay())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
