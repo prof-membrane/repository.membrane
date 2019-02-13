@@ -1,3 +1,5 @@
+1.5.5
+- Cleanup: Python-Compilate aus ZIP-Datei entfernt 
 1.5.4
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
 - Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
