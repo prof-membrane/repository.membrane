@@ -58,11 +58,14 @@ def libWdrListDateVideos():
 	
 def libWdrSearch():
 	import libwdrhtmlparser as libWdrHtmlParser
-	if not params['search']:
-		search_string = libMediathek.getSearchString()
+	if ('params' in globals() and 'search' in params and params['search']):
+		search_string = params['search']
 	else:
-		search_string = params['search']  
-	return libWdrHtmlParser.parse("http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string)
+		search_string = libMediathek.getSearchString()
+	return\
+		libWdrHtmlParser.parse(\
+			"http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string\
+		) if search_string else None
 	
 def libWdrListSearch():
 	import libwdrhtmlparser as libWdrHtmlParser
@@ -105,5 +108,6 @@ def list():
 		libMediathek.play(libWdrPlayJs())
 	else:
 		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()	
