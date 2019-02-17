@@ -61,6 +61,8 @@ def getVideoUrl(uri):
 				quality = currentQuality
 		elif asset['quality'] == 'Video 2014 | MP4 Web XL | 16:9 | 1280x720':
 			url = asset['url']
+		elif asset['quality'] == 'auto':
+			url = asset['url']
 	if url.startswith('//'):
 		url = 'http:' + url
 	if url.startswith('http://wdradaptiv') or url.endswith('.mp4'):
