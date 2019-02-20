@@ -53,6 +53,8 @@ def getVideoUrl(uri):
 	response = libMediathek.getUrl(baseUrl+uri)
 	j = json.loads(response)
 	quality = -1
+	url = None
+	fallbacks = []
 	for asset in j['assets']:
 		if type(asset['quality']) == type(quality):
 			currentQuality = asset['quality']
@@ -63,6 +65,9 @@ def getVideoUrl(uri):
 			url = asset['url']
 		elif asset['quality'] == 'auto':
 			url = asset['url']
+		fallbacks.append(asset['url'])
+	if not url:
+		url = fallbacks[-1]
 	if url.startswith('//'):
 		url = 'http:' + url
 	if url.startswith('http://wdradaptiv') or url.endswith('.mp4'):
