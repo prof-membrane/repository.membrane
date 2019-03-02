@@ -10,4 +10,4 @@ def grepToken():
 	libMediathek.f_mkdir(libMediathek.pathUserdata(''))
 	libMediathek.f_write(libMediathek.pathUserdata('tokenMenu'), tokenMenu)
 	libMediathek.f_write(libMediathek.pathUserdata('tokenPlayer'), tokenPlayer)
-	return
+	return (tokenMenu, tokenPlayer)

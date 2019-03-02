@@ -15,16 +15,16 @@ def getU(url,Menu=False):
 		header = getHeader(Menu)
 		response = libMediathek.getUrl(url,header)
 	except:
-		libzdftokengrabber.grepToken()
-		header = getHeader(Menu)
+		(tokenMenu, tokenPlayer) = libzdftokengrabber.grepToken()
+		header = getHeader(Menu, tokenMenu, tokenPlayer)
 		response = libMediathek.getUrl(url,header)
 	return response
 	
-def getHeader(Menu):
+def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 	if Menu:
-		header = {'Api-Auth': 'Bearer '+libMediathek.f_open(libMediathek.pathUserdata('tokenMenu'))}
+		header = { 'Api-Auth': 'Bearer ' + (tokenMenu if tokenMenu else libMediathek.f_open(libMediathek.pathUserdata('tokenMenu'))) }
 	else:
-		header = {'Api-Auth': 'Bearer '+libMediathek.f_open(libMediathek.pathUserdata('tokenPlayer'))}
+		header = { 'Api-Auth': 'Bearer ' + (tokenPlayer if tokenPlayer else libMediathek.f_open(libMediathek.pathUserdata('tokenPlayer'))) }
 	return header
 
 def parsePage(url):
@@ -116,6 +116,8 @@ def _parseBroadcast(j):
 	return l
 def _grepItem(target):
 	if target['profile'] == 'http://zdf.de/rels/not-found':
+		return False
+	if not ('contentType' in target): 
 		return False
 	d = {}
 	d['_name'] = target['teaserHeadline']

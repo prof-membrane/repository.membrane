@@ -1,3 +1,5 @@
+2.1.12
+- Behoben: Suche in ZDF-Mediathek lieferte oft "KeyError: ('teaserHeadline',)"
 2.1.11
 - Behoben: Abbruch der Suche lieferte eine umfangreiche Trefferliste
 2.1.10
