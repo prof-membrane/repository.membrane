@@ -1,3 +1,5 @@
+1.0.5
+- Bugfix: Startzeit der Sendungen war um eine Stunde verschoben
 1.0.4
 - Bugfix: Sendungen mit Audiodeskription wurden fälschlicherweise bevorzugt
 1.0.3

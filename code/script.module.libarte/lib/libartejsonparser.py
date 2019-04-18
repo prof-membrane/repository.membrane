@@ -84,9 +84,7 @@ def getDate(yyyymmdd):
 			d = {}
 			#d['_airedtime'] = program['broadcast']['broadcastBeginRounded'].split(' ')[-2][:5]
 			s = program['broadcast']['broadcastBeginRounded'].split(' ')[-2].split(':')
-			d['_airedtime'] = str(int(s[0]) + 1) + ':' + s[1]
-			if len(d['_airedtime']) == 4:
-				d['_airedtime'] = '0' + d['_airedtime']
+			d['_airedtime'] = s[0] + ':' + s[1]
 			d['_name'] = program['program']['title']
 			#d['url'] = 'http://www.arte.tv/papi/tvguide/videos/stream/player/D/'+program['video']['emNumber']+'_PLUS7-D/ALL/ALL.json'
 			#d['url'] = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/streams/'+program['video']['programId']+'/SHOW/ARTEPLUS7/de/DE'
