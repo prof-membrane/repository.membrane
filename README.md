@@ -10,7 +10,7 @@ welches offenbar nicht mehr weiterentwickelt wird.
 # Inhalt des Repos
 
 ## Mediatheken
-- ~~3sat Mediathek~~ (bis auf Weiteres nicht verfügbar)
+- 3sat Mediathek
 - ARD Mediathek
 - ARTE Mediathek
 - BR Mediathek
