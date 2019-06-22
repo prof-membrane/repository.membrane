@@ -23,9 +23,9 @@ def list():
 	mode = params.get('mode','lib3satHtmlListMain')
 	# xbmc.log('%s' % mode, xbmc.LOGFATAL)
 	if mode == 'lib3satHtmlPlay':
-		media = lib3satHtmlPlay()
+		media = modes.get(mode)()
 		if media is None:
-			return False 
+			return False
 		else:
 			libMediathek.play(media)
 	else:
@@ -64,11 +64,11 @@ def lib3satHtmlListDate():
 
 def chooseImage(pictureList, thumbnail_type):
 	if not (pictureList is None):
-		pictureList = ( 
+		pictureList = (
 			filter(
-				lambda(x): 
-					hasattr(x,'attrs') 
-					and 
+				lambda(x):
+					hasattr(x,'attrs')
+					and
 					len(filter(lambda(y): (y[0]=='class') and (y[1].find(thumbnail_type[preferred_thumbnail_type])>=0), x.attrs)) > 0
 				, pictureList
 			)
@@ -84,7 +84,7 @@ def chooseImage(pictureList, thumbnail_type):
 						if len(picture) > 1 and picture[1] == resolution:
 							return picture[0]
 			pictureSources = filter(lambda(x): x[0]=='data-src', pictureList[0].attrs)
-			if len(pictureSources) > 0: 
+			if len(pictureSources) > 0:
 				return pictureSources[0][1]
 	return None
 
@@ -105,10 +105,10 @@ def getDate(date_str):
 			airedtime_begin = None
 			airedtime_end = None
 			for attr in article.attrs:
-				if attr[0] == 'data-airtime-begin' or attr[0] == 'data-airtime-end': 
+				if attr[0] == 'data-airtime-begin' or attr[0] == 'data-airtime-end':
 					start = attr[1].split('+')
-					zulutime = (len(start) == 1) 
-					if zulutime: 
+					zulutime = (len(start) == 1)
+					if zulutime:
 						format = '%Y-%m-%dT%H:%M:%SZ'
 					else:
 						format = '%Y-%m-%dT%H:%M:%S'
@@ -116,15 +116,15 @@ def getDate(date_str):
 						airedtime = datetime.strptime(start[0], format)
 					except TypeError:
 						airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
-					if zulutime: 
+					if zulutime:
 						tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
 						airedtime += tz_offset
 					if attr[0] == 'data-airtime-begin':
 						airedtime_begin = airedtime
-						airedtime = datetime (airedtime.year, airedtime.month, airedtime.day, airedtime.hour, (airedtime.minute / 5) * 5) 
-						d['_airedtime'] = airedtime.strftime('%H:%M') 
+						airedtime = datetime (airedtime.year, airedtime.month, airedtime.day, airedtime.hour, (airedtime.minute / 5) * 5)
+						d['_airedtime'] = airedtime.strftime('%H:%M')
 						d['_name'] = '(' + d['_airedtime'] + ') ' + d['_name']
-					else: 
+					else:
 						airedtime_end = airedtime
 			if not (airedtime_begin is None) and not (airedtime_end is None):
 				d['duration'] = str((airedtime_end - airedtime_begin).seconds)
@@ -148,7 +148,7 @@ def lib3satHtmlListDateVideos():
 	else:
 		ddmmyyyy = libMediathek.dialogDate()
 		yyyy_mm_dd = ddmmyyyy[4:8] + '-' + ddmmyyyy[0:2] + '-' + ddmmyyyy[2:4]
-	l = getDate(yyyy_mm_dd)	
+	l = getDate(yyyy_mm_dd)
 	return l
 
 
@@ -198,7 +198,7 @@ def lib3satHtmlSearch():
 def grepItem(target):
 	if target['profile'] == 'http://zdf.de/rels/not-found':
 		return False
-	if not ('contentType' in target): 
+	if not ('contentType' in target):
 		return False
 	d = {}
 	d['_name'] = target['title']
@@ -279,7 +279,7 @@ modes = {
 	'lib3satHtmlListMain': lib3satHtmlListMain,
 	'lib3satHtmlListLetters': lib3satHtmlListLetters,
 	'lib3satHtmlListDate': lib3satHtmlListDate,
-	'lib3satHtmlListDateVideos': lib3satHtmlListDateVideos, 
+	'lib3satHtmlListDateVideos': lib3satHtmlListDateVideos,
 	'lib3satHtmlSearch': lib3satHtmlSearch,
 	'lib3satHtmlListShows': lib3satHtmlListShows,
 	'lib3satHtmlPlay': lib3satHtmlPlay,
