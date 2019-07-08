@@ -1,3 +1,7 @@
+1.2.4
+- Performance-Verbesserungen, Umstellung von BeautifulSoup3 auf BeautifulSoup4
+1.2.3
+- Neuprogrammierung, Umstellung vom XML-Service auf die HTML-Mediathek
 1.2.2
 - Behoben: Abbruch der Suche lieferte eine leere Trefferliste
 1.2.1
