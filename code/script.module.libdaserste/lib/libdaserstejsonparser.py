@@ -3,6 +3,8 @@ import json
 import libmediathek3 as libMediathek
 import urllib
 import time
+from datetime import datetime
+
 
 def getCategories():
 	response = libMediathek.getUrl("http://www.daserste.de/dasersteapp/app/index~categories.json")
@@ -18,8 +20,8 @@ def getCategories():
 		d['mode'] = 'libDasErsteListVideos'
 		l.append(d)
 	return l
-	
-	
+
+
 def getChars():
 	response = libMediathek.getUrl("http://www.daserste.de/dasersteapp/app/index~series.json")
 	j = json.loads(response)
@@ -28,7 +30,8 @@ def getChars():
 		if not c['hasContent']:
 			l.append(c['charIndex'])
 	return l
-		
+
+
 def getAZ():
 	response = libMediathek.getUrl("http://www.daserste.de/dasersteapp/app/index~series_plain-false.json")
 	j = json.loads(response)
@@ -48,7 +51,8 @@ def getAZ():
 				d['mode'] = 'libDasErsteListVideos'
 				l.append(d)
 	return l		
-	
+
+
 def getDate(day):
 	url = 'http://www.daserste.de/dasersteapp/app/index~program_pd-'+day+'.json'
 	response = libMediathek.getUrl(url)
@@ -61,6 +65,7 @@ def getDate(day):
 					d = _parseVideo(entry,'date')
 					l.append(d)
 	return l
+
 
 def getSearch(s):
 	#url = 'http://www.daserste.de/dasersteapp/app/index~program_pd-'+day+'.json'
@@ -76,7 +81,8 @@ def getSearch(s):
 				l.append(d)
 				libMediathek.log(str(d))
 	return l
-	
+
+
 def getVideos(url,type='dir'):
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
@@ -112,14 +118,20 @@ def _parseVideo(entry,t='video'):
 	if 'videoDuration' in entry:
 		d['_duration'] = str(entry['videoDuration'])
 	if 'referenceDate' in entry:
-		d['_epoch'] = str(entry['referenceDate']/1000)
-		d['_aired'] = time.strftime('%Y-%m-%d', time.gmtime(entry['referenceDate']/1000 + 3600))
-		d['_airedtime'] = time.strftime('%H:%M', time.gmtime(entry['referenceDate']/1000 + 3600))
+		epoch = entry['referenceDate']/1000
+		d['_epoch'] = str(epoch)
+		airedtime =  datetime.fromtimestamp(epoch) 
+		d['_aired'] = airedtime.strftime('%Y-%m-%d')
+		d['_airedtime'] = airedtime.strftime('%H:%M')
+		if 'serialProgramName' in entry:
+			d['_name'] = '(' + d['_aired'] + ') ' + d['_name'] 
 	d['url'] = 'http://www.daserste.de/dasersteapp/' + entry['id'] + '~full.json'
 	d['_type'] = t
 	d['mode'] = 'libDasErstePlay'
 	
 	return d
+
+
 def getVideo(url):
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
