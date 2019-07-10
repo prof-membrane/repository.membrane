@@ -6,9 +6,11 @@ import xbmcaddon
 import xbmcvfs
 import re
 from datetime import date, timedelta
-
+import locale
 from libmediathek3utils import getTranslation as getTranslation
 
+
+locale.setlocale(locale.LC_ALL, '')
 
 weekdayDict = { '0': getTranslation(31013),#Sonntag
 				'1': getTranslation(31014),#Montag
