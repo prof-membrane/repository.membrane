@@ -7,7 +7,7 @@ from lib3sathtmlparser import list
 if list() == False:
 	dialog = xbmcgui.Dialog()
 	title = '3sat Mediathek'
-	text = 'Dieses Medium ist kein abspielbares Video.'
+	text = libMediathek.getTranslation(31043)
 	dialog.ok(title, text)
 
 """
