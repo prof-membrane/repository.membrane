@@ -138,3 +138,7 @@ msgstr "Archive"
 msgctxt "#31042"
 msgid "Detailed search"
 msgstr "Detailed search"
+
+msgctxt "#31043"
+msgid "Not playable"
+msgstr "This medium is not playable."

@@ -138,3 +138,7 @@ msgstr "Archiv"
 msgctxt "#31042"
 msgid "Detailed search"
 msgstr "Detailsuche"
+
+msgctxt "#31043"
+msgid "Not playable"
+msgstr "Dieses Medium ist kein abspielbares Video."

@@ -134,3 +134,11 @@ msgstr "Meer items"
 msgctxt "#31041"
 msgid "Archive"
 msgstr "Archief"
+
+msgctxt "#31042"
+msgid "Detailed search"
+msgstr "Gedetailleerd zoeken"
+
+msgctxt "#31043"
+msgid "Not playable"
+msgstr "Dit medium is geen afspeelbare video."

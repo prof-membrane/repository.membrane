@@ -1,4 +1,6 @@
-﻿1.5.6
+﻿1.5.7
+- Einige bis dato in Deutsch hartcodierte strings jetzt in passender Übersetzung
+1.5.6
 - Monatsnamen in "Sendungen nach Datum" jetzt in der bevorzugten Sprache
 1.5.5
 - Cleanup: Python-Compilate aus ZIP-Datei entfernt 
