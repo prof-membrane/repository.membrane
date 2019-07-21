@@ -236,6 +236,7 @@ def getVideoUrlWeb(url):
 	# oh, this is such bullshit. there are endless and senseless permutations of language/subtitle permutations.
 	# i'll have to rewrite this in the future for french and other languages, subtitles, hearing disabled, ...
 	# who the hell uses baked in subtitles in 2017?!?!
+	result = None
 	for key in j['videoJsonPlayer']['VSR']:
 		if j['videoJsonPlayer']['VSR'][key]['mediaType'] == 'hls':
 			l = lang.get(j['videoJsonPlayer']['VSR'][key]['versionCode'].split('[')[0],'ignore').upper()
@@ -245,6 +246,10 @@ def getVideoUrlWeb(url):
 				storedLang = currentLang
 				bitrate = currentBitrate
 				result = {'url':j['videoJsonPlayer']['VSR'][key]['url'], 'type': 'video', 'stream':'HLS'}
+
+	if result is None:
+		return None
+
 	d['media'].append(result)
 
 	d['metadata'] = {}

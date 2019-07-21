@@ -12,7 +12,6 @@ def libArteListMain():
 	l.append({'_name':translation(31031), 'mode':'libArteListVideos',	'_type':'dir', 'url':'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/videos/mostviewed/20/ARTEPLUS7/de/DE'})
 	l.append({'_name':translation(31032), 'mode':'libArteListShows',  	'_type':'dir'})
 	l.append({'_name':translation(31033), 'mode':'libArteListDate',		'_type':'dir'})
-	l.append({'_name':translation(31035), 'mode':'libArteThemes',		'_type':'dir'})
 	l.append({'_name':translation(31039), 'mode':'libArteSearch', 		'_type':'dir'})
 	return l
 	
@@ -75,7 +74,11 @@ def list():
 	pluginhandle = int(sys.argv[1])
 	mode = params.get('mode','libArteListMain')
 	if mode == 'libArtePlay':
-		libMediathek.play(libArtePlay())
+		media = modes.get(mode)()
+		if media is None:
+			return False
+		else:
+			libMediathek.play(media)
 	else:
 		l = modes.get(mode)()
 		if not (l is None):
