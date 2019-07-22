@@ -1,9 +1,11 @@
-﻿1.5.7
+﻿1.5.8
+- Änderungen aus Version 1.5.6 wieder rückgängig gemacht
+1.5.7
 - Einige bis dato in Deutsch hartcodierte strings jetzt in passender Übersetzung
 1.5.6
 - Monatsnamen in "Sendungen nach Datum" jetzt in der bevorzugten Sprache
 1.5.5
-- Cleanup: Python-Compilate aus ZIP-Datei entfernt 
+- Cleanup: Python-Compilate aus ZIP-Datei entfernt
 1.5.4
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
 - Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag

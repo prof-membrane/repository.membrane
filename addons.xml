@@ -4,6 +4,7 @@
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
             <import addon="script.module.lib3sat" version="1.2.4"/>
+            <import addon="script.module.libmediathek3" version="1.5.7"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -45,6 +46,7 @@
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
             <import addon="script.module.libarte" version="1.0.6"/>
+            <import addon="script.module.libmediathek3" version="1.5.7"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -421,7 +423,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.7" provider-name="68000a">
+    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.8" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
         </requires>
