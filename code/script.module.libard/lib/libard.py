@@ -40,15 +40,6 @@ def parser(data):
 	
 translation = libMediathek.getTranslation
 
-weekdayDict = { '0': translation(31013),#Sonntag
-				'1': translation(31014),#Montag
-				'2': translation(31015),#Dienstag
-				'3': translation(31016),#Mittwoch
-				'4': translation(31017),#Donnerstag
-				'5': translation(31018),#Freitag
-				'6': translation(31019),#Samstag
-			  }
-
 channels = {
 			  'ARD-alpha':'5868',
 			  'BR':'2224',
