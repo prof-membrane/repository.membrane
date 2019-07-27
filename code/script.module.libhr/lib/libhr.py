@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 import urllib
+import xbmc
 import libhrparser as libHrParser
 import libmediathek3 as libMediathek
 import libhrshows
@@ -18,13 +19,13 @@ def libHrListMain():
 	
 def libHrListDate():
 	l = [
-		{'_name':translation(31014), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/montag-video-100.html'},
-		{'_name':translation(31015), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/dienstag-video-100.html'},
-		{'_name':translation(31016), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/mittwoch-video-100.html'},
-		{'_name':translation(31017), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/donnerstag-video-100.html'},
-		{'_name':translation(31018), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/freitag-video-100.html'},
-		{'_name':translation(31019), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/samstag-video-100.html'},
-		{'_name':translation(31013), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/sonntag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(11), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/montag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(12), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/dienstag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(13), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/mittwoch-video-100.html'},
+		{'_name':xbmc.getLocalizedString(14), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/donnerstag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(15), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/freitag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(16), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/samstag-video-100.html'},
+		{'_name':xbmc.getLocalizedString(17), 'mode':'libHrListDateVideos','_type':'dir', 'url':'http://www.hr-fernsehen.de/sonntag-video-100.html'},
 	]
 	return l
 		
