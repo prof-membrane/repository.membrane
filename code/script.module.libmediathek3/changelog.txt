@@ -1,4 +1,6 @@
-﻿1.5.8
+﻿1.5.9
+- Wochentage- und Monatsnamen-Strings werden jetzt aus Kodi-Ressourcen gelesen
+1.5.8
 - Änderungen aus Version 1.5.6 wieder rückgängig gemacht
 1.5.7
 - Einige bis dato in Deutsch hartcodierte strings jetzt in passender Übersetzung

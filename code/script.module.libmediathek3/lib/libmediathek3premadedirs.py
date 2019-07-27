@@ -10,15 +10,6 @@ from datetime import date, timedelta
 from libmediathek3utils import getTranslation as getTranslation
 
 
-weekdayDict = { '0': getTranslation(31013),#Sonntag
-				'1': getTranslation(31014),#Montag
-				'2': getTranslation(31015),#Dienstag
-				'3': getTranslation(31016),#Mittwoch
-				'4': getTranslation(31017),#Donnerstag
-				'5': getTranslation(31018),#Freitag
-				'6': getTranslation(31019),#Samstag
-			  }
-	
 def populateDirAZ(mode,ignore=[]):
 	l = []
 	if not '#' in ignore:
@@ -38,6 +29,17 @@ def populateDirAZ(mode,ignore=[]):
 			l.append(d)
 	return l
 	
+def labelDirDate(day,relative_weekday=None):
+	format_string = '{day_of_month:02d}. {month_shortstr} | {day_of_week}'
+	return (
+		format_string.format(
+			day_of_month = day.day, 
+			month_shortstr = xbmc.getLocalizedString(50+day.month), 
+			day_of_week = 
+				xbmc.getLocalizedString(relative_weekday) if relative_weekday else xbmc.getLocalizedString(11+day.weekday()) 
+		)
+	)	
+	
 def populateDirDate(mode,channel=False,dateChooser=False):
 	l = []
 	
@@ -46,26 +48,16 @@ def populateDirDate(mode,channel=False,dateChooser=False):
 	d['mode'] = mode
 	d['_type'] = 'dir'
 	if channel: d['channel'] = channel
-	d['_name'] = day.strftime('%d. %b | ') +  getTranslation(31020)
+	d['_name'] = labelDirDate(day, 33006)
 	d['datum'] = '0'
 	d['yyyymmdd'] = day.strftime('%Y-%m-%d')
 	l.append(d)
 	
-	d = {}
-	day = day - timedelta(1)
-	d['mode'] = mode
-	d['_type'] = 'dir'
-	if channel: d['channel'] = channel
-	d['_name'] = day.strftime('%d. %b | ') +  getTranslation(31021)
-	d['datum']  = '1'
-	d['yyyymmdd'] = day.strftime('%Y-%m-%d')
-	l.append(d)
-	
-	i = 2
+	i = 1
 	while i <= 6:
 		d = {}
 		day = day - timedelta(1)
-		d['_name'] = day.strftime('%d. %b | ') + weekdayDict[day.strftime("%w")]
+		d['_name'] = labelDirDate(day)
 		d['datum']  = str(i)
 		d['mode'] = mode
 		d['_type'] = 'dir'
