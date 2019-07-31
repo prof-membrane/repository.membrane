@@ -15,7 +15,7 @@ welches offenbar nicht mehr weiterentwickelt wird.
 - ARTE Mediathek
 - BR Mediathek
 - Das Erste Mediathek
-- ~~HR Mediathek~~ (bis auf Weiteres nicht verfügbar)
+- HR Mediathek
 - KiKA Mediathek
 - MDR Mediathek
 - NDR Mediathek
