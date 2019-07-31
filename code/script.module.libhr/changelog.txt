@@ -1,3 +1,5 @@
+1.9.3
+- HR-Mediathek wieder funktionsfähig
 1.9.2
 - Wochentage-Strings werden jetzt aus Kodi-Ressourcen gelesen
 1.9.1
