@@ -51,7 +51,7 @@ def parseShows():
 def parseVideos(url):
 	response = libMediathek.getUrl(url)
 	s = response.split('<div class="pagepadding">')
-	s2 = s[-1].split('<div class="pagination">')
+	s2 = s[1].split('<div class="pagination">')
 	
 	#videos = re.compile('<div class="modulepadding">.+?<img src="(.+?)".+?<span class="icon icon_video"></span>(.+?)<.+?<a href="(.+?)".+?>(.+?)</a>.+?<p>(.+?)<', re.DOTALL).findall(s2[0])
 	videos = re.compile('<div class="modulepadding">.+?<img src="(.+?)".+?<span class="icon "></span>(.+?)<.+?<a href="(.+?)".+?>(.+?)</a>.+?<p>(.+?)<', re.DOTALL).findall(s2[0])
@@ -92,13 +92,25 @@ def getSearch(s):#TODO add pagination
 		#libMediathek.log('#####')
 		#libMediathek.log(item)
 		d = {}
-		d['id'] = re.compile('<a.+?href="(.+?)"', re.DOTALL).findall(item)[0].split(',')[-1].split('.')[0]
-		d['_name'] = re.compile('<a.+?>(.+?)<', re.DOTALL).findall(item)[0].replace('\n','').replace('<p>','').replace('</p>','')
-		if '<img' in item:
-			d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(item)[0]
-		d['_plot'] = re.compile('<div class="teasertext">(.+?)</div>', re.DOTALL).findall(item)[0].replace('\n','').replace('<p>','').replace('<p class="stand">','\n\n').replace('</p>','')
-		d['_type'] = 'video'
-		d['mode'] = 'libNdrPlay'
+		x = re.compile('<a class="button topresultbutton".+?href="(.+?)"', re.DOTALL).findall(item)
+		if len(x) > 0:
+			d['url'] = baseUrl + x[0]
+			d['_name'] = re.compile('<a.+?>(.+?)<', re.DOTALL).findall(item)[0].replace('\n','').replace('<p>','').replace('</p>','')
+			if '<img' in item:
+				d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(item)[0]
+			x = re.compile('<div class="teasertext">(.+?)</div>', re.DOTALL).findall(item)
+			y = re.sub('<a.+?>.+?</a>', '', x[0])
+			d['_plot'] = y.replace('\n','').replace('<p>','').replace('<p class="stand">','\n\n').replace('</p>','')
+			d['_type'] = 'dir'
+			d['mode'] = 'libNdrListVideos'
+		else:
+			d['id'] = re.compile('<a.+?href="(.+?)"', re.DOTALL).findall(item)[0].split(',')[-1].split('.')[0]
+			d['_name'] = re.compile('<a.+?>(.+?)<', re.DOTALL).findall(item)[0].replace('\n','').replace('<p>','').replace('</p>','')
+			if '<img' in item:
+				d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(item)[0]
+			d['_plot'] = re.compile('<div class="teasertext">(.+?)</div>', re.DOTALL).findall(item)[0].replace('\n','').replace('<p>','').replace('<p class="stand">','\n\n').replace('</p>','')
+			d['_type'] = 'video'
+			d['mode'] = 'libNdrPlay'		
 		l.append(d)
 		
 	return l
