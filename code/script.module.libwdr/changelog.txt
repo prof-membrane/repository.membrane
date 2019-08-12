@@ -1,3 +1,5 @@
+1.2.4
+- Kleinere Fehlerkorrekturen
 1.2.3
 - Behoben: Aufruf der Suche hatte Exception "KeyError" zur Folge
 1.2.2

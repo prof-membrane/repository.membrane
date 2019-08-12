@@ -11,7 +11,7 @@ def parse(url):
 	response = libMediathek.getUrl(url)
 	s = response.split('<h2 class="headline">Suchergebnis</h2>')[-1]
 	#xbmc.log(response)
-	videos = s.split('<div class="media mediaA">')[1:]
+	videos = s.split('<div class="media mediaA onlineFirst">')[1:]
 	l = []
 	for video in videos:
 		d = {}
@@ -19,7 +19,7 @@ def parse(url):
 		d['_name'] = re.compile('<h3 class="headline">.+?>(.+?)<', re.DOTALL).findall(video)[0]
 		d['_plot'] = re.compile('<p class="teasertext">.+?>(.+?)<', re.DOTALL).findall(video)[0]
 		#d['date'] = re.compile('<p class="dachzeile">.+?>(.+?)<', re.DOTALL).findall(video)[0].replace('<strong>Video</strong>','')
-		d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(video)[0]
+		d['_thumb'] = base + re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(video)[0]
 		d['url'] = re.compile('<a href="(.+?)"', re.DOTALL).findall(video)[0]
 		
 		d['_type'] = 'video'

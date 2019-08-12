@@ -85,6 +85,7 @@ def parseVideos(url,ty=False,grepShowFromVideo=False):
 			else:
 				d['_type'] = 'video'
 			d['mode'] = 'libWdrPlay'
+			d['_name'] = '[' + d['_aired'] + '] ' + d['_name']
 			l.append(d)
 	return l
 	
