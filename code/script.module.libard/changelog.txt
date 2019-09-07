@@ -1,3 +1,5 @@
+5.1.4
+- Sendungen nach Datum: wg. fehlerhafter URL waren die Tage verschoben
 5.1.3
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
 - Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag

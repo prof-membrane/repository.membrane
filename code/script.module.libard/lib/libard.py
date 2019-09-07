@@ -11,11 +11,6 @@ import libardjsonparser as libArdJsonParser
 
 import libmediathek3 as libMediathek
 
-#http://www.ardmediathek.de/appdata/servlet/tv/sendungAbisZ?json
-#http://www.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal=5868&tag=2
-#http://www.ardmediathek.de/appdata/servlet/tv/Sendung?documentId=3822076&json
-#http://www.ardmediathek.de/appdata/servlet/tv/Sendung?documentId=32325376&json
-			  
 
 def getNew():
 	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true')
@@ -104,10 +99,7 @@ def libArdListChannelDate():
 	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
 	
 def libArdListChannelDateVideos():
-	if False:
-		url = 'http://www.ardmediathek.de/tv/sendungVerpasst?tag='+params['datum']+'&kanal='+channels[params['channel']]
-		return libardlisting.listDate(url)
-	url = 'http://www.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[params['channel']]+'&tag='+params['datum']
+	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[params['channel']]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
 	
 def libArdSearch():
