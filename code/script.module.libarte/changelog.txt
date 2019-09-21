@@ -1,3 +1,5 @@
+1.0.7
+- Bei Originalsendungen mit Untertitel wurden fälschlicherweise die französchen Untertitel gewählt
 1.0.6
 - Aussagekräftige Fehlemeldung wenn Medium nicht abspielbar ist
 1.0.5

@@ -124,23 +124,6 @@ def getSearch(s):
 		d['_type'] = 'date'
 		l.append(d)
 	return l
-preferences = {
-				'ignore':0,
-				'FR':1,
-				'AUD':2,
-				'OV':3,
-				'OMU':4,
-				'DE':5,}
-
-languages = {
-				'FR':'FR',
-				'OMU':'DE',
-				'DE':'DE'}
-
-bitrates = {
-				'EQ':800,
-				'HQ':1500,
-				'SQ':2200,}
 
 #legend:
 #
@@ -168,34 +151,32 @@ bitrates = {
 #VOF-STE[ANG] original audio (french), english subtitles
 #VOA-STMA orignal audio (german), with french mute sutitles
 
-lang = {
-		'VO':'ov',
-		'OmU':'ov',
-		'VA':'de',
-		'VF':'fr',
-		'VA-STA':'de',
-		'VF-STF':'fr',
-
-		'VOA':'de',
-		'VOF':'fr',
-		'VOA-STA':'omu',
-		'VOA-STE':'omu',
-		'VOF-STA':'omu',
-		'VOF-STE':'omu',
-		'VAAUD':'aud',
-		'VFAUD':'aud',
-		'VE[ANG]':'en',
-		'VE[ESP]':'es',
-		'VE[POL]':'pl',
-
-		'STA':'de',
-		'STF':'fr',
-		'STMA':'de',
-		'STMF':'fr',
-		'STE[ANG]':'en',
-		'STE[ESP]':'es',
-		'STE[POL]':'pl',
+voices = {
+	'VO': 1,    # Original Voice
+    'VE': 2,    # Other Voice
+	'VFAUD': 3, # Audio Description Francaise
+	'VOF': 4,   # Original Voice Francaise
+	'VF': 5,    # Voice Francaise
+    'VAAUD': 6, # Audio Description Allemande
+	'VOA': 7,   # Original Voice Allemande
+	'VA': 8,    # Voice Allemande
 }
+
+subtitles = {
+	'STE': 1,   # Subtitle Other
+	'STMF': 2,  # Subtitle Mute Francaise
+	'STF': 3,   # Subtitle Francaise
+	'STMA': 4,  # Subtitle Mute Allemande
+	'STA': 5,   # Subtitle Allemande
+	'': 6,      # No Subtitle
+}
+
+bitrates = {
+	'EQ':800,
+	'HQ':1500,
+	'SQ':2200,
+}
+
 def getVideoUrl(url):
 	d = {}
 	d['media'] = []
@@ -237,15 +218,17 @@ def getVideoUrlWeb(url):
 	# i'll have to rewrite this in the future for french and other languages, subtitles, hearing disabled, ...
 	# who the hell uses baked in subtitles in 2017?!?!
 	result = None
-	for key in j['videoJsonPlayer']['VSR']:
-		if j['videoJsonPlayer']['VSR'][key]['mediaType'] == 'hls':
-			l = lang.get(j['videoJsonPlayer']['VSR'][key]['versionCode'].split('[')[0],'ignore').upper()
-			currentLang = preferences.get(l,0)
-			currentBitrate = j['videoJsonPlayer']['VSR'][key]['bitrate']
-			if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
-				storedLang = currentLang
-				bitrate = currentBitrate
-				result = {'url':j['videoJsonPlayer']['VSR'][key]['url'], 'type': 'video', 'stream':'HLS'}
+	hls_videos = [ value for value in j['videoJsonPlayer']['VSR'].values() if value['mediaType'] == 'hls' ]
+	for video in hls_videos:
+		voice_subtitle = video['versionCode'].split('-');
+		voice = voice_subtitle[0].split('[')[0]
+		subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
+		currentLang = voices.get(voice,0) * 10 + subtitles.get(subtitle,0)
+		currentBitrate = video['bitrate']
+		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
+			storedLang = currentLang
+			bitrate = currentBitrate
+			result = {'url':video['url'], 'type': 'video', 'stream':'HLS'}
 
 	if result is None:
 		return None
