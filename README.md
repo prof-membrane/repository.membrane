@@ -17,7 +17,7 @@ welches offenbar nicht mehr weiterentwickelt wird.
 - Das Erste Mediathek
 - HR Mediathek
 - KiKA Mediathek
-- MDR Mediathek
+- ~~MDR Mediathek~~ (lt. Pressemitteilung seit 11.09.2019 offline [^fu1])
 - NDR Mediathek
 - Phoenix Mediathek
 - SR Mediathek
@@ -25,3 +25,5 @@ welches offenbar nicht mehr weiterentwickelt wird.
 - WDR Mediathek
 - ZDF Mediathek
 - ZDFtivi Mediathek
+
+[^fu1]: https://www.mdr.de/presse/unternehmen/mdr-mediathek-in-die-ard-mediathek-umgezogen-100.html
