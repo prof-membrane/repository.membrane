@@ -1,3 +1,5 @@
+2.0.3
+- "Sendungen nach Datum" funktioniert wieder
 2.0.2
 - Behoben: Abbruch der Suche hatte Exception "KeyError" zur Folge
 2.0.1

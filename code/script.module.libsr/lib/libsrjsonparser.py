@@ -67,12 +67,13 @@ def getDate(day):
 	response = libMediathek.getUrl('http://hbbtv.sr-mediathek.de/inc/SndvrpJSON.php')
 	j = json.loads(response)
 	l = []
-	if int(day) in j:
-		for entry in j[int(day)]:
-			vid = _getDictVideos(entry,'date')
-			l.append(vid)
-	elif day in j:
-		for entry in j[day]:
+	key = None
+	if isinstance(j,list) or (isinstance(j,dict) and (int(day) in j)):
+		key = int(day)
+	elif isinstance(j,dict) and (day in j):
+		key = day
+	if not (key is None):
+		for entry in j[key]:
 			vid = _getDictVideos(entry,'date')
 			l.append(vid)
 	return l[::-1]
