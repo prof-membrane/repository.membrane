@@ -5,6 +5,8 @@ import re
 import urllib
 from operator import itemgetter
 #import xml.etree.ElementTree as ET
+import sys
+import xbmcplugin
 
 
 def getVideos(url):
@@ -125,6 +127,10 @@ def getSearch(s):
 		l.append(d)
 	return l
 
+pluginhandle = int(sys.argv[1])
+current_lang = xbmcplugin.getSetting(pluginhandle,'lang')
+lang_german  = (current_lang in ['de','0','',None])
+
 #legend:
 #
 #VO Original Voice
@@ -152,23 +158,23 @@ def getSearch(s):
 #VOA-STMA orignal audio (german), with french mute sutitles
 
 voices = {
-	'VO': 1,    # Original Voice
-    'VE': 2,    # Other Voice
-	'VFAUD': 3, # Audio Description Francaise
-	'VOF': 4,   # Original Voice Francaise
-	'VF': 5,    # Voice Francaise
-    'VAAUD': 6, # Audio Description Allemande
-	'VOA': 7,   # Original Voice Allemande
-	'VA': 8,    # Voice Allemande
+	'VO':   lambda: 1,                        # Original Voice
+	'VE':   lambda: 2,                        # Other Voice
+	'VFAUD':lambda: 3 if lang_german else 6,  # Audio Description Francaise
+	'VOF':  lambda: 4 if lang_german else 7,  # Original Voice Francaise
+	'VF':   lambda: 5 if lang_german else 8,  # Voice Francaise
+	'VAAUD':lambda: 6 if lang_german else 3,  # Audio Description Allemande
+	'VOA':  lambda: 7 if lang_german else 4,  # Original Voice Allemande
+	'VA':   lambda: 8 if lang_german else 5,  # Voice Allemande
 }
 
 subtitles = {
-	'STE': 1,   # Subtitle Other
-	'STMF': 2,  # Subtitle Mute Francaise
-	'STF': 3,   # Subtitle Francaise
-	'STMA': 4,  # Subtitle Mute Allemande
-	'STA': 5,   # Subtitle Allemande
-	'': 6,      # No Subtitle
+	'STE':  lambda: 1,                        # Subtitle Other
+	'STMF': lambda: 2 if lang_german else 4,  # Subtitle Mute Francaise
+	'STF':  lambda: 3 if lang_german else 5,  # Subtitle Francaise
+	'STMA': lambda: 4 if lang_german else 2,  # Subtitle Mute Allemande
+	'STA':  lambda: 5 if lang_german else 3,  # Subtitle Allemande
+	'':     lambda: 6,                        # No Subtitle
 }
 
 bitrates = {
@@ -223,7 +229,7 @@ def getVideoUrlWeb(url):
 		voice_subtitle = video['versionCode'].split('-');
 		voice = voice_subtitle[0].split('[')[0]
 		subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
-		currentLang = voices.get(voice,0) * 10 + subtitles.get(subtitle,0)
+		currentLang = voices.get(voice,lambda:0)() * 10 + subtitles.get(subtitle,lambda:0)()
 		currentBitrate = video['bitrate']
 		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
 			storedLang = currentLang
