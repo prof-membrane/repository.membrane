@@ -1,3 +1,5 @@
+1.0.8
+- In den Einstellungen der ARTE Mediathek kann jetzt auch Französisch als bevorzugte Sprache gewählt werden
 1.0.7
 - Bei Originalsendungen mit Untertitel wurden fälschlicherweise die französischen Untertitel gewählt
 1.0.6
