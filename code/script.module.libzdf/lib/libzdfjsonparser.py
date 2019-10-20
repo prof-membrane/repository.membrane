@@ -156,6 +156,20 @@ def _grepItem(target):
 				d['_duration'] = str(content['duration'])
 			d['_type'] = 'video'
 			d['mode'] = 'libZdfPlay'
+			
+			programmeItem = target.get('programmeItem', None)
+			if not (programmeItem is None) and isinstance(programmeItem, list) and len(programmeItem) > 0:
+				episode = programmeItem[0].get('http://zdf.de/rels/target', None)
+				if not (episode is None):
+					episodeNumber = episode.get('episodeNumber', None)
+					if not (episodeNumber is None):
+						d['_name'] = 'Folge ' + str(episodeNumber) + ' - ' + d['_name']
+					season = episode.get('http://zdf.de/rels/cmdm/season', None)
+					if not (season is None):
+						seasonTitle = season.get('seasonTitle', None)
+						if not (seasonTitle is None):  
+							d['_name'] = str(seasonTitle) + ' - ' + d['_name']
+							
 		except: d = False
 	else:
 		log('Unknown target type: ' + target['contentType'])

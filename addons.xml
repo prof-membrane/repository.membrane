@@ -287,7 +287,7 @@
     <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.2" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libzdf" version="2.1.12"/>
+            <import addon="script.module.libzdf" version="2.1.13"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -493,7 +493,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libzdf" name="libzdf" version="2.1.12" provider-name="68000a">
+    <addon id="script.module.libzdf" name="libzdf" version="2.1.13" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.4"/>

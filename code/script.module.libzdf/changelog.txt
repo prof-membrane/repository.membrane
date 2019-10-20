@@ -1,3 +1,5 @@
+2.1.13
+- Sendungen nach A-Z: wenn möglich wird bei Serien Staffel und Folge an den Titelanfang geschrieben
 2.1.12
 - Behoben: Suche in ZDF-Mediathek lieferte oft "KeyError: ('teaserHeadline',)"
 2.1.11
