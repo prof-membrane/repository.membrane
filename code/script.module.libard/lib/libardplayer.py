@@ -34,14 +34,14 @@ def fetchJsonVideo(id):
 	quality = -1
 	for mediaArray in j['_mediaArray']:
 		for mediaStreamArray in mediaArray['_mediaStreamArray']:
-			if '_quality' in mediaStreamArray \
-			   and mediaStreamArray['_quality'] \
-			   and type(mediaStreamArray['_quality']) == type(quality):
-				currentQuality = mediaStreamArray['_quality']
-			else:
-				currentQuality = 0
+			currentQuality = mediaStreamArray.get('_quality',-1);
+			if (isinstance(currentQuality,basestring)): 
+				if (currentQuality == 'auto'):
+					currentQuality = sys.maxsize
+				else: 
+					currentQuality = -1
 			if currentQuality > quality:
-				if type(mediaStreamArray['_stream']) == type([]):
+				if isinstance(mediaStreamArray['_stream'],list):
 					# xbmc.log('%s' % ( mediaStreamArray['_stream'][0] ), xbmc.LOGFATAL)
 					finalUrl = mediaStreamArray['_stream'][0]
 					quality = currentQuality

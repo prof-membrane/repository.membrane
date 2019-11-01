@@ -1,3 +1,5 @@
+5.1.5
+- Bugfix: Es wurde nicht immer der Stream mit der besten Qualität verwendet
 5.1.4
 - Sendungen nach Datum: wg. fehlerhafter URL waren die Tage verschoben
 5.1.3
