@@ -61,10 +61,10 @@ def _parse_data(video):
 		d['_airedtime'] = str_to_airedtime(video['broadcastDates'][0])
 	if video['images']['landscape']:
 		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
-		d['_thumb'] = max_res['url']
+		d['thumb'] = max_res['url']
 	elif video['images']['portrait']:
 		max_res = max(video['images']['portrait']['resolutions'], key=lambda item: item['h'])
-		d['_thumb'] = max_res['url']
+		d['thumb'] = max_res['url']
 	if video['kind']['isCollection']:
 		d['mode'] = 'libArteListCollection'
 		d['url'] = '/programs?programId=' + video['programId'] + '&language=' + current_lang + '&fields=children,programId'
@@ -112,7 +112,7 @@ def getCollection(url):
 			d['plot'] = program['fullDescription']
 		elif program['shortDescription']:
 			d['plot'] = program['shortDescription']
-		d['_thumb'] = program['mainImage']['url']
+		d['thumb'] = program['mainImage']['url']
 		d['_type'] = 'dir'
 		d['mode'] = 'libArteListVideos'
 		d['url'] = '/zones/collection_subcollection?id=' + topic['programId']

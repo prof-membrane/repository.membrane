@@ -35,7 +35,7 @@ def libArtePlay():
 	d = libArteJsonParser.getVideoUrl(params['url'])
 	if d:
 		metadata = {}
-		for key in ['name', 'plot']:
+		for key in ['name', 'plot', 'thumb']:
 			value = params.get(key, None)
 			if value:
 				metadata[key] = value
