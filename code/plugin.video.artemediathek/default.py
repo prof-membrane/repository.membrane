@@ -4,8 +4,6 @@ import xbmcgui
 import libmediathek3 as libMediathek
 import libarte
 
-"""
-
 if libarte.list() == False:
 	dialog = xbmcgui.Dialog()
 	title = 'ARTE Mediathek'
@@ -20,3 +18,5 @@ title = 'ARTE Mediathek'
 text = 'Wegen Änderungen an der ARTE Website ist die ARTE Mediathek bis auf Weiteres nicht verfügbar.'
 dialog.ok(title, text)
 xbmc.executebuiltin('XBMC.ActivateWindow(Home)')
+
+"""
