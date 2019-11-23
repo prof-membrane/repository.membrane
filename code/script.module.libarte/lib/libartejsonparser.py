@@ -58,7 +58,9 @@ def _parse_data(video):
 	elif video['shortDescription']:
 		d['plot'] = video['shortDescription']
 	if 'broadcastDates' in video:
-		d['_airedtime'] = str_to_airedtime(video['broadcastDates'][0])
+		airedtime = str_to_airedtime(video['broadcastDates'][0])
+		d['_airedtime'] = airedtime 
+		d['name'] = '(' + airedtime + ') ' + d['name']
 	if video['images']['landscape']:
 		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
 		d['thumb'] = max_res['url']

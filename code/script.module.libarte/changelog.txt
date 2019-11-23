@@ -1,3 +1,5 @@
+1.0.13
+- Sendungen nach Datum: Uhrzeit vor dem Titel
 1.0.12
 - Wg. Favoriten: Titel, Plot und Thumbnail in Metadaten speichern
 1.0.10
