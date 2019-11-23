@@ -45,9 +45,9 @@ def str_to_airedtime(airedtime_str):
 
 def _parse_data(video):
 	d = {}
-	if video['subtitle'] is not None and video['title'] is not None:
+	if video['subtitle'] and video['title']:
 		d['_name'] = video['title'] + ' | ' + video['subtitle']
-	elif video['subtitle'] is not None:
+	elif video['subtitle']:
 		d['_name'] = video['subtitle']
 	else:
 		d['_name'] = video['title']
@@ -127,7 +127,7 @@ def getDate(yyyymmdd):
 	response = libMediathek.getUrl(url, emac_token)
 	j = json.loads(response)
 	data = j['zones'][1]['data']
-	videos = [video for video in data if video['programId'] is not None]
+	videos = [video for video in data if video['programId']]
 	for video in videos:
 		l.append(_parse_data(video))
 	return l

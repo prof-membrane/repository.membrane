@@ -1,3 +1,5 @@
+1.0.10
+- Schönheitskorrektur
 1.0.9
 - Umstellung auf neues API
 1.0.8
