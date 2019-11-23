@@ -1,3 +1,5 @@
+1.0.11
+- Wg. Favoriten: Titel und Plot in Metadaten speichern
 1.0.10
 - Schönheitskorrektur
 1.0.9

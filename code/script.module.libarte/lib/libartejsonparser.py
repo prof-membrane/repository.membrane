@@ -46,17 +46,17 @@ def str_to_airedtime(airedtime_str):
 def _parse_data(video):
 	d = {}
 	if video['subtitle'] and video['title']:
-		d['_name'] = video['title'] + ' | ' + video['subtitle']
+		d['name'] = video['title'] + ' | ' + video['subtitle']
 	elif video['subtitle']:
-		d['_name'] = video['subtitle']
+		d['name'] = video['subtitle']
 	else:
-		d['_name'] = video['title']
+		d['name'] = video['title']
 	if 'fullDescription' in video and video['fullDescription']:
-		d['_plot'] = video['fullDescription']
+		d['plot'] = video['fullDescription']
 	elif 'description' in video and video['description']:
-		d['_plot'] = video['description']
+		d['plot'] = video['description']
 	elif video['shortDescription']:
-		d['_plot'] = video['shortDescription']
+		d['plot'] = video['shortDescription']
 	if 'broadcastDates' in video:
 		d['_airedtime'] = str_to_airedtime(video['broadcastDates'][0])
 	if video['images']['landscape']:
@@ -105,13 +105,13 @@ def getCollection(url):
 		if program['title'] in ['**', '', None]:
 			break
 		d = {}
-		d['_name'] = program['title']
+		d['name'] = program['title']
 		if program['subtitle'] != None:
-			d['_name'] = d['_name'] + ' | ' + program['subtitle']
+			d['name'] = d['name'] + ' | ' + program['subtitle']
 		if program['fullDescription']:
-			d['_plot'] = program['fullDescription']
+			d['plot'] = program['fullDescription']
 		elif program['shortDescription']:
-			d['_plot'] = program['shortDescription']
+			d['plot'] = program['shortDescription']
 		d['_thumb'] = program['mainImage']['url']
 		d['_type'] = 'dir'
 		d['mode'] = 'libArteListVideos'
