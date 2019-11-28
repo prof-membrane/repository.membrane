@@ -165,12 +165,16 @@ def getSearch(s):
 #VOF-STE[ANG] original audio (french), english subtitles
 #VOA-STMA orignal audio (german), with french mute sutitles
 
+# all results equal/above voices[nativeVoice]() indicate native voices
+nativeVoice = '__NATIVE_VOICE__'
+
 voices = {
 	'VO':   lambda: 1,                        # Original Voice
 	'VE':   lambda: 2,                        # Other Voice
 	'VFAUD':lambda: 3 if lang_german else 6,  # Audio Description Francaise
 	'VOF':  lambda: 4 if lang_german else 7,  # Original Voice Francaise
 	'VF':   lambda: 5 if lang_german else 8,  # Voice Francaise
+	nativeVoice:  lambda: 6,                  # Internal use
 	'VAAUD':lambda: 6 if lang_german else 3,  # Audio Description Allemande
 	'VOA':  lambda: 7 if lang_german else 4,  # Original Voice Allemande
 	'VA':   lambda: 8 if lang_german else 5,  # Voice Allemande
@@ -197,7 +201,9 @@ def getVideoUrl(url):
 		voice = voice_subtitle[0].split('[')[0]
 		subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
 		currentLang = voices.get(voice,lambda:0)()
-		currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 6 if (currentLang > 5) else 0)()
+		# if currentLang is native language => prefer "no subtitle"
+		# if currentLang is foreign language => prefer subtitle in native language
+		currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
 		currentBitrate = video['bitrate']
 		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
 			storedLang = currentLang
