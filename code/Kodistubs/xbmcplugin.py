@@ -10,12 +10,10 @@ developer to present information through Kodi's standard menu structure. While
 plugins don't have the same flexibility as scripts, they boast significantly
 quicker development time and a more consistent user experience.
 """
-from typing import List, Tuple, Union
 from xbmcgui import ListItem
 
 __kodistubs__ = True
 
-str_type = Union[str, unicode]
 
 SORT_METHOD_ALBUM = 14
 SORT_METHOD_ALBUM_IGNORE_THE = 15

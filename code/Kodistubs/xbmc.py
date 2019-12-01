@@ -10,12 +10,9 @@ information about the media currently playing and that allow manipulation of
 the media player (such as starting a new song). You can also find system
 information using the functions available in this library.
 """
-from typing import Union, List, Tuple
 
 __kodistubs__ = True
 
-int_type = Union[int, long]
-str_type = Union[str, unicode]
 
 DRIVE_NOT_READY = 1
 ENGLISH_NAME = 2
@@ -1883,7 +1880,7 @@ def getDVDState():
         dvdstate = xbmc.getDVDState()
         ..
     """
-    return 0L
+    return 0
 
 
 def getFreeMem():
@@ -1899,7 +1896,7 @@ def getFreeMem():
         freemem = xbmc.getFreeMem()
         ..
     """
-    return 0L
+    return 0
 
 
 def getInfoLabel(cLine):

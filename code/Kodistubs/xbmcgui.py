@@ -9,15 +9,12 @@ Offers classes and functions that manipulate the
 Graphical User Interface through windows, dialogs, and various control widgets.
 """
 import sys
-from typing import Union, List, Dict, Tuple
 from xbmc import InfoTagVideo, InfoTagMusic
 
 __kodistubs__ = True
 
-int_type = Union[int, long]
-str_type = Union[str, unicode]
 
-INT_MAX = sys.maxint
+INT_MAX = sys.maxsize
 ACTION_ANALOG_FORWARD = 113
 ACTION_ANALOG_MOVE = 49
 ACTION_ANALOG_MOVE_X_LEFT = 601
@@ -1118,7 +1115,7 @@ class ControlList(Control):
             pos = cList.getSelectedPosition()
             ...
         """
-        return 0L
+        return 0
     
     def getSelectedItem(self):
         # type: () -> ListItem
@@ -1198,7 +1195,7 @@ class ControlList(Control):
             cnt = cList.size()
             ...
         """
-        return 0L
+        return 0
     
     def getItemHeight(self):
         # type: () -> long
@@ -1213,7 +1210,7 @@ class ControlList(Control):
             item_height = self.cList.getItemHeight()
             ...
         """
-        return 0L
+        return 0
     
     def getSpace(self):
         # type: () -> long
@@ -1228,7 +1225,7 @@ class ControlList(Control):
             gap = self.cList.getSpace()
             ...
         """
-        return 0L
+        return 0
     
     def getListItem(self, index):
         # type: (int) -> ListItem
@@ -3459,7 +3456,7 @@ class Action(object):
                     print('action recieved: previous')
             ..
         """
-        return 0L
+        return 0
     
     def getButtonCode(self):
         # type: () -> long
@@ -3468,7 +3465,7 @@ class Action(object):
 
         :return: [integer] button code 
         """
-        return 0L
+        return 0
     
     def getAmount1(self):
         # type: () -> float
@@ -3581,7 +3578,7 @@ class Window(object):
         :raises SystemError: On Internal error 
         :raises RuntimeError: If no control has focus
         """
-        return 0L
+        return 0
     
     def removeControl(self, pControl):
         # type: (Control) -> None
@@ -3616,7 +3613,7 @@ class Window(object):
 
         :return: Screen height 
         """
-        return 0L
+        return 0
     
     def getWidth(self):
         # type: () -> long
@@ -3625,7 +3622,7 @@ class Window(object):
 
         :return: Screen width 
         """
-        return 0L
+        return 0
     
     def getResolution(self):
         # type: () -> long
@@ -3649,7 +3646,7 @@ class Window(object):
         9       PAL60 16:9 (720x480) 
         ======  =====================
         """
-        return 0L
+        return 0
     
     def setCoordinateResolution(self, res):
         # type: (int_type) -> None
@@ -4150,7 +4147,7 @@ def getCurrentWindowId():
         wid = xbmcgui.getCurrentWindowId()
         ..
     """
-    return 0L
+    return 0
 
 
 def getCurrentWindowDialogId():
@@ -4166,4 +4163,4 @@ def getCurrentWindowDialogId():
         wid = xbmcgui.getCurrentWindowDialogId()
         ..
     """
-    return 0L
+    return 0
