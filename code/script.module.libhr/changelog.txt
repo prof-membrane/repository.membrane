@@ -1,3 +1,5 @@
+1.9.4
+- Kleinere Anpassungen für Python3
 1.9.3
 - HR-Mediathek wieder funktionsfähig
 1.9.2

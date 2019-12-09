@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
-import xbmc
+import sys
 import json
 import re
-from urllib2 import HTTPError
 import bs4 as bs
 import libmediathek3 as libMediathek
 from libhr import base
 
+if sys.version_info[0] < 3: # for Python 2
+	from urllib2 import HTTPError
+else: # for Python 3
+	from urllib.error import HTTPError
 
 def getDate(url):
 	response = libMediathek.getUrl(url)
@@ -25,6 +28,8 @@ def getDate(url):
 	return l
 
 def getEpisodes(showid, showname = None):
+	if showname and sys.version_info[0] < 3: # for Python 2
+		showname = showname.decode('utf-8')
 	l = []
 	try:
 		response = 	libMediathek.getUrl(
@@ -35,7 +40,7 @@ def getEpisodes(showid, showname = None):
 		articles = soup.findAll('article')
 		for article in articles:
 			json_div = article.find(
-				lambda(tag):
+				lambda tag:
 					tag.name == 'div'
 					and hasattr(tag,'attrs')
 					and isinstance(tag.attrs.get('class'), list)
@@ -53,12 +58,12 @@ def getEpisodes(showid, showname = None):
 				else:
 					continue
 				d['_name'] = (
-					showname.decode('utf-8') + ' vom ' + j['mediaMetadata']['agf']['airdate'] if showname
+					showname + ' vom ' + j['mediaMetadata']['agf']['airdate'] if showname
 					else j['mediaMetadata']['agf']['title']
 				)
 				teaser = article.find('span', {'class': 'c-teaser__underline'})
 				if teaser:
-					d['_plot'] = teaser.text.strip() 
+					d['_plot'] = teaser.text.strip()
 				d['_thumb'] = j['previewImageUrl']['s']
 				d['_type'] = 'video'
 				d['mode'] = 'libHrPlay'

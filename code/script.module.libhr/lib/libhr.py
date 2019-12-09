@@ -9,6 +9,10 @@ import libhrshows
 base = 'https://www.hr-fernsehen.de'
 import libhrparser as libHrParser
 
+if sys.version_info[0] < 3: # for Python 2
+	from urllib2 import Request, urlopen
+else: # for Python 3
+	from urllib.request import Request, urlopen
 
 translation = libMediathek.getTranslation
 
@@ -100,12 +104,11 @@ def libHrPlay():
 
 def headUrl(url):#TODO: move to libmediathek3
 	libMediathek.log(url)
-	import urllib2
-	req = urllib2.Request(url)
+	req = Request(url)
 	req.get_method = lambda : 'HEAD'
 	req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:25.0) Gecko/20100101 Firefox/25.0')
 
-	response = urllib2.urlopen(req)
+	response = urlopen(req)
 	info = response.info()
 	response.close()
 	return info
