@@ -20,8 +20,8 @@ def getDate(url):
 		#TODO: date
 		d = {}
 		d['url'] = re.compile('<a href="(.+?)"', re.DOTALL).findall(article)[0]
-		d['_name'] = re.compile('<span class="c-teaser__headline text__headline">(.+?)</span>', re.DOTALL).findall(article)[0].strip()
-		d['_thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(article)[0]
+		d['name'] = re.compile('<span class="c-teaser__headline text__headline">(.+?)</span>', re.DOTALL).findall(article)[0].strip()
+		d['thumb'] = re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(article)[0]
 		d['_type'] = 'video'
 		d['mode'] = 'libHrPlay'
 		l.append(d)
@@ -57,14 +57,14 @@ def getEpisodes(showid, showname = None):
 					d['url'] = j['streamUrl']
 				else:
 					continue
-				d['_name'] = (
+				d['name'] = (
 					showname + ' vom ' + j['mediaMetadata']['agf']['airdate'] if showname
 					else j['mediaMetadata']['agf']['title']
 				)
 				teaser = article.find('span', {'class': 'c-teaser__underline'})
 				if teaser:
-					d['_plot'] = teaser.text.strip()
-				d['_thumb'] = j['previewImageUrl']['s']
+					d['plot'] = teaser.text.strip()
+				d['thumb'] = j['previewImageUrl']['s']
 				d['_type'] = 'video'
 				d['mode'] = 'libHrPlay'
 				l.append(d)

@@ -82,25 +82,16 @@ def libHrListEpisodes():
 	return libHrParser.getEpisodes(params['showid'], None if isHessenschau(params['showid']) else params['name'])
 
 def libHrPlay():
-	return libHrParser.getVideo(params['url'])
-	url = params['url']
-	if ardhack:#ugly hack to get better quality videos
-		s = params['url'].split('/')
-		testurl = 'http://www.hr.gl-systemhaus.de/mp4/ARDmediathek/' + s[-2] + '/' + s[-1]
-		id = int(testurl[-10:-4]) + 1
-		testurl = testurl[:-10] + str(id) + '_webl_ard.mp4'
-		try:
-			headUrl(testurl)
-			url = testurl
-		except: pass
-	d = {}
-	d['media'] = []
-	d['media'].append({'url':url, 'type': 'video', 'stream':'HLS'})
-
-	#the libmediathek3 ttml parser can't handle this file now :(
-	if 'subUrl' in params:
-		d['subtitle'] = [{'url':params['subUrl'], 'type': 'ttml', 'lang':'de'}]
-	return d
+	result =  libHrParser.getVideo(params['url'])
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
 
 def headUrl(url):#TODO: move to libmediathek3
 	libMediathek.log(url)
