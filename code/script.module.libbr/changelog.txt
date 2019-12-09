@@ -1,4 +1,6 @@
-﻿2.0.7
+﻿2.0.8
+- Meistgesehen, Rubriken und Themen funktionierten nicht richtig
+2.0.7
 - Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
 - Kleinere Anpassungen für Python3
 2.0.6

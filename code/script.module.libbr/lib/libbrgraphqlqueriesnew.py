@@ -9,7 +9,7 @@ def getQueryCategories():
 def getQueryVideo():
 	return queryVideo
 def getQueryBoards():
-	return 
+	return
 def getQueryBoard():
 	return queryBoard + fragmentClip
 def getQueryGenres():
@@ -23,8 +23,8 @@ def getQuerySection():
 def getQueryDate():
 	return queryDate
 
-	
-	
+
+
 
 #TODO Make audioOnly a variable
 querySeries = """{
@@ -90,7 +90,7 @@ queryGenres = """{
           label
         }
       }
-    }      
+    }
   }
 }"""
 
@@ -164,7 +164,7 @@ querySections = """{
           title
         }
       }
-    }       
+    }
   }
 }
 """
@@ -183,7 +183,7 @@ querySection = """query section($id:ID!)
           }
         }
       }
-    } 
+    }
   }
 }"""
 
@@ -250,7 +250,7 @@ fragmentVideoItems_programme = """fragment videoitems_programme on ProgrammeConn
               publicLocation
             }
           }
-        }        
+        }
       }
     }
   }

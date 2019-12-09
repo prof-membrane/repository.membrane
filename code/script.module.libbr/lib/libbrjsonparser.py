@@ -15,8 +15,8 @@ import libbrgraphqlqueriesnew as queries
 
 graphqlUrl = 'https://proxy-base.master.mango.express/graphql'
 header = {'Content-Type':'application/json'	, 'Accept-Encoding':'gzip, deflate'}
-	
-	
+
+
 def parseSeries():
 	p = json.dumps({'query': queries.getQuerySeries()})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
@@ -43,8 +43,8 @@ def parseSeries():
 		d['id'] = node['id']
 		d['mode'] = 'libBrListEpisodes'
 		l.append(d)
-	return l	
-	
+	return l
+
 def parseEpisodes(id):
 	#variables = {'id':id,"itemCount":0,"clipCount":0,"previousEpisodesFilter":{"essences":{"empty":{"eq":False}},"broadcasts":{"empty":{"eq":False},"start":{"lte":"2017-09-13T17:00:28.592Z"}}},"clipsOnlyFilter":{"broadcasts":{"empty":{"eq":True}},"essences":{"empty":{"eq":False}}}}
 	#variables = {'id':id,'day':"2018-05-27T17:30:00.000Z"}
@@ -60,9 +60,9 @@ def parseEpisodes(id):
 		d = _buildVideoDict(node)
 		l.append(d)
 	return l
-	
-	
-	
+
+
+
 def parseBoards():
 	boards = [
 		'Board:http://ard.de/ontologies/mangoLayout#entdecken-film-krimi',
@@ -77,7 +77,7 @@ def parseBoards():
 		'Board:http://ard.de/ontologies/mangoLayout#discover2',
 		'Board:http://ard.de/ontologies/mangoLayout#discover1',
 		'Board:http://ard.de/ontologies/mangoLayout#entdecken-kinder',]
-		
+
 	variables = {'nodes':boards}
 	p = json.dumps({'query': libbrgraphqlqueries.getCats(), 'variables':variables})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
@@ -97,7 +97,7 @@ def parseBoards():
 		d['mode'] = 'libBrListBoard'
 		l.append(d)
 	return l
-	
+
 def parseBoard(boardId):
 	variables = {'boardId':boardId}
 	p = json.dumps({'query': queries.getQueryBoard(), 'variables':variables})
@@ -106,8 +106,9 @@ def parseBoard(boardId):
 	l = []
 	for edge in j['data']['viewer']['board']['sections']['edges']:
 		for edge2 in edge['node']['contents']['edges']:
-			d = _buildVideoDict(edge2['node']['represents'])
-			l.append(d)
+			node = edge2['node']['represents']
+			if node:
+				l.append(_buildVideoDict(node))
 	return l
 
 def parseCategories():
@@ -124,7 +125,7 @@ def parseCategories():
 		d['mode'] = 'libBrListCategorie'
 		l.append(d)
 	return l
-	
+
 def parseCategorie(categorie):
 	#filter = {'filter':{'categories':{'contains':categorie}}}
 	#{"filter": {"categories": {"contains": "av:http://ard.de/ontologies/categories#gesundheit"}}}
@@ -146,11 +147,11 @@ def parseGenres():
 		d['mode'] = 'libBrListGenre'
 		l.append(d)
 	return l
-	
+
 def parseGenre(genre):
 	filter = {'genres':{'contains':genre}}
 	return _parseAllClips(filter)
-	
+
 def parseSections():
 	p = json.dumps({'query': queries.getQuerySections()})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
@@ -168,7 +169,7 @@ def parseSections():
 		d['mode'] = 'libBrListSection'
 		l.append(d)
 	return l
-	
+
 def parseSection(id):
 	variables = {'id':id}
 	p = json.dumps({'query': queries.getQuerySection(), 'variables':variables})
@@ -181,7 +182,7 @@ def parseSection(id):
 		d = _buildVideoDict(edge['node']['represents'])
 		l.append(d)
 	return l
-	
+
 #channels:
 #ARD_alpha
 #BR_Fernsehen
@@ -200,8 +201,8 @@ def parseDate(day,channel):
 		if len(publicationOf['essences']['edges']) != 0:
 			d = _buildVideoDict(publicationOf)
 			start = broadcastEvent['start'].split('+')
-			zulutime = (len(start) == 1) 
-			if zulutime: 
+			zulutime = (len(start) == 1)
+			if zulutime:
 				format = "%Y-%m-%dT%H:%M:%S.%fZ"
 			else:
 				format = "%Y-%m-%dT%H:%M:%S.%f"
@@ -209,19 +210,19 @@ def parseDate(day,channel):
 				airedtime = datetime.strptime(start[0], format)
 			except TypeError:
 				airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
-			if zulutime: 
+			if zulutime:
 				tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
 				airedtime += tz_offset
-			d['_airedtime'] = airedtime.strftime("%H:%M") 
+			d['_airedtime'] = airedtime.strftime("%H:%M")
 			d['_type'] = 'date'
 			l.append(d)
 	return l
-	
+
 def parseSearch(term):
 	filter = {"term":term,"audioOnly":{"eq":False},"essences":{"empty":{"eq":False}},"status":{"id":{"eq":"av:http://ard.de/ontologies/lifeCycle#published"}}}
 	return _parseAllClips(filter)
-	
-	
+
+
 def parseVideo(id):
 	variables = {'clipId':id}
 	#variables = {'clipId':'av:5896c99cab0d0d001203ea82'}
@@ -231,17 +232,22 @@ def parseVideo(id):
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
 	libMediathek.log(response)
 	j = json.loads(response)
-	l = []	
-	node = j['data']['viewer']['clip']['videoFiles']['edges'][0]['node']
-	d = {}
-	d['media'] = []
-	d['media'].append({'url':node['publicLocation'], 'stream':'HLS'})
-	try:
-		sub = node['subtitles']['edges'][0]['node']['timedTextFiles']['edges'][0]['node']['publicLocation']
-		d['subtitle'] = [{'url':sub, 'type': 'ttml', 'lang':'de'}]
-	except: pass
-	return d
-	
+	l = []
+	x = j['data']['viewer']['clip']['videoFiles']['edges']
+	if x:
+		node = x[0]['node']
+		d = {}
+		d['media'] = []
+		d['media'].append({'url':node['publicLocation'], 'stream':'HLS'})
+		try:
+			sub = node['subtitles']['edges'][0]['node']['timedTextFiles']['edges'][0]['node']['publicLocation']
+			d['subtitle'] = [{'url':sub, 'type': 'ttml', 'lang':'de'}]
+		except:
+			pass
+		return d
+	else:
+		return None
+
 def _parseAllClips(filter):
 	variables = {'filter':filter}
 	p = json.dumps({'query': queries.getQueryAllClips(), 'variables':variables})
@@ -254,12 +260,12 @@ def _parseAllClips(filter):
 		d = _buildVideoDict(edge['node'])
 		l.append(d)
 	return l
-	
-	
-	
+
+
+
 def _buildVideoDict(node):
 	d = {}
-	d['name'] = node['kicker'] + ' | ' + node['title'] 
+	d['name'] = node['kicker'] + ' | ' + node['title']
 	d['_tvshowtitle'] = node['kicker']
 	d['_plotoutline'] = node['kicker']
 	d['plot'] = node['kicker']
@@ -278,13 +284,13 @@ def _buildVideoDict(node):
 	d['id'] = node['id']
 	d['mode'] = 'libBrPlay'
 	return d
-	
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
 def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',itemCount=50):
 	#variables = {'boardId':boardId,"itemCount":itemCount}
 	variables = {'boardId':boardId}
@@ -296,31 +302,32 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['board']['sections']['edges'][1]['node']['contents']['edges']:
-		d = {}
 		node = edge['node']['represents']
-		d['name'] = node['title']
-		d['_tvshowtitle'] = node['kicker']
-		d['_plotoutline'] = node['kicker']
-		d['plot'] = node['kicker']
-		if node['shortDescription'] != None:
-			d['_plotoutline'] = node['shortDescription']
-			d['plot'] = node['shortDescription']
-		if node['description'] != None:
-			d['plot'] = node['description']
-		d['_duration'] = str(node['duration'])
-		d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
-		#libMediathek.log(d['thumb'])
-		d['_type'] = 'video'
-		d['id'] = node['id']
-		d['mode'] = 'libBrPlay'
-		l.append(d)
+		if node:
+			d = {}
+			d['name'] = node['title']
+			d['_tvshowtitle'] = node['kicker']
+			d['_plotoutline'] = node['kicker']
+			d['plot'] = node['kicker']
+			if node['shortDescription'] != None:
+				d['_plotoutline'] = node['shortDescription']
+				d['plot'] = node['shortDescription']
+			if node['description'] != None:
+				d['plot'] = node['description']
+			d['_duration'] = str(node['duration'])
+			d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
+			#libMediathek.log(d['thumb'])
+			d['_type'] = 'video'
+			d['id'] = node['id']
+			d['mode'] = 'libBrPlay'
+			l.append(d)
 	return l
-		
+
 def search(searchString):
 	j = _parseMain()
 	url = j["_links"]["search"]["href"].replace('{term}',quote_plus(searchString))
 	return parseLinks(url)
-	
+
 def parseLinks(url):
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
@@ -334,13 +341,13 @@ def parseLinks(url):
 		if 'headline' in show:
 			d['name'] += ' - ' + show['headline']
 			d['_tvshowtitle'] = show['topline']
-			
+
 		d['_subtitle'] = show["topline"]
 		d['plot'] = show["teaserText"]
 		d['_channel'] = show["channelTitle"]
 		duration = show['documentProperties']["br-core:duration"].split(':')
 		d['_duration'] = str(int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2]))
-		
+
 		if 'image512' in show["teaserImage"]["_links"]:
 			d['thumb'] = show["teaserImage"]["_links"]["image512"]["href"]
 		elif 'image256' in show["teaserImage"]["_links"]:
@@ -352,7 +359,7 @@ def parseLinks(url):
 		except:pass
 		d['_type'] = 'video'
 		d['mode'] = 'libBrPlayOld'
-		
+
 		l.append(d)
 	try:
 		d = {}
@@ -361,8 +368,8 @@ def parseLinks(url):
 		l.append(d)
 	except: pass
 	return l
-			
-	
+
+
 def parse(url):
 	l = []
 	response = libMediathek.getUrl(url)
@@ -371,9 +378,9 @@ def parse(url):
 def startTimeToInt(s):
 	HH,MM,SS = s.split(":")
 	return int(HH) * 60 + int(MM)
-	
-	
-	
+
+
+
 def getIntrospection():
 	p = json.dumps({'query': libbrgraphqlqueries.getIntrospectionQuery()})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)

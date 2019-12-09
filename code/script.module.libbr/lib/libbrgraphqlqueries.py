@@ -28,12 +28,12 @@ def _dependencyBuilder(base):
 	l = [base[0]]
 	for subDep in base[1]:
 		l = _addDep(subDep,l)
-	
+
 	result = ''
 	for s in l:
 		result += s
 	return result.replace('\\n','').replace('\n','').replace('\r','')
-	
+
 def _addDep(dep,l):
 	if dep[0] not in l:
 		l.append(dep[0])
@@ -120,12 +120,12 @@ Squery_IntrospectionQuery = """
       }
     }
   }"""
-	
-	
+
+
 #Strings for queries
 Squery_SearchPageQuery = """query SearchPageQuery(
   $letter: String
-) { 
+) {
   viewer {
     ...Search_viewer
     id
