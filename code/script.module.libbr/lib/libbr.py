@@ -99,11 +99,26 @@ def libBrListSearch(searchString=False):
 		searchString = params['searchString']
 	return search(searchString)
 	
-def libBrPlay():
-	return libBrJsonParser.parseVideo(params['id'])
-def libBrPlayOld():
-	return libBrJsonParser.parseVideoOld(params['url'])
+def getMetadata(result):
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
 	
+def libBrPlay():
+	result = libBrJsonParser.parseVideo(params['id'])
+	result = getMetadata(result)
+	return result
+
+def libBrPlayOld():
+	result = libBrJsonParser.parseVideoOld(params['url'])
+	result = getMetadata(result)
+	return result
 	
 def list():	
 	modes = {

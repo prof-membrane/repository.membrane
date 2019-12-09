@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
+import sys
 import json
-import urllib
 import time
 from datetime import date, datetime, timedelta
+
+if sys.version_info[0] < 3: # for Python 2
+	from urllib import quote_plus
+else: # for Python 3
+	from urllib.parse import quote_plus
 
 import libmediathek3 as libMediathek
 import libbrgraphqlqueries
@@ -21,19 +26,19 @@ def parseSeries():
 	for edge in j['data']['viewer']['allSeries']['edges']:
 		d = {}
 		node = edge['node']
-		d['_name'] = node['title']
+		d['name'] = node['title']
 		d['_tvshowtitle'] = node['kicker']
 		d['_plotoutline'] = node['kicker']
-		d['_plot'] = node['kicker']
+		d['plot'] = node['kicker']
 		if node['shortDescription'] != None:
 			d['_plotoutline'] = node['shortDescription']
-			d['_plot'] = node['shortDescription']
+			d['plot'] = node['shortDescription']
 		if node['description'] != None:
-			d['_plot'] = node['description']
+			d['plot'] = node['description']
 		try:
-			d['_thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
+			d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
 		except: pass
-		#libMediathek.log(d['_thumb'])
+		#libMediathek.log(d['thumb'])
 		d['_type'] = 'dir'
 		d['id'] = node['id']
 		d['mode'] = 'libBrListEpisodes'
@@ -48,7 +53,6 @@ def parseEpisodes(id):
 	p = json.dumps({'query': queries.getQueryEpisodes(), 'variables':variables})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
 	j = json.loads(response)
-	print response
 	l = []
 	for edge in j['data']['viewer']['series']['episodes']['edges']:
 		d = {}
@@ -82,12 +86,12 @@ def parseBoards():
 	l = []
 	for node in j['data']['nodes']:
 		d = {}
-		d['_name'] = node['title'].title()
+		d['name'] = node['title'].title()
 		if 'shortDescription' in node and node['shortDescription'] != None:
 			d['_plotoutline'] = node['shortDescription']
-			d['_plot'] = node['shortDescription']
+			d['plot'] = node['shortDescription']
 		if 'description' in node and node['description'] != None:
-			d['_plot'] = node['description']
+			d['plot'] = node['description']
 		d['boardId'] = node['id']
 		d['_type'] = 'dir'
 		d['mode'] = 'libBrListBoard'
@@ -114,7 +118,7 @@ def parseCategories():
 	for edge in j['data']['viewer']['allCategories']['edges']:
 		d = {}
 		node = edge['node']
-		d['_name'] = node['label']
+		d['name'] = node['label']
 		d['id'] = node['id']
 		d['_type'] = 'dir'
 		d['mode'] = 'libBrListCategorie'
@@ -136,7 +140,7 @@ def parseGenres():
 	for edge in j['data']['viewer']['allGenres']['edges']:
 		d = {}
 		node = edge['node']
-		d['_name'] = node['label']
+		d['name'] = node['label']
 		d['id'] = node['id']
 		d['_type'] = 'dir'
 		d['mode'] = 'libBrListGenre'
@@ -156,9 +160,9 @@ def parseSections():
 		d = {}
 		node = edge['node']
 		if node['title'] == None:
-			d['_name'] = 'None'
+			d['name'] = 'None'
 		else:
-			d['_name'] = node['title']
+			d['name'] = node['title']
 		d['id'] = node['id']
 		d['_type'] = 'dir'
 		d['mode'] = 'libBrListSection'
@@ -255,21 +259,21 @@ def _parseAllClips(filter):
 	
 def _buildVideoDict(node):
 	d = {}
-	d['_name'] = node['kicker'] + ' | ' + node['title'] 
+	d['name'] = node['kicker'] + ' | ' + node['title'] 
 	d['_tvshowtitle'] = node['kicker']
 	d['_plotoutline'] = node['kicker']
-	d['_plot'] = node['kicker']
+	d['plot'] = node['kicker']
 	if node['shortDescription'] != None and node['shortDescription'] != '':
 		d['_plotoutline'] = node['shortDescription']
-		d['_plot'] = node['shortDescription']
+		d['plot'] = node['shortDescription']
 	if node['description'] != None and node['description'] != '':
-		d['_plot'] = node['description']
+		d['plot'] = node['description']
 	if 'duration' in node:
 		d['_duration'] = str(node['duration'])
 	try:
-		d['_thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation'] + '?w=600&q=70'
+		d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation'] + '?w=600&q=70'
 	except: pass
-	#libMediathek.log(d['_thumb'])
+	#libMediathek.log(d['thumb'])
 	d['_type'] = 'video'
 	d['id'] = node['id']
 	d['mode'] = 'libBrPlay'
@@ -294,18 +298,18 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 	for edge in j['data']['viewer']['board']['sections']['edges'][1]['node']['contents']['edges']:
 		d = {}
 		node = edge['node']['represents']
-		d['_name'] = node['title']
+		d['name'] = node['title']
 		d['_tvshowtitle'] = node['kicker']
 		d['_plotoutline'] = node['kicker']
-		d['_plot'] = node['kicker']
+		d['plot'] = node['kicker']
 		if node['shortDescription'] != None:
 			d['_plotoutline'] = node['shortDescription']
-			d['_plot'] = node['shortDescription']
+			d['plot'] = node['shortDescription']
 		if node['description'] != None:
-			d['_plot'] = node['description']
+			d['plot'] = node['description']
 		d['_duration'] = str(node['duration'])
-		d['_thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
-		#libMediathek.log(d['_thumb'])
+		d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
+		#libMediathek.log(d['thumb'])
 		d['_type'] = 'video'
 		d['id'] = node['id']
 		d['mode'] = 'libBrPlay'
@@ -314,7 +318,7 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 		
 def search(searchString):
 	j = _parseMain()
-	url = j["_links"]["search"]["href"].replace('{term}',urllib.quote_plus(searchString))
+	url = j["_links"]["search"]["href"].replace('{term}',quote_plus(searchString))
 	return parseLinks(url)
 	
 def parseLinks(url):
@@ -326,21 +330,21 @@ def parseLinks(url):
 	for show in j["_embedded"]["teasers"]:
 		d = {}
 		d['url'] = show["_links"]["self"]["href"]
-		d['_name'] = show["topline"]
+		d['name'] = show["topline"]
 		if 'headline' in show:
-			d['_name'] += ' - ' + show['headline']
+			d['name'] += ' - ' + show['headline']
 			d['_tvshowtitle'] = show['topline']
 			
 		d['_subtitle'] = show["topline"]
-		d['_plot'] = show["teaserText"]
+		d['plot'] = show["teaserText"]
 		d['_channel'] = show["channelTitle"]
 		duration = show['documentProperties']["br-core:duration"].split(':')
 		d['_duration'] = str(int(duration[0]) * 3600 + int(duration[1]) * 60 + int(duration[2]))
 		
 		if 'image512' in show["teaserImage"]["_links"]:
-			d['_thumb'] = show["teaserImage"]["_links"]["image512"]["href"]
+			d['thumb'] = show["teaserImage"]["_links"]["image512"]["href"]
 		elif 'image256' in show["teaserImage"]["_links"]:
-			d['_thumb'] = show["teaserImage"]["_links"]["image256"]["href"]
+			d['thumb'] = show["teaserImage"]["_links"]["image256"]["href"]
 		try:
 			if show['hasSubtitle']:
 				d['_hasSubtitle'] = 'true'

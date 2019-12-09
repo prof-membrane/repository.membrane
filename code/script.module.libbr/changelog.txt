@@ -1,4 +1,7 @@
-﻿2.0.6
+﻿2.0.7
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Kleinere Anpassungen für Python3
+2.0.6
 - Behoben: Abbruch der Suche hatte Exception "TypeError" zur Folge
 2.0.5
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
