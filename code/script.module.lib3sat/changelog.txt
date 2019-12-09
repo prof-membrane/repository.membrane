@@ -1,3 +1,6 @@
+1.2.5
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Kleinere Anpassungen für Python3
 1.2.4
 - Performance-Verbesserungen, Umstellung von BeautifulSoup3 auf BeautifulSoup4
 1.2.3

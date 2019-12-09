@@ -112,22 +112,22 @@ def getDate(date_str):
 		if not (name is None):
 			d['_type'] = 'video'
 			d['mode'] = 'lib3satHtmlPlay'
-			d['_name'] = name.text
+			d['name'] = name.text
 			airedtime_begin = str_to_airedtime(article.attrs.get('data-airtime-begin', None))
 			if not (airedtime_begin is None):
-				airedtime = datetime (airedtime_begin.year, airedtime_begin.month, airedtime_begin.day, airedtime_begin.hour, (airedtime_begin.minute / 5) * 5)
+				airedtime = datetime (airedtime_begin.year, airedtime_begin.month, airedtime_begin.day, airedtime_begin.hour, int(airedtime_begin.minute / 5) * 5)
 				d['_airedtime'] = airedtime.strftime('%H:%M')
-				d['_name'] = '(' + d['_airedtime'] + ') ' + d['_name']
+				d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
 				airedtime_end = str_to_airedtime(article.attrs.get('data-airtime-end', None))
 				if not (airedtime_end is None):
 					d['duration'] = str((airedtime_end - airedtime_begin).seconds)
 			plot = article.find('p', {'class': 'teaser-epg-text'})
 			if not (plot is None):
-				d['_plot'] = plot.text
+				d['plot'] = plot.text
 			picture = article.find('picture')
 			if not (picture is None):
-				d['_thumb'] = chooseImage(picture.contents, thumbnail1_types)
-			url = article.find('a', {'data-link': (lambda(x): not(x is None))})
+				d['thumb'] = chooseImage(picture.contents, thumbnail1_types)
+			url = article.find('a', {'data-link': (lambda x: not(x is None))})
 			if not (url is None) and not (url.attrs is None):
 				href = url.attrs.get('href', None)
 				if not (href is None):
@@ -162,12 +162,12 @@ def getAZ(url):
 				name = name_attr.text
 				d['_type'] = 'video'
 				d['mode'] = 'lib3satHtmlPlay'
-				d['_name'] = name
-				d['_plot'] = name
+				d['name'] = name
+				d['plot'] = name
 				d['url'] = base + href
 				picture = article.find('picture')
 				if not (picture is None):
-					d['_thumb'] = chooseImage(picture.contents, thumbnail2_types)
+					d['thumb'] = chooseImage(picture.contents, thumbnail2_types)
 				l.append(d)
 	return l
 
@@ -195,8 +195,8 @@ def grepItem(target):
 	if not ('contentType' in target):
 		return False
 	d = {}
-	d['_name'] = target['title']
-	d['_plot'] = target['teasertext']
+	d['name'] = target['title']
+	d['plot'] = target['teasertext']
 	if target['contentType'] == 'clip':
 		try:
 			d['url'] = api_base + target['mainVideoContent']['http://zdf.de/rels/target']['http://zdf.de/rels/streams/ptmd-template'].replace('{playerId}',playerId)
@@ -261,10 +261,18 @@ def lib3satHtmlPlay(url = None):
 			jsb = json.loads(jsb_str)
 			content_link = jsb['content']
 			api_token = jsb['apiToken']
-		 	content_response = getU(content_link, api_token)
-		 	target = json.loads(content_response)
-		 	j = grepItem(target)
-		 	result = getVideoUrl(j['url'], api_token)
+			content_response = getU(content_link, api_token)
+			target = json.loads(content_response)
+			j = grepItem(target)
+			result = getVideoUrl(j['url'], api_token)
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
 	return result
 
 
