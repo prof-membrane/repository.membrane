@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+import sys
 import json
 import libmediathek3 as libMediathek
 import re
-import urllib
 import xml.etree.ElementTree as ET
-#import dateutil.parser
+
+if sys.version_info[0] < 3: # for Python 2
+	from urllib import quote_plus
+else: # for Python 3
+	from urllib.parse import quote_plus
 
 base = 'http://www.mdr.de'
 		
@@ -36,7 +40,7 @@ def parseDate(day='0'):
 		
 def getSearch(s):
 	#https://www.mdr.de/mediathek/suche/mediathek-suche--100-searchResultsDefault.html?start=30&rows=30&page=0&q=wetter&sort=time&filter=&changefilter=&numItems=30
-	response = libMediathek.getUrl('https://www.mdr.de/mediathek/suche/mediathek-suche--100-searchResultsDefault.html?start=0&rows=30&page=0&q='+urllib.quote_plus(s)+'&sort=time&filter=&changefilter=&numItems=30')
+	response = libMediathek.getUrl('https://www.mdr.de/mediathek/suche/mediathek-suche--100-searchResultsDefault.html?start=0&rows=30&page=0&q=' + quote_plus(s) + '&sort=time&filter=&changefilter=&numItems=30')
 	
 	videos = response.split('<div class="teaser ">')[1:]
 	l = []
