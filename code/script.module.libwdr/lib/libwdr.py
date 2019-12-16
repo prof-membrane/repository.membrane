@@ -21,30 +21,30 @@ def libWdrListMain():
 	#l.append({'name':'Videos mit Untertiteln', 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungen/videos-untertitel-100~_format-mp111_type-rss.feed', '_type':'dir'})
 	l.append({'_name':translation(31039), 'mode':'libWdrSearch', '_type':'dir'})
 	return l
-	
+
 def libWdrListLetters():
 	return libMediathek.populateDirAZ('libWdrListShows',ignoreLetters)
-	
+
 def libWdrListShows():
 	#return libWdrParser.parseShows('http://www1.wdr.de/mediathek/video/sendungen-a-z/sendungen-'+params['name'].lower()+'-102.html')
 	return libWdrRssAndroidParser.parseShows(params['name'].lower())
-	
+
 def libWdrListVideos():
 	#return libWdrRssParser.parseVideos(params['url'])
 	#return libWdrRssAndroidParser.parseVideos(params['id'])
-	
+
 	url = 'http://www1.wdr.de/'+params['id']+'~_variant-android.mobile'
 	if 'grepShowFromVideo' in params:
 		return libWdrRssAndroidParser.parseVideos(url,grepShowFromVideo=True)
 	else:
 		return libWdrRssAndroidParser.parseVideos(url)
-	
+
 def libWdrListFeed():
 	return libWdrRssParser.parseFeed(params['url'])
 
 def libWdrListDate():
 	return libMediathek.populateDirDate('libWdrListDateVideos')
-	
+
 def libWdrListDateVideos():
 	if 'datum' in params:
 		from datetime import date, timedelta
@@ -55,38 +55,69 @@ def libWdrListDateVideos():
 	url = 'http://www1.wdr.de/mediathek/video/sendungverpasst/sendung-verpasst-100~_tag-'+ddmmyyyy+'_variant-android.mobile'
 	#return libWdrRssParser.parseFeed(url,'video')
 	return libWdrRssAndroidParser.parseVideos(url,'video')
-	
-def libWdrSearch():
+
+def libWdrSearch(search_string = None):
 	import libwdrhtmlparser as libWdrHtmlParser
 	if ('params' in globals() and 'search' in params and params['search']):
 		search_string = params['search']
-	else:
+	elif not search_string:
 		search_string = libMediathek.getSearchString()
 	return\
 		libWdrHtmlParser.parse(\
 			"http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string\
 		) if search_string else None
-	
+
 def libWdrListSearch():
 	import libwdrhtmlparser as libWdrHtmlParser
 	return libWdrHtmlParser.parse(params['url'])
-	
+
 def libWdrPlay():
 	if 'm3u8' in params:
-		d = {}
-		d['media'] = []
+		result = {}
+		result['media'] = []
 		#d['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'HLS'})
-		d['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'mp4'})
-		return d
+		result['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'mp4'})
 	else:
-		return libWdrParser.parseVideo(params['url'])
-	
+		result = libWdrParser.parseVideo(params['url'])
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
+
 def libWdrPlayJs():
-	return libWdrParser.parseVideoJs(params['url'])
-	
-	
-def list():	
-	modes = {
+	result = libWdrParser.parseVideoJs(params['url'])
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
+
+def list():
+	global params
+	params = libMediathek.get_params()
+	mode = params.get('mode','libWdrListMain')
+	if mode == 'libWdrPlay' or mode == 'libWdrPlayJs':
+		media = modes.get(mode)()
+		if media is None:
+			return False
+		else:
+			libMediathek.play(media)
+	else:
+		l = modes.get(mode)()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()
+
+modes = {
 	'libWdrListMain': libWdrListMain,
 	'libWdrListLetters': libWdrListLetters,
 	'libWdrListShows': libWdrListShows,
@@ -97,17 +128,5 @@ def list():
 	'libWdrSearch': libWdrSearch,
 	'libWdrListSearch': libWdrListSearch,
 	'libWdrPlay': libWdrPlay,
-	'libWdrPlayJs': libWdrPlayJs
-	}
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libWdrListMain')
-	if mode == 'libWdrPlay':
-		libMediathek.play(libWdrPlay())
-	elif mode == 'libWdrPlayJs':
-		libMediathek.play(libWdrPlayJs())
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()	
+	'libWdrPlayJs': libWdrPlayJs,
+}

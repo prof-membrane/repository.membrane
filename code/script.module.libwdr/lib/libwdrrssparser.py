@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
+import sys
 import json
-import libmediathek3 as libMediathek
 import re
+import libmediathek3 as libMediathek
 #import dateutil.parser
 
 base = 'http://www1.wdr.de'
@@ -10,7 +11,7 @@ def parseVideos(url):#TODO remove "mehr"
 	if not url.endswith('index.html'):
 		l = len(url.split('/')[-1])
 		url = url[:-l] + 'index.html'
-	response = libMediathek.getUrl(url).decode('utf-8')
+	response = libMediathek.getUrl(url)
 	feed = re.compile('<link rel="alternate".+?href="(.+?)"').findall(response)[0]
 	feed = base + feed.replace('.feed','~_format-mp111_type-rss.feed')
 	return parseFeed(feed)

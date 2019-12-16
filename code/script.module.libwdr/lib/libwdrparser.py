@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import json
 import re
-#import dateutil.parser
 import libmediathek3 as libMediathek
+
 base = 'http://www1.wdr.de'
 
 def parseShows(url):
@@ -63,9 +63,10 @@ def parseVideo(url,signLang=False):
 	
 def parseVideoJs(url,signLang=False):
 	response = libMediathek.getUrl(url)
-	import json
-	j = json.loads(response[38:-2])
-	
+	try:
+		j = json.loads(response[38:-2])
+	except:
+		return None
 	videos = []
 	subUrlTtml = False
 	for type in j['mediaResource']:
