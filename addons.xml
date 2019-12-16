@@ -226,10 +226,10 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.swrmediathek" name="SWR Mediathek" version="1.1.3" provider-name="68000a">
+    <addon id="plugin.video.swrmediathek" name="SWR Mediathek" version="1.1.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libswr" version="1.1.3"/>
+            <import addon="script.module.libmediathek3" version="1.4.0"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -447,19 +447,6 @@
             <source>https://github.com/68000a/Gigathek/tree/master/code/script.module.libsr</source>
             <summary lang="en">This is a scraper for the SR Mediathek (http://www.sr-mediathek.de/).</summary>
             <description lang="en">This is a scraper for the SR Mediathek (http://www.sr-mediathek.de/). It uses the HbbTV JSON API.</description>
-        </extension>
-    </addon>
-
-    <addon id="script.module.libswr" name="libswr" version="1.1.3" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.4.0"/>
-        </requires>
-        <extension point="xbmc.python.module" library="lib" />
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <summary lang="en">This is a scraper for the SWR Mediathek (http://swrmediathek.de/).</summary>
-            <description lang="en">This is a scraper for the SWR Mediathek (http://swrmediathek.de/). It uses the mobile webpages.</description>
         </extension>
     </addon>
 
