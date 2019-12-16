@@ -21,7 +21,7 @@ welches offenbar nicht mehr weiterentwickelt wird.
 - NDR Mediathek
 - Phoenix Mediathek
 - SR Mediathek
-- SWR Mediathek
+- ~~SWR Mediathek~~ ~~ (lt. Pressemitteilung seit 19.08.2019 offline [[2](https://www.swr.de/home/Umzug-der-SWR-Mediathek-in-die-ARD-Mediathek,artikel-mediathek-umzug-100.html)])
 - WDR Mediathek
 - ZDF Mediathek
 - ZDFtivi Mediathek
