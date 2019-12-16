@@ -5,9 +5,13 @@ import sys
 import urllib
 import libardrssparser
 import libmediathek3 as libMediathek
-import HTMLParser
 
-h = HTMLParser.HTMLParser()
+if sys.version_info[0] < 3: # for Python 2
+	from HTMLParser import HTMLParser
+else: # for Python 3
+	from html.parser import HTMLParser
+
+h = HTMLParser()
 useThumbAsFanart = True
 baseUrl = "http://www.ardmediathek.de"
 defaultThumb = baseUrl+"/ard/static/pics/default/16_9/default_webM_16_9.jpg"
@@ -112,10 +116,17 @@ def listDate(url):
 			d['_thumb'] = 'http://www.ardmediathek.de/ard/servlet'+thumb+'0'
 			d['_plot'] = plot
 			d['url'] = baseUrl+url.replace('&amp;','&')
-			d['_name'] = d['_name'].decode('utf-8')
-			d['_name'] = h.unescape(d['_name'])
-			d['_name'] = d['_name'].encode('utf-8')
-			d['documentId'] = d['url'].encode('utf-8').split("documentId=")[-1]
+			name = d['_name'] 
+			if sys.version_info[0] < 3: # for Python 2
+				name = name.decode('utf-8')
+			name = h.unescape(name)
+			if sys.version_info[0] < 3: # for Python 2
+				name  = name .encode('utf-8')
+			d['_name'] = name 
+			url = d['url']
+			if sys.version_info[0] < 3: # for Python 2
+				url = url.encode('utf-8')
+			d['documentId'] = url.split("documentId=")[-1]
 			d['mode'] = 'libArdPlay'
 			d['_type'] = 'date'
 			l.append(d)

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import time
-import urllib,urllib2,re,random,cookielib,HTMLParser,datetime
 import sys
 from datetime import date, timedelta
 
@@ -59,8 +57,8 @@ channels = {
 			  
 def libArdListMain():
 	l = []
-	l.append({'name':translation(31030), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true', '_type':'dir'})
-	l.append({'name':translation(31031), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Meistabgerufene-Videos/mehr?documentId=21282514&m23644322=quelle.tv&rss=true', '_type':'dir'})
+	#l.append({'name':translation(31030), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true', '_type':'dir'})
+	#l.append({'name':translation(31031), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Meistabgerufene-Videos/mehr?documentId=21282514&m23644322=quelle.tv&rss=true', '_type':'dir'})
 	#l.append({'name':translation(31032), 'mode':'libArdListLetters', '_type':'dir'})
 	l.append({'name':translation(31032), 'mode':'libArdListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libArdListChannel', '_type':'dir'})
@@ -115,7 +113,16 @@ def libArdListSearch(searchString):
 		libMediathek.addEntry(d)
 	
 def libArdPlay():
-	return libardplayer.getVideoUrl(videoID = params['documentId'])
+	result =  libardplayer.getVideoUrl(videoID = params['documentId'])
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
 
 def list():
 	global params

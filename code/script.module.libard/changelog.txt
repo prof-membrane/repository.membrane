@@ -1,3 +1,8 @@
+5.1.6
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Menüpunkte "Neu" und "Meistgesehen" entfernt
+- Thumbnail funktioniert wieder
+- Kleinere Anpassungen für Python3
 5.1.5
 - Bugfix: Es wurde nicht immer der Stream mit der besten Qualität verwendet
 5.1.4

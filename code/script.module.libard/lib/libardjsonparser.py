@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import json
 import libmediathek3 as libMediathek
 
@@ -18,22 +19,18 @@ def parseDate(url):
 		for entry in j2:
 			d = {}
 			d["_airedtime"] = entry["dachzeile"]
-			#d["_name"] = entry["dachzeile"] + ' - '
-			#d["_name"] += entry["ueberschrift"] + ' - '
-			d["_name"] = entry["ueberschrift"] + ' - '
+			d["name"] = '(' + d["_airedtime"] + ') ' + entry["ueberschrift"]
 			duration = 0
 			for j3 in entry["inhalte"]:
 				if runtimeToInt(j3["unterzeile"]) > duration:
 					duration = runtimeToInt(j3["unterzeile"])
-					d["_name"] += j3["ueberschrift"]
-					#d["_channel"] = j3["unterzeile"]
-					#d["_thumb"] = j3["bilder"][0]["schemaUrl"].replace("##width##","0")
-					d["_thumb"] = j3["bilder"][0]["schemaUrl"].replace("##width##","384")
+					d["plot"] = j3["ueberschrift"]
+					thumb = j3["bilder"][0]["schemaUrl"].replace("##width##","1024")
+					d["thumb"] = thumb.split("?")[0]
 					d["url"] = j3["link"]["url"]
 					d["documentId"] = j3["link"]["url"].split("player/")[1].split("?")[0]
 					d["_duration"] = str(runtimeToInt(j3["unterzeile"]))
-					#d["_pluginpath"] = pluginpath
-					d["_type"] = 'date'
+					d["_type"] = 'video'
 					d['mode'] = 'libArdPlay'
 			l.append(d)
 	return l
@@ -45,24 +42,38 @@ def parseAZ(letter='A'):
 	response = libMediathek.getUrl("http://www.ardmediathek.de/appdata/servlet/tv/sendungAbisZ?json")
 	j = json.loads(response)
 	j1 = j["sections"][0]["modCons"][0]["mods"][0]["inhalte"]
-	for entry in j1:
+	for entries in j1:
 		#if entry["ueberschrift"] == letter.upper():
 		if True:
-			for entry in entry["inhalte"]:
+			for entry in entries["inhalte"]:
 				d = {}
-				d["_name"] = entry["ueberschrift"].encode("utf-8")
-				d["_channel"] = entry["unterzeile"].encode("utf-8")
-				d["_entries"] = int(entry["dachzeile"].encode("utf-8").split(' ')[0])
-				#d["thumb"] = entry["bilder"][0]["schemaUrl"].replace("##width##","0").encode("utf-8")
-				d["_thumb"] = entry["bilder"][0]["schemaUrl"].replace("##width##","1920").encode("utf-8")
-				d["url"] = entry["link"]["url"].encode("utf-8")
+				ueberschrift = entry["ueberschrift"]
+				unterzeile = entry["unterzeile"]
+				dachzeile = entry["dachzeile"]
+				dachzeile = dachzeile.split(' ')[0]
+				thumb = entry["bilder"][0]["schemaUrl"].replace("##width##","1024")
+				thumb = thumb.split("?")[0]
+				url = entry["link"]["url"]
+
+				if sys.version_info[0] < 3: # for Python 2
+					ueberschrift = ueberschrift.encode('utf-8')
+					unterzeile = unterzeile.encode('utf-8')
+					dachzeile = dachzeile.encode('utf-8')
+					thumb = thumb.encode('utf-8')
+					url = url.encode('utf-8')
+
+				d["name"] = ueberschrift
+				d["plot"] = ueberschrift
+				d["_channel"] = unterzeile 
+				d["_entries"] = int(dachzeile)
+				d["thumb"] = thumb 
+				d["url"] = url
 				d['mode'] = 'libArdListVideos'
-				#d["documentId"] = entry["link"]["url"].split("documentId=")[1].split("&")[0]
-				#d["pluginpath"] = pluginpath
-				d["_type"] = 'shows'
+				d["_type"] = 'dir'
+
 				l.append(d)
-		
-		
+
+
 	return l
 	
 def parseVideos(url):
@@ -76,24 +87,32 @@ def parseVideos(url):
 	for j2 in j1["inhalte"]:
 		d = {}
 		if "ueberschrift" in j2:
-			d["_name"] = j2["ueberschrift"].encode("utf-8")
-			if 'Hörfassung' in d["_name"] or 'Audiodeskription' in d["_name"]:
-				d["_name"] = d["_name"].replace(' - Hörfassung','').replace(' - Audiodeskription','')
-				d["_name"] = d["_name"].replace(' (mit Hörfassung)','').replace(' (mit Audiodeskription)','')
-				d["_name"] = d["_name"].replace(' mit Hörfassung','').replace(' mit Audiodeskription','')
-				d["_name"] = d["_name"].replace(' (Hörfassung)','').replace(' (Audiodeskription)','')
-				d["_name"] = d["_name"].replace(' Hörfassung','').replace(' Audiodeskription','')
-				d["_name"] = d["_name"].replace('Hörfassung','').replace('Audiodeskription','')
-				d["_name"] = d["_name"].strip()
-				if d["_name"].endswith(' -'):
-					d["_name"] = d["_name"][:-2]
-				d["_name"] = d["_name"] + ' - Hörfassung'
+			ueberschrift = j2["ueberschrift"]
+			if sys.version_info[0] < 3: # for Python 2
+				ueberschrift = ueberschrift.encode('utf-8')
+			d["name"] = ueberschrift
+			d["plot"] = ueberschrift
+			if 'Hörfassung' in d["name"] or 'Audiodeskription' in d["name"]:
+				d["name"] = d["name"].replace(' - Hörfassung','').replace(' - Audiodeskription','')
+				d["name"] = d["name"].replace(' (mit Hörfassung)','').replace(' (mit Audiodeskription)','')
+				d["name"] = d["name"].replace(' mit Hörfassung','').replace(' mit Audiodeskription','')
+				d["name"] = d["name"].replace(' (Hörfassung)','').replace(' (Audiodeskription)','')
+				d["name"] = d["name"].replace(' Hörfassung','').replace(' Audiodeskription','')
+				d["name"] = d["name"].replace('Hörfassung','').replace('Audiodeskription','')
+				d["name"] = d["name"].strip()
+				if d["name"].endswith(' -'):
+					d["name"] = d["name"][:-2]
+				d["name"] = d["name"] + ' - Hörfassung'
 				d["_audioDesc"] = True
 				
 		if "unterzeile" in j2:
 			d["_duration"] = str(runtimeToInt(j2["unterzeile"]))
 		if "bilder" in j2:
-			d["_thumb"] = j2["bilder"][0]["schemaUrl"].replace("##width##","384").encode("utf-8")
+			thumb = j2["bilder"][0]["schemaUrl"].replace("##width##","1024")
+			thumb = thumb.split("?")[0]
+			if sys.version_info[0] < 3: # for Python 2
+				thumb = thumb.encode('utf-8')
+			d["thumb"] = thumb
 		if "teaserTyp" in j2:
 			if j2["teaserTyp"] == "PermanentLivestreamClip" or j2["teaserTyp"] == "PodcastClip":
 				continue
@@ -109,10 +128,18 @@ def parseVideos(url):
 				d['mode'] = 'libArdListVideos'
 				
 		if "link" in j2:
-			d["url"] = j2["link"]["url"].encode("utf-8")
-			d["documentId"] = j2["link"]["url"].split("/player/")[-1].split("?")[0].encode("utf-8")
+			url = j2["link"]["url"]
+			documentId = j2["link"]["url"].split("/player/")[-1].split("?")[0]
+			if sys.version_info[0] < 3: # for Python 2
+				url = url.encode('utf-8')
+				documentId = documentId.encode('utf-8')
+			d["url"] = url
+			d["documentId"] = documentId
 		if "dachzeile" in j2:
-			d["_releasedate"] = j2["dachzeile"].encode("utf-8")
+			dachzeile = j2["dachzeile"]
+			if sys.version_info[0] < 3: # for Python 2
+				dachzeile = dachzeile.encode('utf-8')
+			d["_releasedate"] = dachzeile
 		if 'ut' in j2['kennzeichen']:
 			d["_subtitle"] = True
 		if 'geo' in j2['kennzeichen']:

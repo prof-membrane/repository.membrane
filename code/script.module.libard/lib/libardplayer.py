@@ -7,6 +7,11 @@ import json
 import urllib
 import libmediathek3 as libMediathek
 
+if sys.version_info[0] < 3:
+	alt_str_type = unicode
+else:
+	alt_str_type = bytes
+
 videoQuality = 10000000000000000
 
 def getVideoUrl(url=False,videoID=False):
@@ -35,7 +40,7 @@ def fetchJsonVideo(id):
 	for mediaArray in j['_mediaArray']:
 		for mediaStreamArray in mediaArray['_mediaStreamArray']:
 			currentQuality = mediaStreamArray.get('_quality',-1);
-			if (isinstance(currentQuality,basestring)): 
+			if (isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type)): 
 				if (currentQuality == 'auto'):
 					currentQuality = sys.maxsize
 				else: 
