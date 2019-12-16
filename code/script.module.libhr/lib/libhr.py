@@ -116,8 +116,6 @@ def list():
 
 	global params
 	params = libMediathek.get_params()
-	global pluginhandle
-	pluginhandle = int(sys.argv[1])
 	# mode = params.get('mode','libHrListMain')
 	mode = params.get('mode','libHrListShows')
 	if mode == 'libHrPlay':

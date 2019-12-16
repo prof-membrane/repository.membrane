@@ -46,8 +46,6 @@ def libArtePlay():
 def list():
 	global params
 	params = libMediathek.get_params()
-	global pluginhandle
-	pluginhandle = int(sys.argv[1])
 	mode = params.get('mode','libArteListMain')
 	if mode == 'libArtePlay':
 		media = modes.get(mode)()

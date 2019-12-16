@@ -23,8 +23,6 @@ modes = {
 def list():	
 	global params
 	params = libMediathek.get_params()
-	global pluginhandle
-	pluginhandle = int(sys.argv[1])
 	mode = params.get('mode','main')
 	if mode.startswith('libZdf'):
 		libzdf.list()

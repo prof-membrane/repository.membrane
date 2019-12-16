@@ -66,8 +66,6 @@ def list():
 	}
 	global params
 	params = libMediathek.get_params()
-	global pluginhandle
-	pluginhandle = int(sys.argv[1])
 	mode = params.get('mode','libSrListMain')
 	if mode == 'libSrPlay':
 		libMediathek.play(libSrPlay())
