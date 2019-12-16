@@ -11,8 +11,9 @@ def getList(url,type,mode):
 def getDate(d,type,mode):
 	d = abs(int(d))
 	response = libMediathek.getUrl('http://swrmediathek.de/app-2/svp.html')
-	day = re.compile('<ul data-role="listview" data-theme="c" data-divider-theme="d">(.+?)</ul>', re.DOTALL).findall(response)[d]
-	return _findLiEntries(day,type,mode)[::-1]
+	l = re.compile('<ul data-role="listview" data-theme="c" data-divider-theme="d">(.+?)</ul>', re.DOTALL).findall(response)
+	return _findLiEntries(l[d],type,mode)[::-1] if l else l
+		
 	
 def _findLiEntries(response,type,mode):
 	items = re.compile('<li data-icon="false">(.+?)</li>', re.DOTALL).findall(response)
