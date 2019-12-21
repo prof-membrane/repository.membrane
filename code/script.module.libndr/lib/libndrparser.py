@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+import sys
 import libmediathek3 as libMediathek
 import re
-import urllib
+
+if sys.version_info[0] < 3: # for Python 2
+	from urllib import quote_plus
+else: # for Python 3
+	from urllib.parse import quote_plus
 
 baseUrl = 'http://ndr.de'
 	
@@ -80,7 +85,7 @@ def parseVideos(url):
 	return l
 	
 def getSearch(s):#TODO add pagination
-	url = 'https://www.ndr.de/suche10.html?query='+urllib.quote_plus(s)+'&search_mediathek=1&sort_by=relevance&range=unlimited&results_per_page=50' 
+	url = 'https://www.ndr.de/suche10.html?query=' + quote_plus(s) + '&search_mediathek=1&sort_by=relevance&range=unlimited&results_per_page=50' 
 	response = libMediathek.getUrl(url)
 	#s = response.split('<div class="type">')[1:]
 	result = re.compile('<section class="w100 list featuredlist searchresult">(.+?)</section>', re.DOTALL).findall(response)[0]
