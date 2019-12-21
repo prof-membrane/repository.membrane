@@ -181,11 +181,11 @@ voices = {
 }
 
 subtitles = {
-	'STE':  lambda: 1,                        # Subtitle Other
-	'STMF': lambda: 2 if lang_german else 4,  # Subtitle Mute Francaise
-	'STF':  lambda: 3 if lang_german else 5,  # Subtitle Francaise
-	'STMA': lambda: 4 if lang_german else 2,  # Subtitle Mute Allemande
-	'STA':  lambda: 5 if lang_german else 3,  # Subtitle Allemande
+	'STE':  lambda:-3,                        # Subtitle Other
+	'STMF': lambda:-2 if lang_german else 4,  # Subtitle Mute Francaise
+	'STF':  lambda:-1 if lang_german else 5,  # Subtitle Francaise
+	'STMA': lambda: 4 if lang_german else -2, # Subtitle Mute Allemande
+	'STA':  lambda: 5 if lang_german else -1, # Subtitle Allemande
 }
 
 def getVideoUrl(url):

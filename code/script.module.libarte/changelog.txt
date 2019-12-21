@@ -1,3 +1,5 @@
+1.0.14
+- Bei Sendungen in Originalsprache wurden fälschlicherweise fremdsprachige Untertitel angezeigt
 1.0.13
 - Sendungen nach Datum: Uhrzeit vor dem Titel
 1.0.12
