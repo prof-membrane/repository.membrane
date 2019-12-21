@@ -23,7 +23,7 @@ translation = libMediathek.getTranslation
 #http://www.daserste.de/dasersteapp/die-realistin-folge-60-100~full.json
 #http://www.daserste.de/dasersteapp/Folge-60-die-realistin-100~full.json
 
-	
+
 def libDasErsteListMain():
 	l = []
 	l.append({'name':translation(31032), 'mode':'libDasErsteListShows', '_type':'dir'})
@@ -31,23 +31,23 @@ def libDasErsteListMain():
 	l.append({'name':translation(31035), 'mode':'libDasErsteListCategories', '_type':'dir'})
 	l.append({'name':translation(31039), 'mode':'libDasErsteSearch', '_type':'dir'})
 	return l
-	
+
 def libDasErsteListShows():
 	return libDasErsteJsonParser.getAZ()
 
 def libDasErsteListCategories():
 	return libDasErsteJsonParser.getCategories()
-	
+
 def libDasErsteListVideos():
 	return libDasErsteJsonParser.getVideos(params['url'])
-	
+
 def libDasErsteListDate():
 	return libMediathek.populateDirDate('libDasErsteListDateVideos')
-	
+
 def libDasErsteListDateVideos():
 	datum = date.today() - timedelta(int(params['datum']))
 	return libDasErsteJsonParser.getDate(datum.strftime('%Y%m%d'))
-	
+
 def libDasErsteSearch():
 	search_string = libMediathek.getSearchString()
 	return libDasErsteListSearch(search_string) if search_string else None
@@ -56,16 +56,28 @@ def libDasErsteListSearch(searchString=False):
 	if not searchString:
 		searchString = params['searchString']
 	return libDasErsteJsonParser.getSearch(searchString)
-	
-def libDasErstePlay():
-	vid = libDasErsteJsonParser.getVideo(params['url'])
-	libMediathek.log(str(vid))
-	return vid
-	
 
-	
-def list():	
-	modes = {
+def libDasErstePlay():
+	return libDasErsteJsonParser.getVideo(params['url'])
+
+def list():
+	global params
+	params = libMediathek.get_params()
+	mode = params.get('mode','libDasErsteListMain')
+	if mode == 'libDasErstePlay':
+		media = modes.get(mode)()
+		if media is None:
+			return False
+		else:
+			libMediathek.play(media)
+	else:
+		l = modes.get(mode)()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()
+	return True
+
+modes = {
 	'libDasErsteListMain':		libDasErsteListMain,
 	'libDasErsteListShows':		libDasErsteListShows,
 	'libDasErsteListCategories':libDasErsteListCategories,
@@ -75,21 +87,12 @@ def list():
 	'libDasErsteSearch':		libDasErsteSearch,
 	'libDasErsteListSearch':	libDasErsteListSearch,
 	'libDasErstePlay':			libDasErstePlay,
-	}
-	views = {
+}
+
+views = {
 	'libDasErsteListShows': 'shows',
 	'libDasErsteListVideos': 'videos',
 	'libDasErsteListDate': 'videos',
 	'libDasErsteListDateVideos': 'videos',
-	'libDasErsteListSearch': 'videos'
-	}
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libDasErsteListMain')
-	if mode == 'libDasErstePlay':
-		libMediathek.play(libDasErstePlay())
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()	
+	'libDasErsteListSearch': 'videos',
+}
