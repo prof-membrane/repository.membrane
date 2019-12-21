@@ -20,12 +20,9 @@ def enrichEpg(l,date):
 			
 		plotS = plotS.replace('<br/><br/><br/>',' ').replace('<br/><br/>',' ').replace('<br/>',' ')
 		plotL = plotL.replace('<br/><br/><br/>','\n\n').replace('<br/><br/>','\n\n').replace('<br/>','\n')
-		libMediathek.log(plotS)
 		epg.append([time,plotL,plotS])
 	
-	libMediathek.log(str(epg))
 	for item in l:
-		libMediathek.log('###'+item['_plot'])
 		d = item
 		for epgTime,epgPlot,epgPlotShorted in epg:
 			if item['_plot'][:-5] in epgPlotShorted:
