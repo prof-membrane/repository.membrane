@@ -5,7 +5,6 @@ import libzdftokengrabber
 
 base = 'https://api.zdf.de'
 playerId = 'ngplayer_2_3'
-log = libMediathek.log
 
 #headerMenu   = {'Api-Auth': 'Bearer '+tokenMenu}
 #headerPlayer = {'Api-Auth': 'Bearer '+tokenPlayer}
@@ -36,7 +35,6 @@ def parsePage(url):
 		response = getU(url,True)
 	
 	j = json.loads(response)
-	libMediathek.log(response)
 	if   j['profile'] == 'http://zdf.de/rels/search/result':
 		return _parseSearch(j)
 	elif j['profile'] == 'http://zdf.de/rels/search/result-page':
@@ -48,7 +46,7 @@ def parsePage(url):
 	elif j['profile'] == 'http://zdf.de/rels/cmdm/resultpage-broadcasts':
 		return _parseBroadcast(j)
 	else:
-		log('Unknown profile: ' + j['profile'])
+		libMediathek.log('Unknown profile: ' + j['profile'])
 
 def getAZ(url='https://api.zdf.de/content/documents/sendungen-100.json?profile=default'):
 	#response = libMediathek.getUrl("https://api.zdf.de/content/documents/sendungen-100.json?profile=default",headerMenu)
@@ -86,6 +84,7 @@ def _parseSearchPage(j):
 		d = _grepItem(target)
 		if d:
 			l.append(d)
+	l.sort(key = lambda x: x['name'])
 	return l
 	
 def _parsePageIndex(j):
@@ -108,9 +107,6 @@ def _parseBroadcast(j):
 				#d['airedISO8601'] = broadcast['airtimeBegin']
 				if broadcast['effectiveAirtimeBegin'] != None:#TODO: find alternative for videos without this field
 					d['_airedISO8601'] = broadcast['effectiveAirtimeBegin']
-				else:
-					libMediathek.log('ommiting date: '+str(broadcast))
-					libMediathek.log(str(broadcast['livestream']))
 				d['_type'] = 'date'
 				l.append(d)
 	return l
@@ -120,9 +116,9 @@ def _grepItem(target):
 	if not ('contentType' in target): 
 		return False
 	d = {}
-	d['_name'] = target['teaserHeadline']
-	d['_plot'] = target['teasertext']
-	d['_thumb'] = _chooseImage(target['teaserImageRef'])
+	d['name'] = target['teaserHeadline']
+	d['plot'] = target['teasertext']
+	d['thumb'] = _chooseImage(target['teaserImageRef'])
 	#d['url'] = base + target['http://zdf.de/rels/brand']['http://zdf.de/rels/target']['canonical']
 	if target['contentType'] == 'brand' or target['contentType'] == 'category':
 		try:
@@ -163,16 +159,25 @@ def _grepItem(target):
 				if not (episode is None):
 					episodeNumber = episode.get('episodeNumber', None)
 					if not (episodeNumber is None):
-						d['_name'] = 'Folge ' + str(episodeNumber) + ' - ' + d['_name']
+						ep_nr = str(episodeNumber)
+						if len(ep_nr) == 1:
+							ep_nr = ' ' + ep_nr
+						d['name'] = 'Folge ' + ep_nr + ' - ' + d['name']
 					season = episode.get('http://zdf.de/rels/cmdm/season', None)
 					if not (season is None):
 						seasonTitle = season.get('seasonTitle', None)
 						if not (seasonTitle is None):  
-							d['_name'] = str(seasonTitle) + ' - ' + d['_name']
-							
-		except: d = False
+							d['name'] = str(seasonTitle) + ' - ' + d['name']
+			else:
+				brand = target.get('http://zdf.de/rels/brand',None)
+				if brand:
+					title = brand.get('title',None)
+					if title: 
+						d['name'] = title + ' - ' + d['name']  
+		except: 
+			d = False
 	else:
-		log('Unknown target type: ' + target['contentType'])
+		libMediathek.log('Unknown target type: ' + target['contentType'])
 		d = False
 	return d
 def _chooseImage(teaserImageRef,isVideo=False):
@@ -189,7 +194,6 @@ def getVideoUrlById(id):
 	url = base + '/content/documents/' + id + '.json?profile=player'
 	response = getU(url,True)
 	j = json.loads(response)
-	#libMediathek.log(response)
 	url = base + j['mainVideoContent']['http://zdf.de/rels/target']['http://zdf.de/rels/streams/ptmd-template'].replace('{playerId}',playerId)
 	return getVideoUrl(url)
 	
@@ -198,7 +202,6 @@ def getVideoUrl(url):
 	d['media'] = []
 	#response = libMediathek.getUrl(url,headerPlayer)
 	response = getU(url,False)
-	#libMediathek.log(response)
 	j = json.loads(response)
 	for caption in j.get('captions',[]):
 		if caption['format'] == 'ebu-tt-d-basic-de':

@@ -30,28 +30,41 @@ def libZdfListMain():
 	l.append({'_name':translation(31034), 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
 	l.append({'_name':translation(31039), 'mode':'libZdfSearch',   '_type': 'dir'})
 	return l
-	
+
 def libZdfListShows():
 	libMediathek.sortAZ()
 	if 'url' in params:
 		return libZdfJsonParser.getAZ(params['url'])
 	else:
 		return libZdfJsonParser.getAZ()
-	
+
 def libZdfListPage():
 	return libZdfJsonParser.parsePage(params['url'])
-	
+
 def libZdfListVideos():
 	return libZdfJsonParser.getVideos(params['url'])
 
+def getMetadata(result):
+	if result:
+		metadata = {}
+		for key in ['name', 'plot', 'thumb']:
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
+
 def libZdfPlay():
-	return libZdfJsonParser.getVideoUrl(params['url'])
-	
+	result = libZdfJsonParser.getVideoUrl(params['url'])
+	result = getMetadata(result)
+	return result
+
 def libZdfPlayById():
-	#https://api.zdf.de/content/documents/know-how-biathlon-104.json?profile=player
-	return libZdfJsonParser.getVideoUrlById(params['id'])
-	return libZdfJsonParser.getVideoUrl(params['url'])
-	
+	result = libZdfJsonParser.getVideoUrlById(params['id'])
+	result = getMetadata(result)
+	return result
+
 def libZdfListChannel():
 	l = []
 	for channel in channels:
@@ -65,7 +78,7 @@ def libZdfListChannel():
 
 def libZdfListChannelDate():
 	return libMediathek.populateDirDate('libZdfListChannelDateVideos',params['channel'])
-	
+
 def libZdfListChannelDateVideos():
 	if 'datum' in params:
 		datum = params['datum']
@@ -78,7 +91,7 @@ def libZdfListChannelDateVideos():
 	params['url'] = 'https://api.zdf.de/cmdm/epg/broadcasts?from='+yyyymmdd+'T00%3A00%3A00%2B02%3A00&to='+yyyymmdd+'T23%3A59%3A59%2B02%3A00&limit=500&profile=teaser&tvServices='+params['channel']
 
 	return libZdfListPage()
-	
+
 def libZdfSearch():
 	search_string = libMediathek.getSearchString()
 	if (search_string):
@@ -86,34 +99,28 @@ def libZdfSearch():
 		return libZdfListPage()
 	else:
 		return None
-		
+
 def libZdfGetVideoHtml(url):
 	import re
 	response = libMediathek.getUrl(url)
 	return libZdfJsonParser.getVideoUrl(re.compile('"contentUrl": "(.+?)"', re.DOTALL).findall(response)[0])
 
-def list():	
+def list():
 	global params
 	params = libMediathek.get_params()
 	mode = params.get('mode','libZdfListMain')
-	if mode == 'libZdfPlay':
-		libMediathek.play(libZdfPlay())
-	elif mode == 'libZdfPlayById':
-		libMediathek.play(libZdfPlayById())
-		
+	if mode == 'libZdfPlay' or mode == 'libZdfPlayById':
+		libMediathek.play(modes.get(mode)())
 	else:
-		l = modes.get(mode,libZdfListMain)()
+		l = modes.get(mode)()
 		if not (l is None):
 			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()	
-	
+			libMediathek.endOfDirectory()
+
 modes = {
 	'libZdfListMain':libZdfListMain,
 	'libZdfListShows':libZdfListShows,
 	'libZdfListVideos':libZdfListVideos,
-	#'libZdfListDate':libZdfListDate,
-	#'libZdfListDateChannels':libZdfListDateChannels,
-	
 	'libZdfListChannel':libZdfListChannel,
 	'libZdfListChannelDate':libZdfListChannelDate,
 	'libZdfListChannelDateVideos':libZdfListChannelDateVideos,
@@ -121,4 +128,4 @@ modes = {
 	'libZdfListPage':libZdfListPage,
 	'libZdfPlay':libZdfPlay,
 	'libZdfPlayById':libZdfPlayById,
-	}	
+}

@@ -1,3 +1,6 @@
+2.1.14
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Kleinere Änderungen beim Zusammenbauen des Titelnamens
 2.1.13
 - Sendungen nach A-Z: wenn möglich wird bei Serien Staffel und Folge an den Titelanfang geschrieben
 2.1.12

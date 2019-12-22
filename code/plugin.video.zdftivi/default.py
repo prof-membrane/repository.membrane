@@ -19,8 +19,8 @@ def main():
 modes = {
 'main': main,
 }
-	
-def list():	
+
+def list():
 	global params
 	params = libMediathek.get_params()
 	mode = params.get('mode','main')
@@ -29,5 +29,5 @@ def list():
 	else:
 		l = modes.get(mode)()
 		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
+		libMediathek.endOfDirectory()
 list()
