@@ -1,14 +1,18 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
-import xbmc
+import sys
 import re
-import libmediathek3utils as utils
+import xbmc
 import xbmcaddon
-import HTMLParser
 import xbmcvfs
+import libmediathek3utils as utils
 
-subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/ttml.srt').decode('utf-8')
+subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/ttml.srt')
+
+if sys.version_info[0] < 3: # for Python 2
+	from HTMLParser import HTMLParser
+	subFile = subFile.decode('utf-8')
+else: # for Python 3
+	from html.parser import HTMLParser
 
 def ttml2Srt(url):
 	return _newSubtitle(url)
@@ -62,7 +66,7 @@ def _newSubtitle(url):
 						part = part.replace('</span>','</font>')
 					else:
 						part = part.replace('<'+entry+'>','')
-				
+
 
 				buffer += str(i) + '\n'
 				buffer += begin+" --> "+end+"\n"
@@ -127,7 +131,7 @@ def _newSubtitle(url):
 						part = part.replace('</tt:span>','</font>')
 					else:
 						part = part.replace('<'+entry+'>','')
-				
+
 
 				buffer += str(i) + '\n'
 				buffer += begin+" --> "+end+"\n"
@@ -154,11 +158,14 @@ def _stylesSetup(styles):
 
 def _cleanTitle(title,html=True):
 	if html:
-		title = HTMLParser.HTMLParser().unescape(title)
-		return title.encode("utf-8")
+		title = HTMLParser().unescape(title)
+		if sys.version_info[0] < 3: # for Python 2
+			if isinstance(title, unicode):
+				title = title.encode('utf-8')
+		return title
 	else:
-		title = title.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
-		title = title.replace("&Auml;", "Ä").replace("&Uuml;", "Ü").replace("&Ouml;", "Ö").replace("&auml;", "ä").replace("&uuml;", "ü").replace("&ouml;", "ö").replace("&eacute;", "é").replace("&egrave;", "è")
-		title = title.replace("&#x00c4;","Ä").replace("&#x00e4;","ä").replace("&#x00d6;","Ö").replace("&#x00f6;","ö").replace("&#x00dc;","Ü").replace("&#x00fc;","ü").replace("&#x00df;","ß")
+		title = title.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ÃŸ").replace("&ndash;", "-")
+		title = title.replace("&Auml;", "Ã„").replace("&Uuml;", "Ãœ").replace("&Ouml;", "Ã–").replace("&auml;", "Ã¤").replace("&uuml;", "Ã¼").replace("&ouml;", "Ã¶").replace("&eacute;", "Ã©").replace("&egrave;", "Ã¨")
+		title = title.replace("&#x00c4;","Ã„").replace("&#x00e4;","Ã¤").replace("&#x00d6;","Ã–").replace("&#x00f6;","Ã¶").replace("&#x00dc;","Ãœ").replace("&#x00fc;","Ã¼").replace("&#x00df;","ÃŸ")
 		title = title.replace("&apos;","'").strip()
 		return title

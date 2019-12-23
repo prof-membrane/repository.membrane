@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
-import urllib
-import urllib2
-import socket
 import sys
 import xbmc
 import xbmcplugin
 import xbmcgui
 import xbmcaddon
-import xbmcvfs
-import re
 from datetime import datetime,timedelta
 import time
 
 from libmediathek3utils import clearString
 from libmediathek3utils import getTranslation as translation
+
+if sys.version_info[0] < 3: # for Python 2
+	from urllib import quote_plus, unquote_plus
+else: # for Python 3
+	from urllib.parse import quote_plus, unquote_plus
 
 icon = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
 fanart = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
@@ -24,43 +24,43 @@ def sortAZ():
 def addEntries(l):
 	lists = []
 	doneList = []
-	
+
 	for d in l:
 		if str(d) in doneList:#primitive methode to filter duplicated entries
 			continue
 		doneList.append(str(d))
-		
+
 		if '_overridepath' in d:
 			u = d['_overridepath']
 		else:
 			u = _buildUri(d)
 		newd = {}
 		for key in d:
-			if key.startswith('_'):
+			if sys.version_info[0] < 3: # for Python 2
 				if isinstance(d[key], unicode):
 					d[key] = d[key].encode('utf-8', 'ignore')
+			if key.startswith('_'):
 				newd[key[1:]] = d[key]
-			elif isinstance(d[key], unicode):
-				newd[key] = d[key].encode('utf-8', 'ignore')
 			else:
 				newd[key] = d[key]
 		d = newd
-		
+
 		if 'type' in d and d['type'] == 'nextPage':
 			d['name'] = translation(31040)
 			if not 'mode' in d:
 				d['mode'] = get_params()['mode']
-		if isinstance(d["name"], unicode):
-			d["name"] = d["name"].encode('utf-8')
+		if sys.version_info[0] < 3: # for Python 2
+			if isinstance(d["name"], unicode):
+				d["name"] = d["name"].encode('utf-8')
 		d["name"] = clearString(d["name"])
 		if 'airedISO8601' in d or 'airedISO8601A' in d:
 			d['aired'],d['airedtime'] = _airedISO8601(d)
-			
+
 		if 'type' in d and d['type'] == 'date' and 'airedtime' in d:
 			d["name"] = '(' + str(d["airedtime"]) + ') ' + d["name"]
 		elif 'type' in d and d['type'] == 'date' and 'time' in d:
 			d["name"] = '(' + str(d["date"]) + ') ' + d["name"]
-			
+
 		ilabels = {
 			"Title": clearString(d.get('name','')),
 			"Plot": clearString(d.get('plot','')),
@@ -70,13 +70,13 @@ def addEntries(l):
 			"Aired": d.get('aired',''),
 			"Studio": d.get('channel',''),
 			}
-		if 'epoch' in d: 
+		if 'epoch' in d:
 			ilabels['aired'] = time.strftime("%Y-%m-%d", time.gmtime(float(d['epoch'])))
-		if 'episode' in d: 
+		if 'episode' in d:
 			ilabels['Episode'] = d['episode']
-		if 'Season' in d: 
+		if 'Season' in d:
 			ilabels['Season'] = d['season']
-		if 'tvshowtitle' in d: 
+		if 'tvshowtitle' in d:
 			ilabels['tvshowtitle'] = d['tvshowtitle']
 			ilabels['tagline'] = d['tvshowtitle']
 			ilabels['album'] = d['tvshowtitle']
@@ -91,7 +91,7 @@ def addEntries(l):
 				ilabels['mediatype'] = 'episode'
 			else:
 				ilabels['mediatype'] = 'video'
-				
+
 		ok=True
 		liz=xbmcgui.ListItem(clearString(d.get('name','')))
 		if d['type'] == 'audio':
@@ -106,18 +106,18 @@ def addEntries(l):
 		art['fanart'] = d.get('fanart',d.get('thumb',fanart))
 		art['icon'] = d.get('channelLogo','')
 		liz.setArt(art)
-		
+
 		if 'customprops' in d:
 			for prop in d['customprops']:
 				liz.setProperty(prop, d['customprops'][prop])
-				
+
 		if d.get('type',None) == 'video' or d.get('type',None) == 'live' or d.get('type',None) == 'date' or d.get('type',None) == 'clip' or d.get('type',None) == 'episode' or d.get('type',None) == 'audio':
 			#xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="episodes" )
 			liz.setProperty('IsPlayable', 'true')
 			lists.append([u,liz,False])
 		else:
 			lists.append([u,liz,True])
-		
+
 
 	if len(l) > 0:
 		type = l[0]['_type']
@@ -127,26 +127,27 @@ def addEntries(l):
 			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="tvshows" )
 		else:
 			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="files" )
-			
+
 	xbmcplugin.addDirectoryItems(int(sys.argv[1]), lists)
-	
+
 def endOfDirectory():
-	xbmcplugin.endOfDirectory(int(sys.argv[1]),cacheToDisc=True)	
+	xbmcplugin.endOfDirectory(int(sys.argv[1]),cacheToDisc=True)
 
 def _buildUri(d):
 	u = d.get('pluginpath',sys.argv[0])+'?'
 	i = 0
 	for key in d.keys():
 		if not key.startswith('_'):
+			value = d[key]
+			if sys.version_info[0] < 3: # for Python 2
+				if isinstance(value, unicode):
+					value = value.encode('utf-8')
 			if i > 0:
-				u += '&'
-			try:
-				u += key + '=' + urllib.quote_plus(d[key])
-			except:
-				u += key + '=' + urllib.quote_plus(d[key].encode('utf-8'))
+				u = u + '&'
+			u = u + key + '=' + quote_plus(value)
 			i += 1
 	return u
-	
+
 def _airedISO8601(d):
 	iso = d['airedISO8601']
 	try:
@@ -162,8 +163,8 @@ def _airedISO8601(d):
 	#else:
 	#	tempdate -= delta
 	return tempdate.strftime('%Y-%m-%d'), tempdate.strftime('%H:%M')
-	
-	
+
+
 def get_params():
 	param={}
 	paramstring=sys.argv[2]
@@ -178,6 +179,6 @@ def get_params():
 			splitparams={}
 			splitparams=pairsofparams[i].split('=')
 			if (len(splitparams))==2:
-				param[splitparams[0]]= urllib.unquote_plus(splitparams[1])
+				param[splitparams[0]]= unquote_plus(splitparams[1])
 
 	return param

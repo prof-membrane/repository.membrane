@@ -1,26 +1,30 @@
 # -*- coding: utf-8 -*-
-import urllib
-import urllib2
+import sys
 import socket
+import gzip
+import pickle
 import xbmc
 import xbmcplugin
 import xbmcaddon
 import xbmcvfs
-import re
-import sys
-from StringIO import StringIO
-import gzip
-import cookielib
-import pickle
-temp = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'temp').decode('utf-8')
-dict = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'dict.py').decode('utf-8')
+
+temp = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'temp')
+dict = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'dict.py')
 
 socket.setdefaulttimeout(30)
 
-try:
-    from urllib.request import Request, urlopen, build_opener, BaseHandler
-except ImportError:
-    from urllib2 import Request, urlopen, build_opener, BaseHandler
+if sys.version_info[0] < 3: # for Python 2
+	from StringIO import StringIO
+	from cookielib import CookieJar
+	from urllib2 import Request, urlopen, build_opener, HTTPCookieProcessor
+	from urllib import quote_plus
+	temp = temp.decode('utf-8')
+	dict = dict.decode('utf-8')
+else: # for Python 3
+	from io import BytesIO
+	from http.cookiejar import CookieJar
+	from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
+	from urllib.parse import quote_plus
 
 
 def log(msg):
@@ -28,7 +32,7 @@ def log(msg):
 
 def getTranslation(id,addonid='script.module.libmediathek3'):
 	return xbmcaddon.Addon(id=addonid).getLocalizedString(id)
-	
+
 def getUrl(url,headers=False,post=False,cookies=False):
 	log(url)
 	return _request(url,headers,post,cookies)
@@ -38,11 +42,14 @@ def getUrl(url,headers=False,post=False,cookies=False):
 		return _request(url,headers,post,cookies)
 def _request(url,headers,post,cookies):
 	log(url)
+	url = quote_plus(url,safe='%/:?=&')
 	if post:
-		req = urllib2.Request(url,post)
+		if sys.version_info[0] >= 3: # for Python 3
+			post = post.encode('utf-8')
+		req = Request(url,post)
 		log('########POST!')
 	else:
-		req = urllib2.Request(url)
+		req = Request(url)
 	if headers:
 		for key in headers:
 			req.add_header(key, headers[key])
@@ -51,50 +58,50 @@ def _request(url,headers,post,cookies):
 	else:
 		req.add_header('User-Agent', 'Mozilla/5.0 (Windows NT 6.1; rv:25.0) Gecko/20100101 Firefox/25.0')
 		req.add_header('Accept-Encoding','gzip, deflate')
-		
-		
-		
-		
-		
+
 	if cookies:
-		cj = cookielib.CookieJar()
+		cj = CookieJar()
 		log(pathUserdata(''))
 		log(pathUserdata('cookies.txt'))
 		if not f_exists(pathUserdata('')):
 			f_mkdir(pathUserdata(''))
 		if f_exists(pathUserdata('cookies.txt')):
-			c = pickle.loads(f_open(pathUserdata('cookies.txt')))
-			for cookie in c:
-				cj.set_cookie(cookie)
-		opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-		#response = urllib2.urlopen(req)
+			cookies_txt = f_open(pathUserdata('cookies.txt'))
+			if cookies_txt: 
+				if sys.version_info[0] >= 3: # for Python 3
+					if isinstance(cookies_txt, str): 
+						cookies_txt = cookies_txt.encode('utf-8')
+				c = pickle.loads(cookies_txt)
+				for cookie in c:
+					cj.set_cookie(cookie)
+		opener = build_opener(HTTPCookieProcessor(cj))
 		response = opener.open(req)
-		
+
 		c = []
 		for cookie in cj:
 			log(str(cookie))
 			c.append(cookie)
 		log(str(cj))
-			
+
 		f_write(pathUserdata('cookies.txt'),pickle.dumps(c))
 		#cj.save(cookiefile)
 	else:
-		response = urllib2.urlopen(req)
-		
-		
-		
-		
-		
-	#response = urllib2.urlopen(req)
+		response = urlopen(req)
+
 	compressed = response.info().get('Content-Encoding') == 'gzip'
 	link = response.read()
 	response.close()
 	if compressed:
-		buf = StringIO(link)
+		if sys.version_info[0] < 3:
+			buf = StringIO(link)
+		else:
+			buf = BytesIO(link)
 		f = gzip.GzipFile(fileobj=buf)
 		link = f.read()
+	if sys.version_info[0] >= 3: # for Python 3
+ 	 	link = link.decode('utf-8')
 	return link
-	
+
 
 def clearString(s):
 	s = s.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
@@ -105,17 +112,17 @@ def clearString(s):
 	s = s.replace("&#43;","\"")
 	s = s.strip()
 	return s
-	
+
 def pathUserdata(path):
 	special = xbmcaddon.Addon().getAddonInfo('profile')+path
 	special = special.replace('//','/').replace('special:/','special://')
 	return special
-	
+
 def pathAddon(path):
 	special = xbmc.validatePath(xbmcaddon.Addon().getAddonInfo('path').replace('\\','/')+path.replace('\\','/'))
 	special = special.replace('//','/').replace('special:/','special://')
 	return special
-	
+
 def f_open(path):
 	try:
 		f = xbmcvfs.File(path)
@@ -137,7 +144,7 @@ def f_write(path,data):
 
 def f_remove(path):
 	return xbmcvfs.delete(path)
-	
+
 def f_exists(path):
 	exists = xbmcvfs.exists(path)
 	if exists == 0:
@@ -146,10 +153,10 @@ def f_exists(path):
 		return False
 	else:
 		return True
-	
+
 def f_mkdir(path):
 	return xbmcvfs.mkdir(path)
-	
+
 def searchWorkaroundWrite(searchword):
 	f_write(pathUserdata('/search.lock'),searchword)
 def searchWorkaroundRead():
@@ -162,7 +169,7 @@ def searchWorkaroundRemove():
 
 def setSetting(k,v):
 	return xbmcplugin.setSetting(int(sys.argv[1]), k, v)
-	
+
 def getSetting(k):
 	return xbmcplugin.getSetting(int(sys.argv[1]), id=k)
 	

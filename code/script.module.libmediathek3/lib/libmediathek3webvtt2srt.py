@@ -1,14 +1,13 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-import os
+import sys
 import xbmc
-import re
-import libmediathek3utils as utils
 import xbmcaddon
-import HTMLParser
 import xbmcvfs
+import libmediathek3utils as utils
 
-subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/webvtt.srt').decode('utf-8')
+subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/webvtt.srt')
+if sys.version_info[0] < 3: # for Python 2
+	subFile = subFile.decode('utf-8')
 
 bracketLookup = {
 	'<c.textWhite>':	'<font color="#ffffff">',

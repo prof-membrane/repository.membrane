@@ -1,4 +1,6 @@
-﻿1.5.10
+﻿1.5.11
+- Unterstützung für Python3
+1.5.10
 - Französische Sprach-Ressourcen hinzugefügt
 1.5.9
 - Wochentage- und Monatsnamen-Strings werden jetzt aus Kodi-Ressourcen gelesen

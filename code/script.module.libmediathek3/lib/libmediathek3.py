@@ -1,17 +1,16 @@
 # -*- coding: utf-8 -*-
-
+import sys
 import xbmc
 import xbmcgui
 import xbmcplugin
-import xbmcaddon
-import sys
 
 from libmediathek3utils import *
 from libmediathek3listing import *
 from libmediathek3ttml2srt import *
 from libmediathek3premadedirs import *
 from libmediathek3dialogs import *
-	
+from libmediathek3webvtt2srt import *
+
 #translation = xbmcaddon.Addon(id='script.module.libmediathek3').getLocalizedString
 """
 prefererdLang = ['de','en','fr']
@@ -104,8 +103,7 @@ def play(d,external=False):
 				subFile = ttml2Srt(subtitle['url'])
 				subs.append(subFile)
 			elif subtitle['type'] == 'webvtt':
-				import libmediathek3webvtt2srt 
-				subFile = libmediathek3webvtt2srt.webvtt2Srt(subtitle['url'])
+				subFile = webvtt2Srt(subtitle['url'])
 				subs.append(subFile)
 			else:
 				log('Subtitle format not supported: ' + subtitle['type'])
