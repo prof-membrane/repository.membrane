@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon id="plugin.video.zdftivi" name="ZDF Tivi" version="1.0.1" provider-name="68000a">
     <requires>
-		<import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libmediathek3" version="1.4.0"/>
-		<import addon="script.module.libzdf" version="2.1.14"/>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.libmediathek3" version="1.5.11"/>
+        <import addon="script.module.libzdf" version="2.1.14"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-		<language>de</language>
-		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <language>de</language>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
     </extension>
 </addon>

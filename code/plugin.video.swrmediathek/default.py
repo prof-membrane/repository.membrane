@@ -4,8 +4,6 @@ import xbmcgui
 import libmediathek3 as libMediathek
 import platform
 
-# libswr.list()
-
 libMediathek.endOfDirectory()
 dialog = xbmcgui.Dialog()
 title = 'SWR Mediathek'

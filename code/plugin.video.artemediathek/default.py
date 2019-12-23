@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-import xbmc
 import xbmcgui
 import libmediathek3 as libMediathek
 import libarte
@@ -11,6 +10,10 @@ if libarte.list() == False:
 	dialog.ok(title, text)
 
 """
+
+import xbmc
+import xbmcgui
+import libmediathek3 as libMediathek
 
 libMediathek.endOfDirectory()
 dialog = xbmcgui.Dialog()

@@ -1,10 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
-import xbmc
 import xbmcgui
 import libmediathek3 as libMediathek
-from libbr import list
+import libbr
 
-if list() == False:
+if libbr.list() == False:
 	dialog = xbmcgui.Dialog()
 	title = 'BR Mediathek'
 	text = libMediathek.getTranslation(31043)

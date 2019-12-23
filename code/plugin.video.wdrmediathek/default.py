@@ -1,5 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-import xbmc
 import xbmcgui
 import libmediathek3 as libMediathek
 import libwdr

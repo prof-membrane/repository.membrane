@@ -2,16 +2,16 @@
 <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.3" provider-name="68000a">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libzdf" version="2.1.14"/>
+        <import addon="script.module.libzdf" version="2.1.14"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-		<language>de</language>
-		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-		<source>https://github.com/prof-membrane/plugin.video.zdfmediathek</source>
+        <language>de</language>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <source>https://github.com/prof-membrane/plugin.video.zdfmediathek</source>
         <summary lang="en">Watch videos on demand from the ZDF Mediathek.</summary>
         <description lang="en">Watch videos on demand from the ZDF Mediathek.</description>
         <summary lang="de">Videos aus der Mediathek des ZDF</summary>

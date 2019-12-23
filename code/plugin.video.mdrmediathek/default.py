@@ -4,8 +4,6 @@ import xbmcgui
 import libmediathek3 as libMediathek
 import platform
 
-# libmdr.list()
-
 libMediathek.endOfDirectory()
 dialog = xbmcgui.Dialog()
 title = 'MDR Mediathek'

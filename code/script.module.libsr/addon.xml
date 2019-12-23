@@ -2,7 +2,7 @@
 <addon id="script.module.libsr" name="libsr" version="2.0.3" provider-name="68000a">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
-    <import addon="script.module.libmediathek3" version="1.4.0"/>
+    <import addon="script.module.libmediathek3" version="1.5.11"/>
   </requires>
   <extension point="xbmc.python.module" library="lib" />
   <extension point="xbmc.addon.metadata">

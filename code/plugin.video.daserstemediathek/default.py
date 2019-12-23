@@ -1,9 +1,9 @@
 ﻿# -*- coding: utf-8 -*-
 import xbmcgui
 import libmediathek3 as libMediathek
-from libdaserste import list
+import libdaserste
 
-if list() == False:
+if libdaserste.list() == False:
 	dialog = xbmcgui.Dialog()
 	title = 'Das Erste Mediathek'
 	text = libMediathek.getTranslation(31043)
