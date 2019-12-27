@@ -59,7 +59,10 @@ def _newSubtitle(url):
 					if entry.startswith('span'):
 						if 'style' in entry:
 							style = re.compile('style="(.+?)"').findall(entry)[0]
-							part = part.replace('<'+entry+'>','<font color="'+d[style]+'">')
+							if isinstance(d.get(style,None),str):
+								part = part.replace('<'+entry+'>','<font color="'+d[style]+'">')
+							else:
+								part = part.replace('<'+entry+'>','')
 						else:
 							part = part.replace('<'+entry+'>','')
 					elif entry.startswith('/span'):

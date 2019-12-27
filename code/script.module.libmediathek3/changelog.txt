@@ -1,4 +1,6 @@
-﻿1.5.11
+﻿1.5.12
+- Untertitelte Sendungen konnten u.U. nicht abgespielt werden
+1.5.11
 - Unterstützung für Python3
 1.5.10
 - Französische Sprach-Ressourcen hinzugefügt
