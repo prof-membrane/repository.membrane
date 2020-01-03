@@ -3,6 +3,11 @@ import sys
 import json
 import libmediathek3 as libMediathek
 
+if sys.version_info[0] < 3: # for Python 2
+	from HTMLParser import HTMLParser
+else: # for Python 3
+	from html.parser import HTMLParser
+
 pluginpath = 'plugin://script.module.libArd/'
 
 def parse(url):
@@ -24,7 +29,7 @@ def parseDate(url):
 			for j3 in entry["inhalte"]:
 				if runtimeToInt(j3["unterzeile"]) > duration:
 					duration = runtimeToInt(j3["unterzeile"])
-					d["plot"] = j3["ueberschrift"]
+					d["plot"] = HTMLParser().unescape(j3["ueberschrift"])
 					thumb = j3["bilder"][0]["schemaUrl"].replace("##width##","1024")
 					d["thumb"] = thumb.split("?")[0]
 					d["url"] = j3["link"]["url"]
@@ -63,7 +68,7 @@ def parseAZ(letter='A'):
 					url = url.encode('utf-8')
 
 				d["name"] = ueberschrift
-				d["plot"] = ueberschrift
+				d["plot"] = HTMLParser().unescape(ueberschrift)
 				d["_channel"] = unterzeile 
 				d["_entries"] = int(dachzeile)
 				d["thumb"] = thumb 
@@ -91,7 +96,7 @@ def parseVideos(url):
 			if sys.version_info[0] < 3: # for Python 2
 				ueberschrift = ueberschrift.encode('utf-8')
 			d["name"] = ueberschrift
-			d["plot"] = ueberschrift
+			d["plot"] = HTMLParser().unescape(ueberschrift)
 			if 'Hörfassung' in d["name"] or 'Audiodeskription' in d["name"]:
 				d["name"] = d["name"].replace(' - Hörfassung','').replace(' - Audiodeskription','')
 				d["name"] = d["name"].replace(' (mit Hörfassung)','').replace(' (mit Audiodeskription)','')
