@@ -72,7 +72,7 @@ def parseAZ(letter='A'):
 					url = url.encode('utf-8')
 
 				d["name"] = ueberschrift
-				d["plot"] = htmlParser.unescape(ueberschrift)
+				d["plot"] = ueberschrift
 				d["_channel"] = unterzeile
 				d["_entries"] = int(dachzeile)
 				d["thumb"] = thumb
