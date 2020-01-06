@@ -9,6 +9,11 @@ import libardjsonparser as libArdJsonParser
 
 import libmediathek3 as libMediathek
 
+if sys.version_info[0] < 3: # for Python 2
+	from urllib import quote_plus
+else: # for Python 3
+	from urllib.parse import quote_plus
+
 
 def getNew():
 	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true')
@@ -17,11 +22,11 @@ def getMostViewed():
 	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Meistabgerufene-Videos/mehr?documentId=21282514&m23644322=quelle.tv&rss=true')
 
 def getSearch(search_string,page=0):
-	return libardlisting.listVideos('http://www.ardmediathek.de/suche?searchText='+search_string.replace(" ", "+"))
+	return libArdJsonParser.parseSearch('http://www.ardmediathek.de/ard/search/'+search_string)
 
 def getPage(url,page=1):
 	return listing.listRSS(url,page)
-	
+
 def getVideosJson(url,page = '1'):
 	return libArdJsonParser.parseVideos(url)
 
@@ -30,7 +35,7 @@ def getVideosXml(videoId):
 
 def parser(data):
 	return rssparser.parser(data)
-	
+
 translation = libMediathek.getTranslation
 
 channels = {
@@ -54,7 +59,7 @@ channels = {
 			  'SWR Baden-Württemberg':'5904',
 			  'tagesschau24':'5878',
 			  'WDR':'5902',}
-			  
+
 def libArdListMain():
 	l = []
 	#l.append({'name':translation(31030), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true', '_type':'dir'})
@@ -64,23 +69,23 @@ def libArdListMain():
 	l.append({'name':translation(31033), 'mode':'libArdListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
 	l.append({'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
-	#l.append({'name':translation(31039), 'mode':'libArdSearch', '_type':'dir'})
+	l.append({'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
 	return l
-	
+
 def libArdListVideos():
 	return getVideosJson(params['url'])#,page)
-		
+
 def libArdListVideosSinglePage():
 	page = params.get('page','1')
 	items,nextPage = libardlisting.listRSS(params['url'],page)
 	return items
-	
+
 def libArdListLetters():
 	return libMediathek.populateDirAZ('libArdListShows',[])
-	
+
 def libArdListShows():
 	return libArdJsonParser.parseAZ()
-	
+
 def libArdListChannel():
 	l = []
 	for channel in channels:
@@ -90,30 +95,20 @@ def libArdListChannel():
 		d['channel'] = channel
 		d['mode'] = 'libArdListChannelDate'
 		l.append(d)
-		
 	return l
-	
+
 def libArdListChannelDate():
 	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
-	
+
 def libArdListChannelDateVideos():
 	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[params['channel']]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
-	
-def libArdSearch():
-	search_string = libMediathek.getSearchString()
-	libArdListSearch(search_string)
-		
 
-def libArdListSearch(searchString):
-	list = getSearch(searchString)
-	for d in list:
-		d['mode'] = 'libArdPlay'
-		d['type'] = 'video'
-		libMediathek.addEntry(d)
-	
-def libArdPlay():
-	result =  libardplayer.getVideoUrl(videoID = params['documentId'])
+def libArdListSearch():
+	search_string = libMediathek.getSearchString(do_quote=False)
+	return getSearch(search_string) if search_string else None
+
+def getMetadata(result):
 	if result:
 		metadata = {}
 		for key in ['name', 'plot', 'thumb']:
@@ -124,17 +119,33 @@ def libArdPlay():
 			result['metadata'] = metadata
 	return result
 
+def libArdPlayClassic():
+	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
+	result = getMetadata(result)
+	return result
+
+def libArdPlayNeu():
+	result = libArdJsonParser.getVideoUrlNeu(params['url'])
+	result = getMetadata(result)
+	return result
+
 def list():
 	global params
 	params = libMediathek.get_params()
 	mode = params.get('mode','libArdListMain')
-	if mode == 'libArdPlay':
-		libMediathek.play(libArdPlay())
+	if mode in ['libArdPlayClassic', 'libArdPlayNeu']:
+		media = modes.get(mode)()
+		if media is None:
+			return False
+		else:
+			libMediathek.play(media)
 	else:
-		l = modes.get(mode,libArdListMain)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()	
-	
+		l = modes.get(mode)()
+		if not (l is None):
+			libMediathek.addEntries(l)
+			libMediathek.endOfDirectory()
+	return True
+
 modes = {
 	'libArdListMain':libArdListMain,
 	'libArdListVideos':libArdListVideos,
@@ -144,7 +155,7 @@ modes = {
 	'libArdListChannel':libArdListChannel,
 	'libArdListChannelDate':libArdListChannelDate,
 	'libArdListChannelDateVideos':libArdListChannelDateVideos,
-	'libArdSearch':libArdSearch,
 	'libArdListSearch':libArdListSearch,
-	'libArdPlay':libArdPlay,
-	}
+	'libArdPlayClassic':libArdPlayClassic,
+	'libArdPlayNeu':libArdPlayNeu,
+}

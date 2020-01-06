@@ -11,7 +11,7 @@ if sys.version_info[0] < 3: # for Python 2
 else: # for Python 3
 	from html.parser import HTMLParser
 
-h = HTMLParser()
+htmlParser = HTMLParser()
 useThumbAsFanart = True
 baseUrl = "http://www.ardmediathek.de"
 defaultThumb = baseUrl+"/ard/static/pics/default/16_9/default_webM_16_9.jpg"
@@ -32,7 +32,6 @@ def listRSS(url,page=0):
 			return data,True
 		else:
 			return data,False
-		
 
 def getAZ(letter):
 	if letter == '#':
@@ -41,10 +40,10 @@ def getAZ(letter):
 	if letter == 'X' or letter == 'Y':
 		return l
 	content = libMediathek.getUrl(baseUrl+"/tv/sendungen-a-z?buchstabe="+letter)
-	
+
 	#r = requests.get(baseUrl+"/tv/sendungen-a-z?buchstabe="+letter)
 	#content = r.text.decode('utf-8')
-	
+
 	spl = content.split('<div class="teaser" data-ctrl')
 	for i in range(1, len(spl), 1):
 		d = {}
@@ -64,7 +63,7 @@ def getAZ(letter):
 		d["mode"] = "libArdListVideos"
 		l.append(d)
 	return l
-	
+
 def getVideosXml(videoId):
 	l = []
 	content = libMediathek.getUrl(baseUrl+'/ard/servlet/export/collection/collectionId='+videoId+'/index.xml')
@@ -81,10 +80,7 @@ def getVideosXml(videoId):
 			id = re.compile(' id="(.+?)"', re.DOTALL).findall(clip)[0]
 			l.append([name, id, thumb, length])
 	return l
-	
 
-	
-	
 def listDate(url):
 	l =[]
 	response = libMediathek.getUrl(url)
@@ -116,22 +112,22 @@ def listDate(url):
 			d['_thumb'] = 'http://www.ardmediathek.de/ard/servlet'+thumb+'0'
 			d['_plot'] = plot
 			d['url'] = baseUrl+url.replace('&amp;','&')
-			name = d['_name'] 
+			name = d['_name']
 			if sys.version_info[0] < 3: # for Python 2
 				name = name.decode('utf-8')
-			name = h.unescape(name)
+			name = htmlParser.unescape(name)
 			if sys.version_info[0] < 3: # for Python 2
 				name  = name .encode('utf-8')
-			d['_name'] = name 
+			d['_name'] = name
 			url = d['url']
 			if sys.version_info[0] < 3: # for Python 2
 				url = url.encode('utf-8')
 			d['documentId'] = url.split("documentId=")[-1]
-			d['mode'] = 'libArdPlay'
+			d['mode'] = 'libArdPlayClassic'
 			d['_type'] = 'date'
 			l.append(d)
-	return l	
-	
+	return l
+
 def listVideos(url,page=1):
 	l =[]
 	content = libMediathek.getUrl(url)
@@ -141,11 +137,11 @@ def listVideos(url,page=1):
 		entry = spl[i]
 		d["url"] = baseUrl + re.compile('<a href="(.+?)" class="mediaLink">', re.DOTALL).findall(entry)[0].replace("&amp;","&")
 		d["name"] = cleanTitle(re.compile('class="headline">(.+?)<', re.DOTALL).findall(entry)[0])
-		
+
 		match = re.compile('class="dachzeile">(.+?)<', re.DOTALL).findall(entry)
 		if match:
 			d["showname"] = match[0]
-		
+
 		match = re.compile('<p class="subtitle">(.+?)</p>', re.DOTALL).findall(entry)
 		if match:
 			subtitle = match[0].split(" | ")
@@ -157,18 +153,17 @@ def listVideos(url,page=1):
 			if len(subtitle) > 3:
 				if subtitle[3] == "UT":
 					d["subtitle"] = True
-			
-		
+
+
 		match = re.compile('/image/(.+?)/16x9/', re.DOTALL).findall(entry)
 		if match:
 			d['thumb'] = baseUrl+"/image/"+match[0]+"/16x9/448"
 		d["type"] = 'video'
-		d['mode'] = 'libArdPlay'
+		d['mode'] = 'libArdPlayClassic'
 		d["documentId"] = d["url"].split("documentId=")[-1]
 		l.append(d)
-		
+
 	return l
-	
 
 def cleanTitle(title):
 	title = title.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
@@ -176,4 +171,3 @@ def cleanTitle(title):
 	title = title.replace("&#x00c4;","Ä").replace("&#x00e4;","ä").replace("&#x00d6;","Ö").replace("&#x00f6;","ö").replace("&#x00dc;","Ü").replace("&#x00fc;","ü").replace("&#x00df;","ß")
 	title = title.replace("&apos;","'").strip()
 	return title
-	

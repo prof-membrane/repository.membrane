@@ -14,7 +14,7 @@ else:
 
 videoQuality = 10000000000000000
 
-def getVideoUrl(url=False,videoID=False):
+def getVideoUrlClassic(url=False,videoID=False):
 	if not videoID:
 		videoID = url.split('documentId=')[1]
 		if '&' in videoID:
@@ -40,10 +40,10 @@ def fetchJsonVideo(id):
 	for mediaArray in j['_mediaArray']:
 		for mediaStreamArray in mediaArray['_mediaStreamArray']:
 			currentQuality = mediaStreamArray.get('_quality',-1);
-			if (isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type)): 
+			if (isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type)):
 				if (currentQuality == 'auto'):
 					currentQuality = sys.maxsize
-				else: 
+				else:
 					currentQuality = -1
 			if currentQuality > quality:
 				if isinstance(mediaStreamArray['_stream'],list):
@@ -71,7 +71,7 @@ def fetchTvaVideo(id):
 	#	if programURL.endswith('.mp3'):
 	#		return programURL
 	#except: pass
-	
+
 	match = re.compile('<tva:OnDemandProgram>(.+?)</tva:OnDemandProgram>', re.DOTALL).findall(xml)
 	finalUrl = False
 	qualityHLS = 0
@@ -118,15 +118,16 @@ def ndrPodcastHack(url):
 		if url.startswith('http://media.ndr.de/download/podcasts/'):
 			#http://media.ndr.de/download/podcasts/minuten805/TV-20160115-1405-2242.h264.mp4
 			#http://hls.ndr.de/i/ndr/2016/0115/TV-20160115-1405-2242.,lo,hi,hq,hd,.mp4.csmil/master.m3u8
-			
+
 			uri = url.split('/')[-1]
 			YYYYMMDD = uri.split('-')[1]
 			YYYY = YYYYMMDD[:4]
 			MMDD = YYYYMMDD[4:]
-			
+
 			return 'http://hls.ndr.de/i/ndr/' + YYYY + '/' + MMDD + '/' + uri.replace('.h264.mp4','.,lo,hi,hq,hd,.mp4.csmil/master.m3u8')
 	except: pass
 	return url
+
 def dwHack(url):
 	try:
 		if url.startswith('http://tv-download.dw.de'):

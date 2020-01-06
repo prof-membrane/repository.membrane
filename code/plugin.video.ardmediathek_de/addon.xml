@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.ardmediathek_de" name="ARD Mediathek" version="5.1.1" provider-name="68000a">
+<addon id="plugin.video.ardmediathek_de" name="ARD Mediathek" version="5.1.2" provider-name="68000a">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libard" version="5.1.2"/>
+        <import addon="script.module.libard" version="5.1.7"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-		<language>de</language>
-		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-		<source>https://github.com/prof-membrane/plugin.video.ardmediathek_de</source>
+        <language>de</language>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <source>https://github.com/prof-membrane/plugin.video.ardmediathek_de</source>
         <summary lang="en">Watch videos on demand from the ARD Mediathek.</summary>
         <description lang="en">Watch videos on demand from the ARD Mediathek.</description>
         <summary lang="de">Videos aus der Mediathek des ARD.</summary>

@@ -25,7 +25,7 @@ def parser(data):
 		infos = re.compile('&lt;p&gt;(.*?)&lt;/p&gt;', re.DOTALL).findall(description)
 		if len(infos) >= 4:
 			d = {}
-			
+
 			if infos[1] == '' or infos[1].endswith('...') and len(infos[1]) < len(title):
 				plot = title +'\n\n'+ infos[2]
 			else:
@@ -49,7 +49,7 @@ def parser(data):
 						d['duration'] = str(runtime)
 				channel = part[1:]#ugly
 			if runtime > 0:
-				
+
 				bcastId = link.split('bcastId=')[1]
 				if '&' in bcastId:
 					bcastId = bcastId.split('&')[0]
@@ -68,12 +68,10 @@ def parser(data):
 				d['_plot'] = plot
 				d['_channel'] = channel
 				d['_type'] = 'video'
-				d['mode'] = 'libArdPlay'
+				d['mode'] = 'libArdPlayClassic'
 				l.append(d)
-			
 	return l
 
-	
 def cleanTitle(title):
 	title = title.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
 	title = title.replace("&Auml;", "Ä").replace("&Uuml;", "Ü").replace("&Ouml;", "Ö").replace("&auml;", "ä").replace("&uuml;", "ü").replace("&ouml;", "ö").replace("&eacute;", "é").replace("&egrave;", "è")
@@ -89,6 +87,5 @@ def runtimeToInt(runtime):
 			return int(HHMM[0])*60
 		else:
 			return int(HHMM[0])*60 + int(HHMM[1])
-	except: 
+	except:
 		return False
-		
