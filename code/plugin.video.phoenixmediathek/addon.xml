@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.1" provider-name="68000a">
+<addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.2" provider-name="68000a">
     <requires>
-		<import addon="xbmc.python" version="2.25.0"/>
-		<import addon="script.module.libmediathek3" version="1.5.11"/>
-		<import addon="script.module.mediathekxmlservice" version="1.1.0"/>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.libmediathek3" version="1.5.12"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
     </extension>
     <extension point="xbmc.addon.metadata">
         <platform>all</platform>
-		<license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-		<source>https://github.com/prof-membrane/plugin.video.phoenixmediathek</source>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <source>https://github.com/prof-membrane/plugin.video.phoenixmediathek</source>
         <summary lang="en">This video add-on provides access to videos of the German broadcaster Phoenix.</summary>
         <description lang="en">This video add-on provides access to videos of the German broadcaster Phoenix.</description>
         <summary lang="de">Die Phoenix Mediathek bietet Zugriff auf Talks, Interviews und weiterer Beiträge.</summary>

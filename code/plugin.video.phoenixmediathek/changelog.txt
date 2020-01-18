@@ -1,3 +1,5 @@
+2.0.2
+- Abhängigkeit zu mediathekxmlservice entfernt
 2.0.1
 - Die Auswahl eines beliebigen Unterordners schlug fehl.
   Im Kodi-Log erschien eine Meldung der Art "KeyError: 'thumbnail_large'"
