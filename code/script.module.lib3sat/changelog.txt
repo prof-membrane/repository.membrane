@@ -1,6 +1,8 @@
+1.2.6
+- Abhängigkeit zu mediathekxmlservice entfernt
 1.2.5
-- Beim HinzufÃ¼gen zu Favoriten gingen die Metadaten verloren
-- Kleinere Anpassungen fÃ¼r Python3
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Kleinere Anpassungen für Python3
 1.2.4
 - Performance-Verbesserungen, Umstellung von BeautifulSoup3 auf BeautifulSoup4
 1.2.3
@@ -9,7 +11,7 @@
 - Behoben: Abbruch der Suche lieferte eine leere Trefferliste
 1.2.1
 - Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
-- Liste "Sendungen nach Datum" : Datum zusÃ¤tzlich zum Wochentag
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
 1.2.0
 - Version bump
 1.1.0
