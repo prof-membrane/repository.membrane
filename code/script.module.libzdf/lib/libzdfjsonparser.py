@@ -27,12 +27,7 @@ def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 	return header
 
 def parsePage(url):
-	if url.startswith('https://api.zdf.de/search/documents'):
-		#response = libMediathek.getUrl(url,headerMenu)
-		response = getU(url,True)
-	else:
-		#response = libMediathek.getUrl(url,headerMenu)
-		response = getU(url,True)
+	response = getU(url,True)
 	
 	j = json.loads(response)
 	if   j['profile'] == 'http://zdf.de/rels/search/result':
@@ -154,20 +149,27 @@ def _grepItem(target):
 			d['mode'] = 'libZdfPlay'
 			
 			programmeItem = target.get('programmeItem', None)
-			if not (programmeItem is None) and isinstance(programmeItem, list) and len(programmeItem) > 0:
+			if isinstance(programmeItem, list) and len(programmeItem) > 0:
 				episode = programmeItem[0].get('http://zdf.de/rels/target', None)
-				if not (episode is None):
+				if episode:
 					episodeNumber = episode.get('episodeNumber', None)
-					if not (episodeNumber is None):
+					if episodeNumber:
 						ep_nr = str(episodeNumber)
 						if len(ep_nr) == 1:
 							ep_nr = ' ' + ep_nr
 						d['name'] = 'Folge ' + ep_nr + ' - ' + d['name']
 					season = episode.get('http://zdf.de/rels/cmdm/season', None)
-					if not (season is None):
+					if season:
 						seasonTitle = season.get('seasonTitle', None)
-						if not (seasonTitle is None):  
+						if seasonTitle:  
 							d['name'] = str(seasonTitle) + ' - ' + d['name']
+						series = season.get('http://zdf.de/rels/cmdm/series',None)
+						if series:  
+							brand = series.get('http://zdf.de/rels/cmdm/brand',None)
+							if brand:
+								brandName = brand.get('brandName', None)
+								if brandName:
+									d['name'] = brandName + ' - ' + d['name']
 			else:
 				brand = target.get('http://zdf.de/rels/brand',None)
 				if brand:

@@ -1,3 +1,5 @@
+2.1.15
+- Sendungen nach A-Z: wenn möglich wird bei Serien der Serienname an den Titelanfang geschrieben
 2.1.14
 - Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
 - Kleinere Änderungen beim Zusammenbauen des Titelnamens
