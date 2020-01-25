@@ -2,31 +2,26 @@
 import libmediathek3 as libMediathek
 import resources.lib.jsonparser as jsonParser
 
-def main():
-	return jsonParser.parseMain()
-	
-def listVideos():
-	return jsonParser.parseVideos(params['id'])
-	
-def play():
-	return jsonParser.getVideoUrl(params['smubl'])
-
-
-modes = {
-'main': main,
-'listVideos': listVideos,
-'play': play
-}	
+params = libMediathek.get_params() 
 
 def list():	
-	global params
-	params = libMediathek.get_params()
-	
-	mode = params.get('mode','main')
-	if mode == 'play':
-		libMediathek.play(play())
-	else:
-		l = modes.get(mode)()
-		libMediathek.addEntries(l)
-		libMediathek.endOfDirectory()
+	libMediathek.list(modes, 'main', 'play')
+
+def main():
+	return jsonParser.parseMain()
+
+def listVideos():
+	return jsonParser.parseVideos(params['id'])
+
+def play():
+	result = jsonParser.getVideoUrl(params['smubl'])
+	result = libMediathek.getMetadata(result)
+	return result
+
+modes = {
+	'main': main,
+	'listVideos': listVideos,
+	'play': play
+}	
+
 list()

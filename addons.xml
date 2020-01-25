@@ -125,7 +125,7 @@
     <addon id="plugin.video.kikamediathek" name="KiKa Mediathek" version="2.0.2" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libkika" version="2.0.3"/>
+            <import addon="script.module.libkika" version="2.0.4"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -185,10 +185,10 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.2" provider-name="68000a">
+    <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.3" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.12"/>
+            <import addon="script.module.libmediathek3" version="1.5.14"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -208,7 +208,7 @@
     <addon id="plugin.video.srmediathek" name="SR Mediathek" version="2.0.2" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libsr" version="2.0.3"/>
+            <import addon="script.module.libsr" version="2.0.4"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -392,10 +392,10 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libkika" name="libkika" version="2.0.3" provider-name="68000a">
+    <addon id="script.module.libkika" name="libkika" version="2.0.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.12"/>
+            <import addon="script.module.libmediathek3" version="1.5.14"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
@@ -407,7 +407,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.13" provider-name="68000a">
+    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.14" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
         </requires>
@@ -434,10 +434,10 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libsr" name="libsr" version="2.0.3" provider-name="68000a">
+    <addon id="script.module.libsr" name="libsr" version="2.0.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.12"/>
+            <import addon="script.module.libmediathek3" version="1.5.14"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">

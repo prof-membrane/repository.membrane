@@ -6,6 +6,7 @@ import xbmcgui
 import xbmcaddon
 from datetime import datetime,timedelta
 import time
+import libmediathek3
 
 from libmediathek3utils import clearString
 from libmediathek3utils import getTranslation as translation
@@ -118,7 +119,6 @@ def addEntries(l):
 		else:
 			lists.append([u,liz,True])
 
-
 	if len(l) > 0:
 		type = l[0]['_type']
 		if type == 'video' or type == 'live' or type == 'date' or type == 'clip' or type == 'episode':
@@ -164,21 +164,52 @@ def _airedISO8601(d):
 	#	tempdate -= delta
 	return tempdate.strftime('%Y-%m-%d'), tempdate.strftime('%H:%M')
 
+def getMetadata(result):
+	if result:
+		metadata = {}
+		params = get_params()
+		for key in ('name', 'plot', 'thumb'):
+			value = params.get(key, None)
+			if value:
+				metadata[key] = value
+		if metadata:
+			result['metadata'] = metadata
+	return result
+
+def list(modes, defaultMode, *playModes):
+	if playModes: # must contain at least one item	 
+		mode = get_params().get('mode', defaultMode)
+		fn = modes.get(mode, None)
+		if fn:
+			res = fn() 	 
+			if mode in playModes:
+				if res is None:
+					return False # item not playable
+				else:
+					libmediathek3.play(res)
+			else:
+				if not (res is None):
+					addEntries(res)
+					endOfDirectory()
+			return True # OK
+	return None # invalid use of function
+
+
+params = None
 
 def get_params():
-	param={}
-	paramstring=sys.argv[2]
-	if len(paramstring)>=2:
-		params=sys.argv[2]
-		cleanedparams=params.replace('?','')
-		if (params[len(params)-1]=='/'):
-			params=params[0:len(params)-2]
-		pairsofparams=cleanedparams.split('&')
-		param={}
-		for i in range(len(pairsofparams)):
-			splitparams={}
-			splitparams=pairsofparams[i].split('=')
-			if (len(splitparams))==2:
-				param[splitparams[0]]= unquote_plus(splitparams[1])
-
-	return param
+	global params
+	if params is None: 
+		params = {}
+		paramstring = sys.argv[2]
+		if len(paramstring) >= 2:
+			if paramstring[len(paramstring)-1] == '/':
+				paramstring = paramstring[:-1]
+			cleanedparams = paramstring.replace('?','')
+			pairsofparams = cleanedparams.split('&')
+			for i in range(len(pairsofparams)):
+				splitparams = {}
+				splitparams = pairsofparams[i].split('=')
+				if len(splitparams) == 2:
+					params[splitparams[0]] = unquote_plus(splitparams[1])
+	return params

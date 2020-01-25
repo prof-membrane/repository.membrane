@@ -4,6 +4,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 
+import libmediathek3debug
 from libmediathek3utils import *
 from libmediathek3listing import *
 from libmediathek3ttml2srt import *
@@ -88,11 +89,11 @@ def play(d,external=False):
 			url = _chooseBitrate(d['media'])
 	else:
 		url = _chooseBitrate(d['media'])
-	"""	
-			
+	"""
+
 	#listitem = xbmcgui.ListItem(path=url)
-	listitem,url = _chooseBitrate(d['media'])	
-	
+	listitem,url = _chooseBitrate(d['media'])
+
 	i = 0
 	if 'subtitle' in d:
 		subs = []
@@ -108,7 +109,7 @@ def play(d,external=False):
 			else:
 				log('Subtitle format not supported: ' + subtitle['type'])
 		listitem.setSubtitles(subs)
-	
+
 	if 'metadata' in d:
 		ilabels = {}
 		if 'plot' in d['metadata']:
@@ -116,17 +117,17 @@ def play(d,external=False):
 		if 'name' in d['metadata']:
 			ilabels['Title'] = d['metadata']['name']
 		listitem.setInfo( type="Video", infoLabels=ilabels)
-		
+
 		art = {}
 		if 'thumb' in d['metadata']:
 			art['thumb'] = d['metadata']['thumb']
 		listitem.setArt(art)
-		
+
 	if 'header' in d['media']:
 		#listitem.setProperty('media_headers',d['media']['header'])
 		#listitem.setProperty('inputstream.adaptive.media_headers',d['media']['header'])
 		listitem.setProperty('inputstream.adaptive.stream_headers',d['media']['header'])
-	
+
 	if external:
 		xbmc.Player().play(url, listitem)
 	else:

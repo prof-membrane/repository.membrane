@@ -1,4 +1,6 @@
-﻿1.5.13
+﻿1.5.14
+- Funktionen list() und getMetadata() zentralisiert
+1.5.13
 - Kleine Anpassung für die Neuimplementierung der Suche in der ARD-Mediathek
 1.5.12
 - Untertitelte Sendungen konnten u.U. nicht abgespielt werden

@@ -1,3 +1,5 @@
+2.0.4
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
 2.0.3
 - fallback mechanism for KiKa stream selection
 2.0.2
