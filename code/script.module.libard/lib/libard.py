@@ -38,27 +38,26 @@ def parser(data):
 
 translation = libMediathek.getTranslation
 
-channels = {
-			  'ARD-alpha':'5868',
-			  'BR':'2224',
-			  #['Einsfestival', :'673348' ],
-			  #['EinsPlus',     :'4178842'],
-			  'Das Erste':'208',
-			  'HR':'5884',
-			  'MDR':'5882',
-			  'MDR Thüringen':'1386988',
-			  'MDR Sachsen':'1386804',
-			  'MDR Sachsen-Anhalt':'1386898',
-			  'NDR Fernsehen':'5906',
-			  'One':'673348',
-			  'RB':'5898',
-			  'RBB':'5874',
-			  'SR':'5870',
-			  'SWR Fernsehen':'5310',
-			  'SWR Rheinland-Pfalz':'5872',
-			  'SWR Baden-Württemberg':'5904',
-			  'tagesschau24':'5878',
-			  'WDR':'5902',}
+channels = [
+	('ARD-alpha','5868'),
+	('BR','2224'),
+	('Das Erste','208'),
+	('HR','5884'),
+	('MDR','5882'),
+	('MDR / Sachsen','1386804'),
+	('MDR / Sachsen-Anhalt','1386898'),
+	('MDR / Thüringen','1386988'),
+	('NDR / Fernsehen','5906'),
+	('One','673348'),
+	('RB','5898'),
+	('RBB','5874'),
+	('SR','5870'),
+	('SWR','5310'),
+	('SWR / Baden-Württemberg','5904'),
+	('SWR / Rheinland-Pfalz','5872'),
+	('Tagesschau24','5878'),
+	('WDR','5902'),
+]
 
 def libArdListMain():
 	l = []
@@ -88,11 +87,11 @@ def libArdListShows():
 
 def libArdListChannel():
 	l = []
-	for channel in channels:
+	for i, channel in enumerate(channels):
 		d = {}
-		d['_name'] = channel
+		d['_name'] = channel[0]
 		d['_type'] = 'dir'
-		d['channel'] = channel
+		d['channel'] = str(i)
 		d['mode'] = 'libArdListChannelDate'
 		l.append(d)
 	return l
@@ -101,7 +100,7 @@ def libArdListChannelDate():
 	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
 
 def libArdListChannelDateVideos():
-	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[params['channel']]+'&tag='+params['datum']
+	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[int(params['channel'])][1]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
 
 def libArdListSearch():
