@@ -47,7 +47,7 @@ channels = [
 	('MDR / Sachsen','1386804'),
 	('MDR / Sachsen-Anhalt','1386898'),
 	('MDR / Thüringen','1386988'),
-	('NDR / Fernsehen','5906'),
+	('NDR','5906'),
 	('One','673348'),
 	('RB','5898'),
 	('RBB','5874'),
