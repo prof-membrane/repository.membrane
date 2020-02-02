@@ -1,7 +1,6 @@
-5.1.10
-- Sendersortierung nochmals korrigiert
-5.1.9
+5.1.11
 - Sendersortierung korrigiert
+- Funktionen list() und getMetadata() zentralisiert
 5.1.8
 - Sendungen nach A-Z funktioniert wieder
 5.1.7

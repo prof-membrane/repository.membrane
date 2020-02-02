@@ -14,6 +14,11 @@ if sys.version_info[0] < 3: # for Python 2
 else: # for Python 3
 	from urllib.parse import quote_plus
 
+translation = libMediathek.getTranslation
+params = libMediathek.get_params() 
+
+def list():
+	return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayNeu')
 
 def getNew():
 	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true')
@@ -35,8 +40,6 @@ def getVideosXml(videoId):
 
 def parser(data):
 	return rssparser.parser(data)
-
-translation = libMediathek.getTranslation
 
 channels = [
 	('ARD-alpha','5868'),
@@ -107,43 +110,15 @@ def libArdListSearch():
 	search_string = libMediathek.getSearchString(do_quote=False)
 	return getSearch(search_string) if search_string else None
 
-def getMetadata(result):
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
-	return result
-
 def libArdPlayClassic():
 	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
 
 def libArdPlayNeu():
 	result = libArdJsonParser.getVideoUrlNeu(params['url'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
-
-def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libArdListMain')
-	if mode in ['libArdPlayClassic', 'libArdPlayNeu']:
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
-	return True
 
 modes = {
 	'libArdListMain':libArdListMain,
