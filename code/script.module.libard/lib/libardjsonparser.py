@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
 import json
@@ -11,7 +12,6 @@ else: # for Python 3
 	from html.parser import HTMLParser
 
 htmlParser = HTMLParser()
-pluginpath = 'plugin://script.module.libArd/'
 baseUrl = 'http://www.ardmediathek.de/ard/player/'
 
 def parse(url):
@@ -159,7 +159,6 @@ def parseVideos(url):
 			d['_mpaa'] = 'FSK16'
 		if 'fsk18' in j2['kennzeichen']:
 			d['_mpaa'] = 'FSK18'
-		#d["_pluginpath"] = pluginpath
 
 
 		l.append(d)
