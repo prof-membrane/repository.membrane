@@ -1,3 +1,6 @@
+5.1.12
+- Umlautproblem behoben: htmlParser.unescape() akzeptiert nur ASCII-Strings
+- Vorbereitung für neue ARD-Mediathek
 5.1.11
 - Sendersortierung korrigiert
 - Funktionen list() und getMetadata() zentralisiert

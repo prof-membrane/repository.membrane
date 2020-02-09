@@ -1,9 +1,9 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
 from datetime import date, timedelta
 
-import libardlisting
-import libardrssparser
+import libardneu
 import libardplayer
 import libardjsonparser as libArdJsonParser
 
@@ -18,28 +18,8 @@ translation = libMediathek.getTranslation
 params = libMediathek.get_params() 
 
 def list():
+	# return libardneu.list()
 	return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayNeu')
-
-def getNew():
-	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true')
-
-def getMostViewed():
-	return libardlisting.listRSS('http://www.ardmediathek.de/tv/Meistabgerufene-Videos/mehr?documentId=21282514&m23644322=quelle.tv&rss=true')
-
-def getSearch(search_string,page=0):
-	return libArdJsonParser.parseSearch('http://www.ardmediathek.de/ard/search/'+search_string)
-
-def getPage(url,page=1):
-	return listing.listRSS(url,page)
-
-def getVideosJson(url,page = '1'):
-	return libArdJsonParser.parseVideos(url)
-
-def getVideosXml(videoId):
-	return listing.getVideosXml(videoId)
-
-def parser(data):
-	return rssparser.parser(data)
 
 channels = [
 	('ARD-alpha','5868'),
@@ -64,9 +44,6 @@ channels = [
 
 def libArdListMain():
 	l = []
-	#l.append({'name':translation(31030), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Neueste-Videos/mehr?documentId=21282466&rss=true', '_type':'dir'})
-	#l.append({'name':translation(31031), 'mode':'libArdListVideosSinglePage', 'url':'http://www.ardmediathek.de/tv/Meistabgerufene-Videos/mehr?documentId=21282514&m23644322=quelle.tv&rss=true', '_type':'dir'})
-	#l.append({'name':translation(31032), 'mode':'libArdListLetters', '_type':'dir'})
 	l.append({'name':translation(31032), 'mode':'libArdListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libArdListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
@@ -75,15 +52,7 @@ def libArdListMain():
 	return l
 
 def libArdListVideos():
-	return getVideosJson(params['url'])#,page)
-
-def libArdListVideosSinglePage():
-	page = params.get('page','1')
-	items,nextPage = libardlisting.listRSS(params['url'],page)
-	return items
-
-def libArdListLetters():
-	return libMediathek.populateDirAZ('libArdListShows',[])
+	return libArdJsonParser.parseVideos(params['url'])
 
 def libArdListShows():
 	return libArdJsonParser.parseAZ()
@@ -106,30 +75,19 @@ def libArdListChannelDateVideos():
 	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[int(params['channel'])][1]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
 
-def libArdListSearch():
-	search_string = libMediathek.getSearchString(do_quote=False)
-	return getSearch(search_string) if search_string else None
-
 def libArdPlayClassic():
 	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
 	result = libMediathek.getMetadata(result)
 	return result
 
-def libArdPlayNeu():
-	result = libArdJsonParser.getVideoUrlNeu(params['url'])
-	result = libMediathek.getMetadata(result)
-	return result
-
 modes = {
-	'libArdListMain':libArdListMain,
-	'libArdListVideos':libArdListVideos,
-	'libArdListVideosSinglePage':libArdListVideosSinglePage,
-	'libArdListLetters':libArdListLetters,
-	'libArdListShows':libArdListShows,
-	'libArdListChannel':libArdListChannel,
-	'libArdListChannelDate':libArdListChannelDate,
-	'libArdListChannelDateVideos':libArdListChannelDateVideos,
-	'libArdListSearch':libArdListSearch,
-	'libArdPlayClassic':libArdPlayClassic,
-	'libArdPlayNeu':libArdPlayNeu,
+	'libArdListMain': libArdListMain,
+	'libArdListVideos': libArdListVideos,
+	'libArdListShows': libArdListShows,
+	'libArdListChannel': libArdListChannel,
+	'libArdListChannelDate': libArdListChannelDate,
+	'libArdListChannelDateVideos': libArdListChannelDateVideos,
+	'libArdListSearch': libardneu.libArdListSearch,
+	'libArdPlayClassic': libArdPlayClassic,
+	'libArdPlayNeu': libardneu.libArdPlayNeu,
 }

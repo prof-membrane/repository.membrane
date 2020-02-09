@@ -33,7 +33,11 @@ def parseDate(url):
 			for j3 in entry["inhalte"]:
 				if runtimeToInt(j3["unterzeile"]) > duration:
 					duration = runtimeToInt(j3["unterzeile"])
-					d["plot"] = htmlParser.unescape(j3["ueberschrift"])
+					ueberschrift = j3["ueberschrift"]
+					try:
+						d["plot"] = htmlParser.unescape(ueberschrift)
+					except UnicodeDecodeError:
+						d["plot"] = ueberschrift
 					thumb = j3["bilder"][0]["schemaUrl"].replace("##width##","1024")
 					d["thumb"] = thumb.split("?")[0]
 					d["url"] = j3["link"]["url"]
@@ -98,7 +102,10 @@ def parseVideos(url):
 			if sys.version_info[0] < 3: # for Python 2
 				ueberschrift = ueberschrift.encode('utf-8')
 			d["name"] = ueberschrift
-			d["plot"] = htmlParser.unescape(ueberschrift)
+			try:
+				d["plot"] = htmlParser.unescape(ueberschrift)
+			except UnicodeDecodeError:
+				d["plot"] = ueberschrift
 			if 'Hörfassung' in d["name"] or 'Audiodeskription' in d["name"]:
 				d["name"] = d["name"].replace(' - Hörfassung','').replace(' - Audiodeskription','')
 				d["name"] = d["name"].replace(' (mit Hörfassung)','').replace(' (mit Audiodeskription)','')
