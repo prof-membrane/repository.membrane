@@ -3,13 +3,15 @@ import sys
 import xbmc
 from datetime import date, timedelta
 
-def populateDirAZ(mode,ignore=[]):
+def populateDirAZ(mode,ignore=[],channel=None):
 	l = []
 	if not '#' in ignore:
 		d = {}
 		d['mode'] = mode
 		d['name'] = "#"
 		d['_type'] = 'dir'
+		if channel:
+			d['channel'] = channel
 		l.append(d)
 	if sys.version_info[0] < 3: # for Python 2
 		r = xrange(ord('a'), ord('z')+1)
@@ -23,6 +25,8 @@ def populateDirAZ(mode,ignore=[]):
 			letter = letter.upper()
 			d['name'] = letter
 			d['_type'] = 'dir'
+			if channel:
+				d['channel'] = channel
 			l.append(d)
 	return l
 
