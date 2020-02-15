@@ -11,7 +11,7 @@ from datetime import date, datetime, timedelta
 
 
 pluginhandle = int(sys.argv[1])
-lang_german  = (xbmcplugin.getSetting(pluginhandle,'lang') in ['de','0','',None])
+lang_german  = xbmcplugin.getSetting(pluginhandle,'lang') in ('de','0','',None)
 current_lang = 'de' if lang_german else 'fr'
 
 opa_url = 'https://api.arte.tv/api/opa/v3'
@@ -104,7 +104,7 @@ def getCollection(url):
 		)
 		topic_json = json.loads(subresponse)
 		program = topic_json['programs'][0]
-		if program['title'] in ['**', '', None]:
+		if program['title'] in ('**', '', None):
 			break
 		d = {}
 		d['name'] = program['title']
