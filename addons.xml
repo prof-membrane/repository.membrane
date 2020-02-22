@@ -58,10 +58,10 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.brmediathek" name="BR Mediathek" version="1.1.4" provider-name="68000a">
+    <addon id="plugin.video.brmediathek" name="BR Mediathek" version="1.1.5" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libbr" version="2.0.8"/>
+            <import addon="script.module.libbr" version="2.0.9"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -347,10 +347,10 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libbr" name="libbr" version="2.0.8" provider-name="68000a">
+    <addon id="script.module.libbr" name="libbr" version="2.0.9" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.12"/>
+            <import addon="script.module.libmediathek3" version="1.5.16"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">

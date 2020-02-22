@@ -2,7 +2,6 @@
 import sys
 import json
 import time
-from datetime import date, datetime, timedelta
 
 if sys.version_info[0] < 3: # for Python 2
 	from urllib import quote_plus
@@ -27,9 +26,10 @@ def parseSeries():
 		d = {}
 		node = edge['node']
 		d['name'] = node['title']
-		d['_tvshowtitle'] = node['kicker']
-		d['_plotoutline'] = node['kicker']
-		d['plot'] = node['kicker']
+		if node['kicker'] != None:
+			d['_tvshowtitle'] = node['kicker']
+			d['_plotoutline'] = node['kicker']
+			d['plot'] = node['kicker']
 		if node['shortDescription'] != None:
 			d['_plotoutline'] = node['shortDescription']
 			d['plot'] = node['shortDescription']
@@ -200,20 +200,9 @@ def parseDate(day,channel):
 		publicationOf = broadcastEvent['publicationOf']
 		if len(publicationOf['essences']['edges']) != 0:
 			d = _buildVideoDict(publicationOf)
-			start = broadcastEvent['start'].split('+')
-			zulutime = (len(start) == 1)
-			if zulutime:
-				format = "%Y-%m-%dT%H:%M:%S.%fZ"
-			else:
-				format = "%Y-%m-%dT%H:%M:%S.%f"
-			try:
-				airedtime = datetime.strptime(start[0], format)
-			except TypeError:
-				airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
-			if zulutime:
-				tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
-				airedtime += tz_offset
-			d['_airedtime'] = airedtime.strftime("%H:%M")
+			airedtime = libMediathek.str_to_airedtime(broadcastEvent['start'])
+			if airedtime:
+				d['_airedtime'] = airedtime.strftime("%H:%M")
 			d['_type'] = 'date'
 			l.append(d)
 	return l
@@ -306,9 +295,10 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 		if node:
 			d = {}
 			d['name'] = node['title']
-			d['_tvshowtitle'] = node['kicker']
-			d['_plotoutline'] = node['kicker']
-			d['plot'] = node['kicker']
+			if node['kicker'] != None:
+				d['_tvshowtitle'] = node['kicker']
+				d['_plotoutline'] = node['kicker']
+				d['plot'] = node['kicker']
 			if node['shortDescription'] != None:
 				d['_plotoutline'] = node['shortDescription']
 				d['plot'] = node['shortDescription']

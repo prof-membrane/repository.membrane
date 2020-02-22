@@ -1,4 +1,6 @@
-﻿2.0.8
+﻿2.0.9
+- Code vereinfacht
+2.0.8
 - Meistgesehen, Rubriken und Themen funktionierten nicht richtig
 2.0.7
 - Beim Hinzufügen zu Favoriten gingen die Metadaten verloren

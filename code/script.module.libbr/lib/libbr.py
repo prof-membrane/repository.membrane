@@ -3,9 +3,12 @@ import sys
 import urllib
 import libbrjsonparser as libBrJsonParser
 import libmediathek3 as libMediathek
-from datetime import date, timedelta
 
 translation = libMediathek.getTranslation
+params = libMediathek.get_params()
+
+def list():
+	return libMediathek.list(modes, 'libBrListMain', 'libBrPlay', 'libBrPlayOld')
 
 def getDate(date,channel='BR'):
 	return libBrJsonParser.parseDate(date,channel)
@@ -22,7 +25,6 @@ def play(dict):
 	xbmc.Player().play(url, listitem)
 """
 
-
 def libBrListMain():
 	#libBrJsonParser.getIntrospection()
 	l = []
@@ -36,16 +38,13 @@ def libBrListMain():
 	l.append({'name':translation(31039), 'mode':'libBrSearch', '_type':'dir'})
 	return l
 
-
-
 def libBrListNew():
 	return libBrJsonParser.parseNew()
-
-
 
 def libBrListSeries():
 	libMediathek.sortAZ()
 	return libBrJsonParser.parseSeries()
+
 def libBrListEpisodes():
 	return libBrJsonParser.parseEpisodes(params['id'])
 
@@ -74,7 +73,6 @@ def libBrListSection():
 def libBrListVideos2():
 	return libBrJsonParser.parseLinks(params['url'])
 
-
 def libBrListChannel():
 	l = []
 	l.append({'_name':'ARD-Alpha', 'mode':'libBrListChannelDate','channel':'ARD_alpha', '_type':'dir'})
@@ -85,9 +83,7 @@ def libBrListChannelDate():
 	return libMediathek.populateDirDate('libBrListChannelDateVideos',params['channel'])
 
 def libBrListChannelDateVideos():
-	#xdatum = date.today() - timedelta(int(params['datum']))
-	return libBrJsonParser.parseDate(params['yyyymmdd'],params['channel'])#params['datum'] =yyyy-mm-dd
-	#return libBrJsonParser.parseDate(datum.strftime('%Y-%m-%d'),params['channel'])#params['datum'] =yyyy-mm-dd
+	return libBrJsonParser.parseDate(params['yyyymmdd'],params['channel'])
 
 def libBrSearch():
 	search_string = libMediathek.getSearchString()
@@ -99,29 +95,17 @@ def libBrListSearch(searchString=False):
 		searchString = params['searchString']
 	return search(searchString)
 
-def getMetadata(result):
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
-	return result
-
 def libBrPlay():
 	result = libBrJsonParser.parseVideo(params['id'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
 
 def libBrPlayOld():
 	result = libBrJsonParser.parseVideoOld(params['url'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
 
-def list():
-	modes = {
+modes = {
 	'libBrListMain': libBrListMain,
 	'libBrListNew': libBrListNew,
 	'libBrListSeries': libBrListSeries,
@@ -142,19 +126,4 @@ def list():
 	'libBrListSearch': libBrListSearch,
 	'libBrPlay': libBrPlay,
 	'libBrPlayOld': libBrPlayOld
-	}
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libBrListMain')
-	if mode == 'libBrPlay' or mode == 'libBrPlayOld':
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
-	return True
+}
