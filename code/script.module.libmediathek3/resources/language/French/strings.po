@@ -35,6 +35,10 @@ msgctxt "#31035"
 msgid "Topics"
 msgstr "Sujets"
 
+msgctxt "#31036"
+msgid "Livestreams"
+msgstr "Livestreams"
+
 msgctxt "#31039"
 msgid "Search"
 msgstr "Chercher"

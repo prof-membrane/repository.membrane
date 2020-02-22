@@ -1,4 +1,6 @@
-﻿1.5.15
+﻿1.5.16
+- Vorbereitung für neue ARD-Mediathek
+1.5.15
 - Vorbereitung für neue ARD-Mediathek
 1.5.14
 - Funktionen list() und getMetadata() zentralisiert

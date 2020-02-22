@@ -67,9 +67,9 @@ def _request(url,headers,post,cookies):
 			f_mkdir(pathUserdata(''))
 		if f_exists(pathUserdata('cookies.txt')):
 			cookies_txt = f_open(pathUserdata('cookies.txt'))
-			if cookies_txt: 
+			if cookies_txt:
 				if sys.version_info[0] >= 3: # for Python 3
-					if isinstance(cookies_txt, str): 
+					if isinstance(cookies_txt, str):
 						cookies_txt = cookies_txt.encode('utf-8')
 				c = pickle.loads(cookies_txt)
 				for cookie in c:
@@ -167,9 +167,8 @@ def searchWorkaroundRemove():
 	log('###Krypton workaround: removing lock...')
 	f_remove(pathUserdata('/search.lock'))
 
-def setSetting(k,v):
-	return xbmcplugin.setSetting(int(sys.argv[1]), k, v)
+def setSetting(id,value):
+	xbmcaddon.Addon().setSetting(id,value)
 
 def getSetting(k):
 	return xbmcplugin.getSetting(int(sys.argv[1]), id=k)
-	

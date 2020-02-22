@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import sys
+import time
+from datetime import datetime, timedelta
 import xbmc
 import xbmcplugin
 import xbmcgui
 import xbmcaddon
-from datetime import datetime,timedelta
-import time
 import libmediathek3
 
 from libmediathek3utils import clearString
@@ -95,7 +95,7 @@ def addEntries(l):
 
 		ok=True
 		liz=xbmcgui.ListItem(clearString(d.get('name','')))
-		if d['type'] == 'audio':
+		if d.get('type',None) == 'audio':
 			liz.setInfo( type="music", infoLabels=ilabels)
 		else:
 			liz.setInfo( type="Video", infoLabels=ilabels)
@@ -115,13 +115,18 @@ def addEntries(l):
 		if d.get('type',None) == 'video' or d.get('type',None) == 'live' or d.get('type',None) == 'date' or d.get('type',None) == 'clip' or d.get('type',None) == 'episode' or d.get('type',None) == 'audio':
 			#xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="episodes" )
 			liz.setProperty('IsPlayable', 'true')
+			if d.get('type',None) == 'live':
+				liz.setProperty('starttime','1')
+				liz.setProperty('totaltime','1')
 			lists.append([u,liz,False])
 		else:
 			lists.append([u,liz,True])
 
 	if len(l) > 0:
 		type = l[0]['_type']
-		if type == 'video' or type == 'live' or type == 'date' or type == 'clip' or type == 'episode':
+		if type == 'video' or type == 'live':
+			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="videos" )
+		elif type == 'date' or type == 'clip' or type == 'episode':
 			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="episodes" )
 		elif type == 'shows' or type == 'season':
 			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="tvshows" )
@@ -164,6 +169,29 @@ def _airedISO8601(d):
 	#	tempdate -= delta
 	return tempdate.strftime('%Y-%m-%d'), tempdate.strftime('%H:%M')
 
+def str_to_airedtime(airedtime_str):
+	airedtime = None
+	if airedtime_str:
+		start = airedtime_str.split('+')
+		zulutime = 1 if (len(start) == 1) else 0
+		formats = [('%Y-%m-%dT%H:%M:%S','%Y-%m-%dT%H:%M:%SZ'),('%Y-%m-%dT%H:%M:%S.%f','%Y-%m-%dT%H:%M:%S.%fZ')]
+		for format in formats:
+			try:
+				airedtime = datetime.strptime(start[0], format[zulutime])
+				break
+			except TypeError:
+				try: # Workaround for known bug in Python Interpreter
+					airedtime = datetime(*(time.strptime(start[0], format[zulutime])[0:6]))
+					break
+				except ValueError:
+					pass
+			except ValueError:
+				pass
+		if airedtime and zulutime:
+			tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
+			airedtime += tz_offset
+	return airedtime
+
 def getMetadata(result):
 	if result:
 		metadata = {}
@@ -177,14 +205,18 @@ def getMetadata(result):
 	return result
 
 def list(modes, defaultMode, *playModes):
-	if playModes: # must contain at least one item	 
+	if playModes: # must contain at least one item
 		mode = get_params().get('mode', defaultMode)
 		fn = modes.get(mode, None)
 		if fn:
-			res = fn() 	 
+			res = fn()
 			if mode in playModes:
 				if res is None:
-					return False # item not playable
+					dialog = xbmcgui.Dialog()
+					title = xbmcaddon.Addon().getAddonInfo('name')
+					text = libmediathek3.getTranslation(31043)
+					dialog.ok(title, text)
+					return None
 				else:
 					libmediathek3.play(res)
 			else:
@@ -192,14 +224,14 @@ def list(modes, defaultMode, *playModes):
 					addEntries(res)
 					endOfDirectory()
 			return True # OK
-	return None # invalid use of function
+	raise NotImplementedError()
 
 
 params = None
 
 def get_params():
 	global params
-	if params is None: 
+	if params is None:
 		params = {}
 		paramstring = sys.argv[2]
 		if len(paramstring) >= 2:
