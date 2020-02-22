@@ -1,3 +1,5 @@
+1.2.7
+- Code vereinfacht
 1.2.6
 - Abhängigkeit zu mediathekxmlservice entfernt
 1.2.5

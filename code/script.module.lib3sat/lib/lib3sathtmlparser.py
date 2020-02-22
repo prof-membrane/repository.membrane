@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import time
 import json
+from datetime import date, datetime, timedelta
 # import xbmc
 import bs4 as bs
 import libmediathek3 as libMediathek
-from datetime import date, datetime, timedelta
 
 
 base = 'https://www.3sat.de'
@@ -14,26 +14,13 @@ thumbnail1_types = ['is-desktop', 'is-mobile']
 thumbnail2_types = ['is-16-9', 'is-8-9']
 preferred_thumbnail_type = 0 # => Desktop
 preferred_resolutions = [['384w', '768w', '1280w', '1920w', '2400w'], ['240w', '640w', '1152w']]
+
 translation = libMediathek.getTranslation
+params = libMediathek.get_params()
 
 
 def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','lib3satHtmlListMain')
-	# xbmc.log('%s' % mode, xbmc.LOGFATAL)
-	if mode == 'lib3satHtmlPlay':
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
-	return True
+	return libMediathek.list(modes, 'lib3satHtmlListMain', 'lib3satHtmlPlay')
 
 
 def lib3satHtmlListMain():
@@ -81,25 +68,6 @@ def chooseImage(pictureList, thumbnail_type):
 	return None
 
 
-def str_to_airedtime(airedtime_str):
-	if not airedtime_str:	# check for None or empty string
-		return None
-	start = airedtime_str.split('+')
-	zulutime = (len(start) == 1)
-	if zulutime:
-		format = '%Y-%m-%dT%H:%M:%SZ'
-	else:
-		format = '%Y-%m-%dT%H:%M:%S'
-	try:
-		airedtime = datetime.strptime(start[0], format)
-	except TypeError:
-		airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
-	if zulutime:
-		tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
-		airedtime += tz_offset
-	return airedtime
-
-
 def getDate(date_str):
 	l = []
 	url = base + '/programm?airtimeDate=' + date_str
@@ -113,12 +81,12 @@ def getDate(date_str):
 			d['_type'] = 'video'
 			d['mode'] = 'lib3satHtmlPlay'
 			d['name'] = name.text
-			airedtime_begin = str_to_airedtime(article.attrs.get('data-airtime-begin', None))
+			airedtime_begin = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-begin', None))
 			if not (airedtime_begin is None):
 				airedtime = datetime (airedtime_begin.year, airedtime_begin.month, airedtime_begin.day, airedtime_begin.hour, int(airedtime_begin.minute / 5) * 5)
 				d['_airedtime'] = airedtime.strftime('%H:%M')
 				d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
-				airedtime_end = str_to_airedtime(article.attrs.get('data-airtime-end', None))
+				airedtime_end = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-end', None))
 				if not (airedtime_end is None):
 					d['duration'] = str((airedtime_end - airedtime_begin).seconds)
 			plot = article.find('p', {'class': 'teaser-epg-text'})
@@ -265,14 +233,7 @@ def lib3satHtmlPlay(url = None):
 			target = json.loads(content_response)
 			j = grepItem(target)
 			result = getVideoUrl(j['url'], api_token)
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
+	result = libMediathek.getMetadata(result)
 	return result
 
 
