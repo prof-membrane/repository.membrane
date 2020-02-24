@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import sys
 import urllib
+from datetime import date, timedelta
 import libdaserstejsonparser as libDasErsteJsonParser
 import libmediathek3 as libMediathek
-from datetime import date, timedelta
 
 translation = libMediathek.getTranslation
+params = libMediathek.get_params()
+
 #http://www.daserste.de/dasersteapp/app/daserste/mehr/index.json
 #http://www.daserste.de/dasersteapp/app/index~categories.json
 #http://www.daserste.de/dasersteapp/app/index~series.json
@@ -23,12 +25,14 @@ translation = libMediathek.getTranslation
 #http://www.daserste.de/dasersteapp/die-realistin-folge-60-100~full.json
 #http://www.daserste.de/dasersteapp/Folge-60-die-realistin-100~full.json
 
+def list():
+	return libMediathek.list(modes, 'libDasErsteListMain', 'libDasErstePlay')
 
 def libDasErsteListMain():
 	l = []
 	l.append({'name':translation(31032), 'mode':'libDasErsteListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libDasErsteListDate', '_type':'dir'})
-	l.append({'name':translation(31035), 'mode':'libDasErsteListCategories', '_type':'dir'})
+	l.append({'name':translation(31034), 'mode':'libDasErsteListCategories', '_type':'dir'})
 	l.append({'name':translation(31039), 'mode':'libDasErsteSearch', '_type':'dir'})
 	return l
 
@@ -59,23 +63,6 @@ def libDasErsteListSearch(searchString=False):
 
 def libDasErstePlay():
 	return libDasErsteJsonParser.getVideo(params['url'])
-
-def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libDasErsteListMain')
-	if mode == 'libDasErstePlay':
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
-	return True
 
 modes = {
 	'libDasErsteListMain':		libDasErsteListMain,
