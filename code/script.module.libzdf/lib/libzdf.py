@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-import urllib
 import sys
+import urllib
+from datetime import date, timedelta
 import libmediathek3 as libMediathek
 import libzdfjsonparser as libZdfJsonParser
-from datetime import date, timedelta
 
 translation = libMediathek.getTranslation
 
@@ -44,25 +44,14 @@ def libZdfListPage():
 def libZdfListVideos():
 	return libZdfJsonParser.getVideos(params['url'])
 
-def getMetadata(result):
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
-	return result
-
 def libZdfPlay():
 	result = libZdfJsonParser.getVideoUrl(params['url'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
 
 def libZdfPlayById():
 	result = libZdfJsonParser.getVideoUrlById(params['id'])
-	result = getMetadata(result)
+	result = libMediathek.getMetadata(result)
 	return result
 
 def libZdfListChannel():
@@ -81,8 +70,7 @@ def libZdfListChannelDate():
 
 def libZdfListChannelDateVideos():
 	if 'datum' in params:
-		datum = params['datum']
-		day = date.today() - timedelta(int(datum))
+		day = date.today() - timedelta(int(params['datum']))
 		yyyymmdd = day.strftime('%Y-%m-%d')
 	else:
 		ddmmyyyy = libMediathek.dialogDate()

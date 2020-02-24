@@ -83,14 +83,7 @@ def libHrListEpisodes():
 
 def libHrPlay():
 	result =  libHrParser.getVideo(params['url'])
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
+	result = libMediathek.getMetadata(result)
 	return result
 
 def headUrl(url):#TODO: move to libmediathek3
