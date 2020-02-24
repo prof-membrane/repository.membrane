@@ -18,10 +18,14 @@ def parse(url):
 		#xbmc.log(video)
 		d['_name'] = re.compile('<h3 class="headline">.+?>(.+?)<', re.DOTALL).findall(video)[0]
 		d['_plot'] = re.compile('<p class="teasertext">.+?>(.+?)<', re.DOTALL).findall(video)[0]
-		#d['date'] = re.compile('<p class="dachzeile">.+?>(.+?)<', re.DOTALL).findall(video)[0].replace('<strong>Video</strong>','')
+		try:
+			d['_aired'] = re.compile('<p class="dachzeile">.+?>(.+?)</a>', re.DOTALL).findall(video)[0].replace('<strong>Video</strong>','').replace('vom','').strip()
+			if d['_aired']:
+				d['_name'] = '[' + d['_aired'] + '] ' + d['_name']  
+		except:
+			pass
 		d['_thumb'] = base + re.compile('<img.+?src="(.+?)"', re.DOTALL).findall(video)[0]
 		d['url'] = re.compile('<a href="(.+?)"', re.DOTALL).findall(video)[0]
-		
 		d['_type'] = 'video'
 		d['mode'] = 'libWdrPlay'
 		#xbmc.log(str(d))

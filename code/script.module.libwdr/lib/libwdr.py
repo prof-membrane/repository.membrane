@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 import sys
 import urllib
+from datetime import date, timedelta
 import libwdrparser as libWdrParser
 import libwdrjsonparser as libWdrJsonParser
 import libwdrrssparser as libWdrRssParser
 import libwdrrssandroidparser as libWdrRssAndroidParser
 import libmediathek3 as libMediathek
 
-translation = libMediathek.getTranslation
 ignoreLetters=['#']
+
+translation = libMediathek.getTranslation
+params = libMediathek.get_params()
+
+def list():
+	return libMediathek.list(modes, 'libWdrListMain', 'libWdrPlay', 'libWdrPlayJs')
 
 def libWdrListMain():
 	libMediathek.searchWorkaroundRemove()
@@ -47,7 +53,6 @@ def libWdrListDate():
 
 def libWdrListDateVideos():
 	if 'datum' in params:
-		from datetime import date, timedelta
 		day = date.today() - timedelta(int(params['datum']))
 		ddmmyyyy = day.strftime('%d%m%Y')
 	else:
@@ -79,43 +84,13 @@ def libWdrPlay():
 		result['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'mp4'})
 	else:
 		result = libWdrParser.parseVideo(params['url'])
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
+	result = libMediathek.getMetadata(result)
 	return result
 
 def libWdrPlayJs():
 	result = libWdrParser.parseVideoJs(params['url'])
-	if result:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			result['metadata'] = metadata
+	result = libMediathek.getMetadata(result)
 	return result
-
-def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libWdrListMain')
-	if mode == 'libWdrPlay' or mode == 'libWdrPlayJs':
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
 
 modes = {
 	'libWdrListMain': libWdrListMain,
