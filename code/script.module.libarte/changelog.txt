@@ -1,3 +1,5 @@
+1.0.15
+- Code vereinfacht
 1.0.14
 - Bei Sendungen in Originalsprache wurden fälschlicherweise fremdsprachige Untertitel angezeigt
 1.0.13

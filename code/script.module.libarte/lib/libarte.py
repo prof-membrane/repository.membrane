@@ -5,14 +5,17 @@ import libartejsonparser as libArteJsonParser
 import libmediathek3 as libMediathek
 
 translation = libMediathek.getTranslation
+params = libMediathek.get_params()
 
+def list():
+	return libMediathek.list(modes, 'libArteListMain', 'libArtePlay')
 
 def libArteListMain():
 	l = []
 	l.append({'_name': translation(31031), 'mode': 'libArteListVideos',	'_type': 'dir', 'url':'/zones/listing_MOST_VIEWED?limit=20'}) # Meistgesehen
-	l.append({'_name': translation(31032), 'mode': 'libArteListVideos',	'_type': 'dir', 'url':'/zones/magazines_HOME?limit=99'}) # Sendungen A-Z
-	l.append({'_name': translation(31033), 'mode': 'libArteListDate',	'_type': 'dir'}) # Die Woche
-	l.append({'_name': translation(31039), 'mode': 'libArteListSearch', '_type': 'dir'}) # Suche
+	l.append({'_name': translation(31032), 'mode': 'libArteListVideos',	    '_type': 'dir', 'url':'/zones/magazines_HOME?limit=99'}) # Sendungen A-Z
+	l.append({'_name': translation(31033), 'mode': 'libArteListDate',	    '_type': 'dir'}) # Die Woche
+	l.append({'_name': translation(31039), 'mode': 'libArteListSearch',     '_type': 'dir'}) # Suche
 	return l
 
 def libArteListCollection():
@@ -32,32 +35,9 @@ def libArteListSearch():
 	return libArteJsonParser.getSearch(search_string) if search_string else None
 
 def libArtePlay():
-	d = libArteJsonParser.getVideoUrl(params['url'])
-	if d:
-		metadata = {}
-		for key in ['name', 'plot', 'thumb']:
-			value = params.get(key, None)
-			if value:
-				metadata[key] = value
-		if metadata:
-			d['metadata'] = metadata
-	return d
-
-def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libArteListMain')
-	if mode == 'libArtePlay':
-		media = modes.get(mode)()
-		if media is None:
-			return False
-		else:
-			libMediathek.play(media)
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
+	result = libArteJsonParser.getVideoUrl(params['url'])
+	result = libMediathek.getMetadata(result)
+	return result
 
 modes = {
 	'libArteListMain': libArteListMain,

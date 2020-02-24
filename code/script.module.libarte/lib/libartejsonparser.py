@@ -6,12 +6,9 @@ import urllib
 from operator import itemgetter
 import sys
 import xbmcplugin
-import time
-from datetime import date, datetime, timedelta
 
 
-pluginhandle = int(sys.argv[1])
-lang_german  = xbmcplugin.getSetting(pluginhandle,'lang') in ('de','0','',None)
+lang_german  = libMediathek.getSetting('lang') in ('de','0','',None)
 current_lang = 'de' if lang_german else 'fr'
 
 opa_url = 'https://api.arte.tv/api/opa/v3'
@@ -21,26 +18,6 @@ emac_url = 'https://api.arte.tv/api/emac/v3/' + current_lang + '/web'
 emac_token = {"Authorization": "Bearer MWZmZjk5NjE1ODgxM2E0MTI2NzY4MzQ5MTZkOWVkYTA1M2U4YjM3NDM2MjEwMDllODRhMjIzZjQwNjBiNGYxYw"}
 
 stream_params = '&quality=$in:XQ,HQ,SQ&mediaType=hls&language=' + current_lang + '&channel=' + current_lang.upper()
-
-
-def str_to_airedtime(airedtime_str):
-	if not airedtime_str:	# check for None or empty string
-		return None
-	start = airedtime_str.split('+')
-	zulutime = (len(start) == 1)
-	if zulutime:
-		format = '%Y-%m-%dT%H:%M:%SZ'
-	else:
-		format = '%Y-%m-%dT%H:%M:%S'
-	try:
-		airedtime = datetime.strptime(start[0], format)
-	except TypeError:
-		airedtime = datetime(*(time.strptime(start[0], format)[0:6]))
-	if zulutime:
-		tz_offset = timedelta (minutes = (time.timezone / -60) + (time.localtime().tm_isdst * 60))
-		airedtime += tz_offset
-	result = airedtime.strftime('%H:%M')
-	return result
 
 
 def _parse_data(video):
@@ -58,9 +35,10 @@ def _parse_data(video):
 	elif video['shortDescription']:
 		d['plot'] = video['shortDescription']
 	if 'broadcastDates' in video:
-		airedtime = str_to_airedtime(video['broadcastDates'][0])
-		d['_airedtime'] = airedtime 
-		d['name'] = '(' + airedtime + ') ' + d['name']
+		airedtime = libMediathek.str_to_airedtime(video['broadcastDates'][0])
+		if airedtime:
+			d['_airedtime'] = airedtime.strftime('%H:%M')
+			d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
 	if video['images']['landscape']:
 		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
 		d['thumb'] = max_res['url']
