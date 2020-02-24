@@ -13,9 +13,9 @@ def list():
 def libArteListMain():
 	l = []
 	l.append({'_name': translation(31031), 'mode': 'libArteListVideos',	'_type': 'dir', 'url':'/zones/listing_MOST_VIEWED?limit=20'}) # Meistgesehen
-	l.append({'_name': translation(31032), 'mode': 'libArteListVideos',	    '_type': 'dir', 'url':'/zones/magazines_HOME?limit=99'}) # Sendungen A-Z
-	l.append({'_name': translation(31033), 'mode': 'libArteListDate',	    '_type': 'dir'}) # Die Woche
-	l.append({'_name': translation(31039), 'mode': 'libArteListSearch',     '_type': 'dir'}) # Suche
+	l.append({'_name': translation(31032), 'mode': 'libArteListVideos',	'_type': 'dir', 'url':'/zones/magazines_HOME?limit=99'}) # Sendungen A-Z
+	l.append({'_name': translation(31033), 'mode': 'libArteListDate',	'_type': 'dir'}) # Die Woche
+	l.append({'_name': translation(31039), 'mode': 'libArteListSearch', '_type': 'dir'}) # Suche
 	return l
 
 def libArteListCollection():
