@@ -8,8 +8,9 @@ import xbmcplugin
 import xbmcaddon
 import xbmcvfs
 
-temp = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'temp')
-dict = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'dict.py')
+addon = xbmcaddon.Addon()
+temp = xbmc.translatePath(addon.getAddonInfo('profile')+'temp')
+dict = xbmc.translatePath(addon.getAddonInfo('profile')+'dict.py')
 
 socket.setdefaulttimeout(30)
 
@@ -104,22 +105,23 @@ def _request(url,headers,post,cookies):
 
 
 def clearString(s):
-	s = s.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
-	s = s.replace("&Auml;", "Ä").replace("&Uuml;", "Ü").replace("&Ouml;", "Ö").replace("&auml;", "ä").replace("&uuml;", "ü").replace("&ouml;", "ö").replace("&eacute;", "é").replace("&egrave;", "è")
-	s = s.replace("&#x00c4;","Ä").replace("&#x00e4;","ä").replace("&#x00d6;","Ö").replace("&#x00f6;","ö").replace("&#x00dc;","Ü").replace("&#x00fc;","ü").replace("&#x00df;","ß")
-	#ISO-8859-1?!?!?! oh how i hate the friggin encoding
-	s = s.replace("&apos;","'")
-	s = s.replace("&#43;","\"")
-	s = s.strip()
+	if s:
+		s = s.replace("&lt;", "<").replace("&gt;", ">").replace("&amp;", "&").replace("&#034;", "\"").replace("&#039;", "'").replace("&quot;", "\"").replace("&szlig;", "ß").replace("&ndash;", "-")
+		s = s.replace("&Auml;", "Ä").replace("&Uuml;", "Ü").replace("&Ouml;", "Ö").replace("&auml;", "ä").replace("&uuml;", "ü").replace("&ouml;", "ö").replace("&eacute;", "é").replace("&egrave;", "è")
+		s = s.replace("&#x00c4;","Ä").replace("&#x00e4;","ä").replace("&#x00d6;","Ö").replace("&#x00f6;","ö").replace("&#x00dc;","Ü").replace("&#x00fc;","ü").replace("&#x00df;","ß")
+		#ISO-8859-1?!?!?! oh how i hate the friggin encoding
+		s = s.replace("&apos;","'")
+		s = s.replace("&#43;","\"")
+		s = s.strip()
 	return s
 
 def pathUserdata(path):
-	special = xbmcaddon.Addon().getAddonInfo('profile')+path
+	special = addon.getAddonInfo('profile')+path
 	special = special.replace('//','/').replace('special:/','special://')
 	return special
 
 def pathAddon(path):
-	special = xbmc.validatePath(xbmcaddon.Addon().getAddonInfo('path').replace('\\','/')+path.replace('\\','/'))
+	special = xbmc.validatePath(addon.getAddonInfo('path').replace('\\','/')+path.replace('\\','/'))
 	special = special.replace('//','/').replace('special:/','special://')
 	return special
 
@@ -167,8 +169,15 @@ def searchWorkaroundRemove():
 	log('###Krypton workaround: removing lock...')
 	f_remove(pathUserdata('/search.lock'))
 
-def setSetting(id,value):
-	xbmcaddon.Addon().setSetting(id,value)
+def setSetting(id, value):
+	addon.setSetting(id,value)
 
-def getSetting(k):
-	return xbmcplugin.getSetting(int(sys.argv[1]), id=k)
+def getSetting(id):
+	# nicht "return addon.getSetting(id)" wg. Unicode
+	return xbmcplugin.getSetting(int(sys.argv[1]), id)
+
+def setSettingBool(id, value):
+	addon.setSetting(id, 'true' if bool(value) else 'false')
+
+def getSettingBool(id):
+	return (xbmcplugin.getSetting(int(sys.argv[1]), id) == 'true')

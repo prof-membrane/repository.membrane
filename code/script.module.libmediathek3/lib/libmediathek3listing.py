@@ -20,7 +20,7 @@ icon = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
 fanart = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
 
 def sortAZ():
-	xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_TITLE_IGNORE_THE)
+	xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_LABEL)
 
 def addEntries(l):
 	lists = []
@@ -90,7 +90,7 @@ def addEntries(l):
 				ilabels['mediatype'] = 'season'
 			elif d['type'] == 'episode':
 				ilabels['mediatype'] = 'episode'
-			else:
+			elif d['type'] != 'dir':
 				ilabels['mediatype'] = 'video'
 
 		ok=True
@@ -98,7 +98,7 @@ def addEntries(l):
 		if d.get('type',None) == 'audio':
 			liz.setInfo( type="music", infoLabels=ilabels)
 		else:
-			liz.setInfo( type="Video", infoLabels=ilabels)
+			liz.setInfo( type="video", infoLabels=ilabels)
 		liz.addStreamInfo('subtitle', {'language': 'deu'})
 		art = {}
 		art['thumb'] = d.get('thumb')
@@ -144,13 +144,14 @@ def _buildUri(d):
 	for key in d.keys():
 		if not key.startswith('_'):
 			value = d[key]
-			if sys.version_info[0] < 3: # for Python 2
-				if isinstance(value, unicode):
-					value = value.encode('utf-8')
-			if i > 0:
-				u = u + '&'
-			u = u + key + '=' + quote_plus(value)
-			i += 1
+			if value:
+				if sys.version_info[0] < 3: # for Python 2
+					if isinstance(value, unicode):
+						value = value.encode('utf-8')
+				if i > 0:
+					u = u + '&'
+				u = u + key + '=' + quote_plus(value)
+				i += 1
 	return u
 
 def _airedISO8601(d):
@@ -239,9 +240,8 @@ def get_params():
 				paramstring = paramstring[:-1]
 			cleanedparams = paramstring.replace('?','')
 			pairsofparams = cleanedparams.split('&')
-			for i in range(len(pairsofparams)):
-				splitparams = {}
-				splitparams = pairsofparams[i].split('=')
-				if len(splitparams) == 2:
-					params[splitparams[0]] = unquote_plus(splitparams[1])
+			for keyvalue in pairsofparams:
+				splitted = keyvalue.split('=')
+				if len(splitted) == 2:
+					params[splitted[0]] = unquote_plus(splitted[1])
 	return params

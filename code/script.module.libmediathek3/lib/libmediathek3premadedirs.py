@@ -31,15 +31,14 @@ def populateDirAZ(mode,ignore=[],channel=None):
 	return l
 
 def labelDirDate(day,relative_weekday=None):
-	format_string = '{day_of_month:02d}. {month_shortstr} | {day_of_week}'
-	return (
-		format_string.format(
-			day_of_month = day.day,
-			month_shortstr = xbmc.getLocalizedString(50+day.month),
-			day_of_week =
-				xbmc.getLocalizedString(relative_weekday) if relative_weekday else xbmc.getLocalizedString(11+day.weekday())
-		)
-	)
+	format_string = u'{day_of_month:02d}. {month_shortstr} | {day_of_week}'
+	month_shortstr = xbmc.getLocalizedString(50+day.month)
+	if relative_weekday:
+		day_of_week = xbmc.getLocalizedString(relative_weekday) 
+	else:
+		day_of_week = xbmc.getLocalizedString(11+day.weekday())
+	result = format_string.format(day_of_month = day.day, month_shortstr = month_shortstr, day_of_week = day_of_week)
+	return result
 
 def populateDirDate(mode,channel=False,dateChooser=False):
 	l = []

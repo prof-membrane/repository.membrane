@@ -6,6 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 
 msgctxt "#31022"
 msgid "Choose date"
@@ -56,5 +57,5 @@ msgid "Detailed search"
 msgstr "Recherche détaillée"
 
 msgctxt "#31043"
-msgid "Not playable"
-msgstr "Ce média n'est pas une vidéo jouable."
+msgid "This media is not playable"
+msgstr "Ce média n'est pas une vidéo jouable"

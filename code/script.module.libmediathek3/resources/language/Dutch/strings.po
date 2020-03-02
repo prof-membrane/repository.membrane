@@ -2,10 +2,11 @@
 # Addon Name: libmediathek3
 # Addon id: script.module.libmediathek3
 # Addon version: 1.3.3
-# Addon Provider: membrane
+# Addon Provider: 68000a
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 
 msgctxt "#31022"
 msgid "Choose date"
@@ -56,5 +57,5 @@ msgid "Detailed search"
 msgstr "Gedetailleerd zoeken"
 
 msgctxt "#31043"
-msgid "Not playable"
-msgstr "Dit medium is geen afspeelbare video."
+msgid "This media is not playable"
+msgstr "Dit medium is geen afspeelbare video"
