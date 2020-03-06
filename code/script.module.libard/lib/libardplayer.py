@@ -32,6 +32,7 @@ def getVideoUrlClassic(url=False,videoID=False):
 
 def fetchJsonVideo(id):
 	d = {}
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
 	response = libMediathek.getUrl('http://www.ardmediathek.de/play/media/'+id)
 	j = json.loads(response)
 	if '_subtitleUrl' in j:
@@ -42,7 +43,7 @@ def fetchJsonVideo(id):
 			currentQuality = mediaStreamArray.get('_quality',-1);
 			if (isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type)):
 				if (currentQuality == 'auto'):
-					currentQuality = sys.maxsize
+					currentQuality = 0 if ignore_adaptive else sys.maxsize
 				else:
 					currentQuality = -1
 			if currentQuality > quality:

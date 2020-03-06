@@ -1,5 +1,7 @@
+5.1.14
+- Implementierung "Neue ARD-Mediathek"
 5.1.13
-- Heute war nicht mein Tag: Versionsnummer nochmals korrigiert
+- Versionsnummer nochmals korrigiert
 5.1.12
 - Umlautproblem behoben: htmlParser.unescape() akzeptiert nur ASCII-Strings
 - Vorbereitung für neue ARD-Mediathek

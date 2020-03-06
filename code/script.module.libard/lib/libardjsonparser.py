@@ -5,10 +5,8 @@ import json
 import libmediathek3 as libMediathek
 
 if sys.version_info[0] < 3: # for Python 2
-	alt_str_type = unicode
 	from HTMLParser import HTMLParser
 else: # for Python 3
-	alt_str_type = bytes
 	from html.parser import HTMLParser
 
 htmlParser = HTMLParser()
@@ -42,7 +40,7 @@ def parseDate(url):
 					d["thumb"] = thumb.split("?")[0]
 					d["url"] = j3["link"]["url"]
 					d["documentId"] = j3["link"]["url"].split("player/")[1].split("?")[0]
-					d["_duration"] = str(runtimeToInt(j3["unterzeile"]))
+					d["_duration"] = str(duration)
 					d["_type"] = 'video'
 					d['mode'] = 'libArdPlayClassic'
 			l.append(d)
@@ -181,90 +179,6 @@ def parseVideos(url):
 					d['mode'] = 'libArdListVideos'
 					l.append(d)
 				aktiv = button['aktiv']
-	return l
-
-def getVideoUrlNeu(url):
-	finalUrl = None
-	response = libMediathek.getUrl(url)
-	split = response.split("window.__APOLLO_STATE__");
-	if (len(split) > 1):
-		json_str = split[1]
-		start = 0
-		while json_str[start] in [' ','=']: 
-			start += 1
-		end = start
-		while True: 
-			while json_str[end] != ';': 
-				end += 1
-			if json_str[end+1:].lstrip().startswith('</script>'): break
-			else: end += 1
-		json_str = json_str[start:end]
-		j = json.loads(json_str)
-		quality = -1
-		for item in j.values():
-			if isinstance(item,dict) and (item.get("__typename",None) == "MediaStreamArray"):
-				currentQuality = item.get("_quality",-1);
-				if (isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type)):
-					if (currentQuality == "auto"):
-						currentQuality = sys.maxsize
-					else:
-						currentQuality = int(currentQuality)
-				if currentQuality > quality:
-					stream = item.get("_stream",None)
-					if stream:
-						finalUrl = stream[stream["type"]][0]
-						quality = currentQuality
-	if finalUrl:
-		d = {}
-		if finalUrl.startswith('//'):
-			finalUrl = 'http:' + finalUrl
-		if finalUrl.startswith('http://wdradaptiv') or finalUrl.endswith('.mp4'):
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
-		else:
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
-		return d
-	else:
-		return None
-
-def parseSearch(url):
-	l = []
-	response = libMediathek.getUrl(url)
-	split = response.split("window.__APOLLO_STATE__");
-	if (len(split) > 1):
-		json_str = split[1]
-		start = 0
-		while json_str[start] in [' ','=']: 
-			start += 1
-		end = start
-		while True: 
-			while json_str[end] != ';':
-				end += 1
-			if json_str[end+1:].lstrip().startswith('</script>'): break
-			else: end += 1
-		json_str = json_str[start:end]
-		j = json.loads(json_str)
-		for item in j.values():
-			if isinstance(item,dict) and (item.get("type",None) == "ondemand"):
-				id = item.get("id",None)
-				name = item.get("mediumTitle",None)
-				if id and name:
-					d ={}
-					d["documentId"] = id
-					d["url"] = baseUrl + id
-					d["duration"] = str(item.get("duration",None))
-					d["name"] = name
-					d["plot"] = name
-					d["date"] = item.get("broadcastedOn",None)
-					d["showname"] = item.get("shortTitle",None)
-					thumb_id = "$Teaser:" + id + ".images.aspect16x9"
-					thumb_item = j.get(thumb_id,None)
-					if thumb_item and (thumb_item.get("__typename",None) == "Image"):
-						thumb_src = thumb_item.get("src",None)
-						thumb_src = thumb_src.replace("{width}","1024")
-						d['thumb'] = thumb_src
-					d["_type"] = "video"
-					d['mode'] = "libArdPlayNeu"
-					l.append(d)
 	return l
 
 def runtimeToInt(runtime):

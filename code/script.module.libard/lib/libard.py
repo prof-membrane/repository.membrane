@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
-from datetime import date, timedelta
-
+import xbmc
+import xbmcgui
+import xbmcaddon
 import libardneu
 import libardplayer
 import libardjsonparser as libArdJsonParser
@@ -14,12 +15,31 @@ if sys.version_info[0] < 3: # for Python 2
 else: # for Python 3
 	from urllib.parse import quote_plus
 
-translation = libMediathek.getTranslation
-params = libMediathek.get_params() 
-
 def list():
-	# return libardneu.list()
-	return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayNeu')
+	show_hint_classic = libMediathek.getSettingBool('show_hint_classic')
+	if show_hint_classic:
+		libMediathek.setSettingBool('show_hint_classic', False)
+		addon = xbmcaddon.Addon()
+		title = addon.getAddonInfo('name')
+		text = addon.getLocalizedString(32100)
+		xbmcgui.Dialog().ok(title, text)
+	use_classic = libMediathek.getSettingBool('use_classic')
+	use_classic_prev_value = libMediathek.getSettingBool('use_classic_prev_value')
+	if (use_classic != use_classic_prev_value) or show_hint_classic:
+		xbmc.executebuiltin('Container.Update(path,replace)')
+		params = libMediathek.get_params()
+		if 'mode' in params: 
+			del params['mode']  # force default mode
+		if use_classic != use_classic_prev_value:
+			libMediathek.setSettingBool('use_classic_prev_value', use_classic)
+			addon = xbmcaddon.Addon()
+			title = addon.getAddonInfo('name')
+			text = addon.getLocalizedString(32101)
+			xbmcgui.Dialog().notification(title, text, addon.getAddonInfo('path')+'/icon.png')
+	if use_classic: 
+		return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayHtml')
+	else:
+		return libardneu.list()
 
 channels = [
 	('ARD-alpha','5868'),
@@ -44,6 +64,7 @@ channels = [
 
 def libArdListMain():
 	l = []
+	translation = libMediathek.getTranslation
 	l.append({'name':translation(31032), 'mode':'libArdListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libArdListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
@@ -52,6 +73,7 @@ def libArdListMain():
 	return l
 
 def libArdListVideos():
+	params = libMediathek.get_params()
 	return libArdJsonParser.parseVideos(params['url'])
 
 def libArdListShows():
@@ -69,13 +91,16 @@ def libArdListChannel():
 	return l
 
 def libArdListChannelDate():
+	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
 
 def libArdListChannelDateVideos():
+	params = libMediathek.get_params()
 	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[int(params['channel'])][1]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
 
 def libArdPlayClassic():
+	params = libMediathek.get_params()
 	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
 	result = libMediathek.getMetadata(result)
 	return result
@@ -89,5 +114,5 @@ modes = {
 	'libArdListChannelDateVideos': libArdListChannelDateVideos,
 	'libArdListSearch': libardneu.libArdListSearch,
 	'libArdPlayClassic': libArdPlayClassic,
-	'libArdPlayNeu': libardneu.libArdPlayNeu,
+	'libArdPlayHtml': libardneu.libArdPlayHtml,
 }
