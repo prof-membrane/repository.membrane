@@ -70,6 +70,8 @@ def _newSubtitle(url):
 					else:
 						part = part.replace('<'+entry+'>','')
 
+				# Translate html entities in subtitles into readable characters.
+				part = _cleanTitle(part, False)
 
 				buffer += str(i) + '\n'
 				buffer += begin+" --> "+end+"\n"
