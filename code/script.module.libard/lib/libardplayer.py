@@ -57,7 +57,7 @@ def fetchJsonVideo(id):
 					quality = currentQuality
 	if finalUrl.startswith('//'):
 		finalUrl = 'http:' + finalUrl
-	if finalUrl.startswith('http://wdradaptiv') or finalUrl.endswith('.mp4'):
+	if finalUrl.endswith('.mp4'):
 		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 	else:
 		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]

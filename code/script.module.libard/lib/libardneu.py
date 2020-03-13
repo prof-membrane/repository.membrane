@@ -25,8 +25,8 @@ def libArdListChannels():
 			d['mode'] = 'libArdListShowsByChannel'
 		elif (mode == 'libArdListChannelDates') and (channel[1] & bydate):
 			d['mode'] = 'libArdListDateByChannel'
-		elif (mode == 'libArdListChannelLivestreams') and (channel[1] & livestream):
-			d['mode'] = 'libArdPlayLivestreamByChannel'
+		elif (mode == 'libArdListChannelLivestreams') and (channel[1] & (live_byclient + live_byard)):
+			d['mode'] = 'libArdListLivestreamsByChannel'
 		else:
 			d['mode'] = None
 		if d['mode']:
@@ -37,26 +37,36 @@ def libArdListChannels():
 	return l
 
 def libArdListShowsByChannel():
-	libMediathek.sortAZ()
 	params = libMediathek.get_params()
-	channel = channels[int(params['channel'])]
-	return libArdJsonParserNeu.parseAZ(channel[2], channel[3])
+	return libMediathek.populateDirAZ('libArdListChannelShowVideos', [], params['channel'])
 
 def libArdListDateByChannel():
 	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libArdListChannelDateVideos', params['channel'])
 
-def libArdPlayLivestreamByChannel():
-	libMediathek.sortAZ()
+def libArdListLivestreamsByChannel():
 	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
-	return libArdJsonParserNeu.parseAZ(channel[2], channel[3], getLivestream=True)
+	# Livestreams sind nicht sinnvoll vorsortiert
+	libMediathek.sortAZ()
+	return libArdJsonParserNeu.parseLivestreams(channel[2], 'ard' if (channel[1] & live_byard) else channel[3])
+
+def libArdListChannelShowVideos():
+	params = libMediathek.get_params()
+	channel = channels[int(params['channel'])]
+	letter = params['name'].upper()
+	if letter == '#':
+		letter = '09'
+	return libArdJsonParserNeu.parseAZ(channel[3], letter)
 
 def libArdListChannelDateVideos():
-	libMediathek.sortAZ()
 	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
-	return libArdJsonParserNeu.parseDate(channel[2], channel[3], params['yyyymmdd'])
+	partnerKey = channel[2]
+	# "Alle Sender nach Datum" ist nicht sinnvoll vorsortiert
+	if partnerKey is None:
+		libMediathek.sortAZ()
+	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
 
 def libArdListSearch():
 	search_string = libMediathek.getSearchString(do_quote=False)
@@ -66,7 +76,6 @@ def libArdListSearch():
 		return None
 
 def libArdListShow():
-	libMediathek.sortAZ()
 	params = libMediathek.get_params()
 	return libArdJsonParserNeu.parseShow(params['documentId'])
 
@@ -82,44 +91,46 @@ def libArdPlayHtml():
 	result = libMediathek.getMetadata(result)
 	return result
 
-ondemand =   (1<<0)
-bydate =     (1<<1)
-livestream = (1<<2)
+ondemand =      (1<<0)
+bydate =        (1<<1)
+live_byclient = (1<<2)
+live_byard =    (1<<3)
 
 channels = (
-#	(name,            flags,                          channelKey,     clientKey)
-	('Alle Sender',   ondemand + bydate,              None,           'ard'),
-	('Das Erste',     ondemand + bydate + livestream, 'das_erste',    'ard'),
-	('BR',            ondemand + bydate + livestream, 'br',           'br'),
-	('HR',            ondemand + bydate + livestream, 'hr',           'hr'),
-	('MDR',           ondemand + bydate + livestream, 'mdr',          'mdr'),
-	('NDR',           ondemand + bydate + livestream, 'ndr',          'ndr'),
-	('Radio Bremen',  bydate + livestream,            'radio_bremen', 'ard'),
-	('RBB',           ondemand + bydate + livestream, 'rbb',          'rbb'),
-	('SR',            ondemand + bydate + livestream, 'sr',           'sr'),
-	('SWR',           ondemand + bydate + livestream, 'swr',          'swr'),
-	('WDR',           ondemand + bydate + livestream, 'wdr',          'wdr'),
-	('One',           ondemand + bydate + livestream, 'one',          'one'),
-	('ARD-alpha',     bydate + livestream,            'ard-alpha',    'ard'),
-	('Phoenix',       bydate + livestream,            'phoenix',      'ard'),
-	('Tagesschau24',  ondemand + bydate + livestream, 'tagesschau24', 'tagesschau24'),
-	('3sat',          livestream,                     '3sat',         'ard'),
-	('Arte',          livestream,                     'arte',         'ard'),
-	('KiKA',          livestream,                     'KiKa',         'ard'),
-	('Deutsche Welle',livestream,                     'dw',           'ard'),
+#	(name,            flags,                              partnerKey,     clientKey)
+	('Alle Sender',   ondemand + bydate + live_byard,     None,           'ard'),
+	('Das Erste',     ondemand + bydate + live_byclient,  'das_erste',    'daserste'),
+	('BR',            ondemand + bydate + live_byclient,  'br',           'br'),
+	('HR',            ondemand + bydate + live_byard,     'hr',           'hr'),
+	('MDR',           ondemand + bydate + live_byclient,  'mdr',          'mdr'),
+	('NDR',           ondemand + bydate + live_byclient,  'ndr',          'ndr'),
+	('Radio Bremen',  ondemand + bydate + live_byard,     'radio_bremen', 'radiobremen'),
+	('RBB',           ondemand + bydate + live_byclient,  'rbb',          'rbb'),
+	('SR',            ondemand + bydate + live_byard,     'sr',           'sr'),
+	('SWR',           ondemand + bydate + live_byclient,  'swr',          'swr'),
+	('WDR',           ondemand + bydate + live_byard,     'wdr',          'wdr'),
+	('One',           ondemand + bydate + live_byard,     'one',          'one'),
+	('ARD-alpha',     ondemand + bydate + live_byard,     'ard-alpha',    'ardalpha'),
+	('Phoenix',       ondemand + bydate + live_byard,     'phoenix',      'phoenix'),
+	('Tagesschau24',  ondemand + bydate + live_byclient,  'tagesschau24', 'tagesschau24'),
+	('3sat',          live_byard,                         '3sat',         None),
+	('Arte',          live_byard,                         'arte',         None),
+	('KiKA',          live_byard,                         'KiKa',         None),
+	('Deutsche Welle',live_byard,                         'dw',           None),
 )
 
 modesNeu = {
-	'libArdListMainNeu':            libArdListMainNeu,
-	'libArdListChannelShows':       libArdListChannels,
-	'libArdListChannelDates':       libArdListChannels,
-	'libArdListChannelLivestreams': libArdListChannels,
-	'libArdListShowsByChannel':     libArdListShowsByChannel,
-	'libArdListDateByChannel':      libArdListDateByChannel,
-	'libArdPlayLivestreamByChannel':libArdPlayLivestreamByChannel,
-	'libArdListChannelDateVideos':  libArdListChannelDateVideos,
-	'libArdListSearch':             libArdListSearch,
-	'libArdListShow':               libArdListShow,
-	'libArdPlay':                   libArdPlay,
-	'libArdPlayHtml':               libArdPlayHtml,
+	'libArdListMainNeu':              libArdListMainNeu,
+	'libArdListChannelShows':         libArdListChannels,
+	'libArdListChannelDates':         libArdListChannels,
+	'libArdListChannelLivestreams':   libArdListChannels,
+	'libArdListShowsByChannel':       libArdListShowsByChannel,
+	'libArdListDateByChannel':        libArdListDateByChannel,
+	'libArdListLivestreamsByChannel': libArdListLivestreamsByChannel,
+	'libArdListChannelShowVideos':    libArdListChannelShowVideos,
+	'libArdListChannelDateVideos':    libArdListChannelDateVideos,
+	'libArdListSearch':               libArdListSearch,
+	'libArdListShow':                 libArdListShow,
+	'libArdPlay':                     libArdPlay,
+	'libArdPlayHtml':                 libArdPlayHtml,
 }

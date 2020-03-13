@@ -20,19 +20,19 @@ keyOperationName = 'operationName'
 keyVariables = 'variables'
 keyExtensions = 'extensions'
 extensions = '{"persistedQuery":{"version":1,"sha256Hash":"%s"}}'
-pageNames = ('defaultPage','defaultPage','showPage','programPage','playerPage')
-pageIndexDefaultPage = 0
-pageIndexLivestream = 1
-pageIndexShowPage = 2
-pageIndexProgramPage = 3
-pageIndexPlayerPage = 4
+pageNames = ('showsPage','programPage','defaultPage','playerPage','showPage')
+pageIndexAZPage = 0
+pageIndexProgramPage = 1
+pageIndexLivestreamPage = 2
+pageIndexPlayerPage = 3
+pageIndexShowPage = 4
 
 
 def deep_get(dictionary, keys, default=None):
 	return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, keys.split('.'), dictionary)
 
-def parseAZ(channelKey, clientKey, getLivestream=False):
-	pageIndex = pageIndexLivestream if getLivestream else pageIndexDefaultPage
+def parseLivestreams(partnerKey, clientKey):
+	pageIndex = pageIndexLivestreamPage
 	variables = '{"client":"%s","name":"home","personalized":false}'
 	sha256Hash = '9995d49ccbd97dfb67357e9e3505e4f022e405d0ad23fc3d21dd36c2e2de7bb8'
 	queryParams = {}
@@ -40,9 +40,18 @@ def parseAZ(channelKey, clientKey, getLivestream=False):
 	queryParams[keyVariables] = variables % clientKey
 	queryParams[keyExtensions] = extensions % sha256Hash
 	url = baseUrlJson + urlencode(queryParams)
-	partnerKey = channelKey
-	channelKey = None
-	return parse(pageIndex, channelKey, partnerKey, url)
+	return parse(pageIndex, url, partnerKey)
+
+def parseAZ(clientKey, letter):
+	pageIndex = pageIndexAZPage
+	variables = '{"client":"%s"}'
+	sha256Hash = '98428cf5620ad85b703f425bd17970f25bd6da2126a06f12571317d27998039b'
+	queryParams = {}
+	queryParams[keyOperationName] = pageNames[pageIndex]
+	queryParams[keyVariables] = variables % clientKey
+	queryParams[keyExtensions] = extensions % sha256Hash
+	url = baseUrlJson + urlencode(queryParams)
+	return parseLetter(pageIndex, url, letter)
 
 def parseShow(showId):
 	pageIndex = pageIndexShowPage
@@ -53,9 +62,9 @@ def parseShow(showId):
 	queryParams[keyVariables] = variables % showId
 	queryParams[keyExtensions] = extensions % sha256Hash
 	url = baseUrlJson + urlencode(queryParams)
-	return parse(pageIndex, None, None, url)
+	return parse(pageIndex, url)
 
-def parseDate(channelKey, clientKey, date):
+def parseDate(partnerKey, clientKey, date):
 	pageIndex = pageIndexProgramPage
 	variables = '{"client":"%s","startDate":"%s"}'
 	sha256Hash = 'b3f152bfb679d8246594cf7f807860acdb1bf5479801dcace1307d6f6e2a2e23'
@@ -64,10 +73,8 @@ def parseDate(channelKey, clientKey, date):
 	queryParams[keyVariables] = variables % (clientKey, date) # date = YYYY-MM-DD
 	queryParams[keyExtensions] = extensions % sha256Hash
 	url = baseUrlJson + urlencode(queryParams)
-	partnerKey = channelKey
-	if channelKey:
-		channelKey = re.sub('[^A-Za-z0-9]+', '', channelKey)
-	return parse(pageIndex, channelKey, partnerKey, url)
+	channelKey = clientKey if partnerKey else None
+	return parse(pageIndex, url, partnerKey, channelKey)
 
 def getVideoUrl(clipId):
 	pageIndex = pageIndexPlayerPage
@@ -81,15 +88,21 @@ def getVideoUrl(clipId):
 	return parseVideo(pageIndex, url)
 
 def parseVideo(pageIndex, url):
-	finalUrl = None
+	result = None
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
-	mediaArray = deep_get(j, 'data.' + pageNames[pageIndex] + '.mediaCollection._mediaArray')
-	if mediaArray:
-		mediaStreamArray = mediaArray[0].get('_mediaStreamArray',None)
-		if mediaStreamArray:
-			return extractBestQuality(mediaStreamArray, lambda x: x[0])
-	return None
+	mediaCollection = deep_get(j, 'data.' + pageNames[pageIndex] + '.mediaCollection')
+	if mediaCollection:
+		mediaArray = mediaCollection.get('_mediaArray',None)
+		if mediaArray:
+			mediaStreamArray = mediaArray[0].get('_mediaStreamArray',None)
+			if mediaStreamArray:
+				result = extractBestQuality(mediaStreamArray, lambda x: x[0])
+		if result:
+			subtitleUrl = mediaCollection.get('_subtitleUrl',None)
+			if subtitleUrl:
+				result['subtitle'] = [{'url':subtitleUrl, 'type': 'ttml', 'lang':'de'}]
+	return result
 
 def parseSearchHtml(url):
 	l = []
@@ -175,14 +188,14 @@ def extractBestQuality(streams, fnGetFinalUrl):
 		d = {}
 		if finalUrl.startswith('//'):
 			finalUrl = 'http:' + finalUrl
-		if finalUrl.startswith('http://wdradaptiv') or finalUrl.endswith('.mp4'):
+		if finalUrl.endswith('.mp4'):
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 		else:
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
 		return d
 	return None
 
-def parse(pageIndex, channelKey, partnerKey, url):
+def parse(pageIndex, url, partnerKey=None, channelKey=None):
 	result = []
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
@@ -201,7 +214,7 @@ def parse(pageIndex, channelKey, partnerKey, url):
 							if (
 							 	type in ('live','ondemand','broadcastMainClip','show')
 							 	and
-								(type == 'live') == (pageIndex == pageIndexLivestream)
+								(type == 'live') == (pageIndex == pageIndexLivestreamPage)
 								and
 								((partnerKey is None) or (publicationService and (partnerKey == publicationService.get('partner',None))))
 							):
@@ -231,10 +244,38 @@ def parse(pageIndex, channelKey, partnerKey, url):
 										if pageIndex == pageIndexProgramPage:
 											airedtime = libMediathek.str_to_airedtime(teaser.get('broadcastedOn', None))
 											if airedtime:
-												d['_airedtime'] = airedtime.strftime('%H:%M')
+												if partnerKey is None:
+													d['_airedtime'] = airedtime.strftime('%Y-%m-%d %H:%M')
+												else:
+													d['_airedtime'] = airedtime.strftime('%H:%M')
 												d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
-										d['_type'] = 'live' if pageIndex == pageIndexLivestream else 'video'
+										d['_type'] = 'live' if pageIndex == pageIndexLivestreamPage else 'video'
 										d['mode'] = 'libArdPlay'
 									result.append(d)
 	return result
 
+def parseLetter(pageIndex, url, letter):
+	result = []
+	response = libMediathek.getUrl(url)
+	j = json.loads(response)
+	shows = deep_get(j, 'data.' + pageNames[pageIndex] + '.glossary.shows' + letter, [])
+	for teaser in shows:
+		type = teaser['type']
+		documentId = deep_get(teaser, 'links.target.id')
+		name = teaser['shortTitle']
+		if type == 'show' and documentId and name:
+			d = {}
+			d['documentId'] = documentId
+			d['name'] = name
+			d['plot'] = teaser.get('longTitle',None)
+			thumb = deep_get(teaser, 'images.aspect16x9.src')
+			if not thumb:
+				thumb = deep_get(teaser, 'images.aspect1x1.src')
+			if not thumb:
+				thumb = deep_get(teaser, 'images.aspect16x7.src')
+			if thumb:
+				d['thumb'] = (thumb.split('?')[0]).replace('{width}','1024')
+			d['_type'] = 'dir'
+			d['mode'] = 'libArdListShow'
+			result.append(d)
+	return result
