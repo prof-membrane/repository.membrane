@@ -7,7 +7,7 @@ Im kodi.tv Wiki gibt es eine [Installationsanleitung](https://kodi.wiki/view/HOW
 Die Gigathek ist eine Fortführung des Repository [repository.membrane](https://github.com/prof-membrane/repository.membrane)
 welches offenbar nicht mehr weiterentwickelt wird.
 
-Die Addons sind lauffähig unter Kodi Krypton und Leia ~~sowie Matrix~~ [[1](https://github.com/xbmc/xbmc/pull/17188)].
+Die Addons sind lauffähig unter Kodi Krypton und Leia ~~sowie Matrix~~ [[1](https://www.kodinerds.net/index.php/Thread/69004-Ich-bin-mit-KODI-am-Ende/?postID=578189#post578189)].
 
 # Inhalt des Repos
 
