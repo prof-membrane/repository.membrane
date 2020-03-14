@@ -27,15 +27,9 @@ Die Addons sind lauffähig unter Kodi Krypton und Leia ~~sowie Matrix~~ [[1](htt
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.kikamediathek/icon.png?raw=true" width="32"> KiKA Mediathek
 
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.mdrmediathek/icon.png?raw=true" width="32"> ~~MDR Mediathek~~ (lt. Pressemitteilung seit 11.09.2019 offline [[2](https://www.mdr.de/presse/unternehmen/mdr-mediathek-in-die-ard-mediathek-umgezogen-100.html)])
-
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.ndrmediathek/icon.png?raw=true" width="32"> ~~NDR Mediathek~~ (lt. Pressemitteilung seit 11.12.2019 offline [[3](https://www.presseportal.de/pm/6561/4464810)])
-
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.phoenixmediathek/icon.png?raw=true" width="32"> Phoenix Mediathek
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.srmediathek/icon.png?raw=true" width="32"> SR Mediathek
-
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.swrmediathek/icon.png?raw=true" width="32"> ~~SWR Mediathek~~ (lt. Pressemitteilung seit 19.08.2019 offline [[4](https://www.swr.de/home/Umzug-der-SWR-Mediathek-in-die-ARD-Mediathek,artikel-mediathek-umzug-100.html)])
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.wdrmediathek/icon.png?raw=true" width="32"> WDR Mediathek
 

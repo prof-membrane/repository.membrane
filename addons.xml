@@ -141,48 +141,6 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.mdrmediathek" name="MDR Mediathek" version="1.1.6" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
-        </requires>
-        <extension point="xbmc.python.pluginsource" library="default.py">
-            <provides>video</provides>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <language>de</language>
-            <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-            <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.mdrmediathek</source>
-            <summary lang="en">This is an add-on for http://www.mdr.de/mediathek/index.html.</summary>
-            <description lang="en">This add-on provides access to the German VOD platform http://www.mdr.de/mediathek/index.html.</description>
-            <summary lang="de">Sendebeiträge der MDR Mediathek.</summary>
-            <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des MDR. Zur Auswahl stehen unter anderem Dokumentationen und Serien.</description>
-            <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
-        </extension>
-    </addon>
-
-    <addon id="plugin.video.ndrmediathek" name="NDR Mediathek" version="1.1.4" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
-        </requires>
-        <extension point="xbmc.python.pluginsource" library="default.py">
-            <provides>video</provides>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <language>de</language>
-            <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-            <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.ndrmediathek</source>
-            <summary lang="en">This is an add-on for http://www.ndr.de/mediathek/.</summary>
-            <description lang="en">This add-on provides access to the German VOD platform http://www.ndr.de/mediathek/.</description>
-            <summary lang="de">Sendebeiträge der NDR Mediathek.</summary>
-            <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des NDR. Zur Auswahl stehen unter anderem Reportagen und Serien.</description>
-            <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
-        </extension>
-    </addon>
-
     <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.3" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
@@ -220,27 +178,6 @@
             <description lang="en">This add-on provides access to the German VOD platform http://sr-mediathek.de/.</description>
             <summary lang="de">Sendebeiträge der SR Mediathek.</summary>
             <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des SR. Zur Auswahl stehen vorallem Reportagen.</description>
-            <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
-        </extension>
-    </addon>
-
-    <addon id="plugin.video.swrmediathek" name="SWR Mediathek" version="1.1.4" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
-        </requires>
-        <extension point="xbmc.python.pluginsource" library="default.py">
-            <provides>video</provides>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <language>de</language>
-            <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-            <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.swrmediathek</source>
-            <summary lang="en">This is an add-on for http://swrmediathek.de/index.htm.</summary>
-            <description lang="en">This add-on provides access to the German VOD platform http://swrmediathek.de/index.htm. The content is only accessable from Germany.</description>
-            <summary lang="de">Sendebeiträge der SWR Mediathek.</summary>
-            <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des SWR. Zur Auswahl stehen unter anderem Dokumentationen und Serien.</description>
             <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
         </extension>
     </addon>
@@ -415,20 +352,7 @@
             <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
             <source>https://github.com/68000a/Gigathek/tree/master/code/script.module.libmediathek3</source>
             <summary lang="en">Supplementary lib for Mediathek add-ons.</summary>
-            <description lang="en">This lib is a mini framework. It is used in following "Mediathek" Scrapers: 3sat, ARD, BR, Das Erste, MDR, SR, SWR, WDR, ZDF.</description>
-        </extension>
-    </addon>
-
-    <addon id="script.module.libndr" name="libndr" version="1.1.4" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
-        </requires>
-        <extension point="xbmc.python.module" library="lib" />
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <summary lang="en">This as a scraper for the NDR Mediathek (https://www.ndr.de/mediathek/).</summary>
-            <description lang="en">This as a scraper for the NDR Mediathek (https://www.ndr.de/mediathek/).</description>
+            <description lang="en">This lib is a mini framework. It is used in following "Mediathek" Scrapers: 3sat, ARD, BR, Das Erste, SR, WDR, ZDF.</description>
         </extension>
     </addon>
 
