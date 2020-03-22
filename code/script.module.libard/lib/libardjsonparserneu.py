@@ -242,12 +242,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 										d['mode'] = 'libArdListShow'
 									else:
 										if pageIndex == pageIndexProgramPage:
-											airedtime = libMediathek.str_to_airedtime(teaser.get('broadcastedOn', None))
-											if airedtime:
-												if partnerKey is None:
-													d['_airedtime'] = airedtime.strftime('%Y-%m-%d %H:%M')
-												else:
-													d['_airedtime'] = airedtime.strftime('%H:%M')
+											d['_airedISO8601'] = teaser.get('broadcastedOn', None)
 										if pageIndex == pageIndexLivestreamPage:
 											d['_type'] = 'live'
 										elif pageIndex == pageIndexProgramPage:
@@ -258,7 +253,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 									result.append(d)
 	# "Alle Sender nach Datum" ist nicht sinnvoll vorsortiert
 	if pageIndex == pageIndexProgramPage and partnerKey is None:
-		result.sort(key = lambda x: x.get('_airedtime',None))
+		result.sort(key = lambda x: x.get('_airedISO8601',None))
 	return result
 
 def parseLetter(pageIndex, url, letter):

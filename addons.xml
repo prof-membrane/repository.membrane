@@ -24,7 +24,7 @@
     <addon id="plugin.video.ardmediathek_de" name="ARD Mediathek" version="5.1.3" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libard" version="5.1.16"/>
+            <import addon="script.module.libard" version="5.1.17"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -254,7 +254,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libard" name="libard" version="5.1.16" provider-name="68000a">
+    <addon id="script.module.libard" name="libard" version="5.1.17" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.18"/>
