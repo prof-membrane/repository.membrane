@@ -63,9 +63,6 @@ def libArdListChannelDateVideos():
 	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
 	partnerKey = channel[2]
-	# "Alle Sender nach Datum" ist nicht sinnvoll vorsortiert
-	if partnerKey is None:
-		libMediathek.sortAZ()
 	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
 
 def libArdListSearch():

@@ -226,7 +226,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 									d['name'] = name
 									d['plot'] = teaser.get('longTitle',None)
 									if (pageIndex == pageIndexProgramPage) and (partnerKey is None) and publicationService:
-										d['name'] = publicationService['name'] + ' - ' + d['name']
+										d['name'] = d['name'] + ' | [COLOR blue]' + publicationService['name'] + '[/COLOR]'
 									duration = teaser.get('duration', None)
 									if duration:
 										d['_duration'] = str(duration)
@@ -248,10 +248,17 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 													d['_airedtime'] = airedtime.strftime('%Y-%m-%d %H:%M')
 												else:
 													d['_airedtime'] = airedtime.strftime('%H:%M')
-												d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
-										d['_type'] = 'live' if pageIndex == pageIndexLivestreamPage else 'video'
+										if pageIndex == pageIndexLivestreamPage:
+											d['_type'] = 'live'
+										elif pageIndex == pageIndexProgramPage:
+											d['_type'] = 'date'
+										else:
+											d['_type'] = 'video'
 										d['mode'] = 'libArdPlay'
 									result.append(d)
+	# "Alle Sender nach Datum" ist nicht sinnvoll vorsortiert
+	if pageIndex == pageIndexProgramPage and partnerKey is None:
+		result.sort(key = lambda x: x.get('_airedtime',None))
 	return result
 
 def parseLetter(pageIndex, url, letter):

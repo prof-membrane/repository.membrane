@@ -26,7 +26,7 @@ def parseDate(url):
 		for entry in j2:
 			d = {}
 			d["_airedtime"] = entry["dachzeile"]
-			d["name"] = '(' + d["_airedtime"] + ') ' + entry["ueberschrift"]
+			d["name"] = entry["ueberschrift"]
 			duration = 0
 			for j3 in entry["inhalte"]:
 				if runtimeToInt(j3["unterzeile"]) > duration:
@@ -41,7 +41,7 @@ def parseDate(url):
 					d["url"] = j3["link"]["url"]
 					d["documentId"] = j3["link"]["url"].split("player/")[1].split("?")[0]
 					d["_duration"] = str(duration)
-					d["_type"] = 'video'
+					d["_type"] = 'date'
 					d['mode'] = 'libArdPlayClassic'
 			l.append(d)
 	return l

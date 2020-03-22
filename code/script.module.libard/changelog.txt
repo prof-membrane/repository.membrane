@@ -1,3 +1,5 @@
+5.1.16
+- Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"
 5.1.15
 - Sendungs-Untertitel funktionieren jetzt auch in der neuen ARD-Mediathek
 - Sendungen nach A-Z glattgezogen
