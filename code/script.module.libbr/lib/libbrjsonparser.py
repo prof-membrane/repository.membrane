@@ -200,9 +200,7 @@ def parseDate(day,channel):
 		publicationOf = broadcastEvent['publicationOf']
 		if len(publicationOf['essences']['edges']) != 0:
 			d = _buildVideoDict(publicationOf)
-			airedtime = libMediathek.str_to_airedtime(broadcastEvent['start'])
-			if airedtime:
-				d['_airedtime'] = airedtime.strftime("%H:%M")
+			d['_airedISO8601'] = broadcastEvent['start']
 			d['_type'] = 'date'
 			l.append(d)
 	return l

@@ -35,9 +35,7 @@ def _parse_data(video):
 	elif video['shortDescription']:
 		d['plot'] = video['shortDescription']
 	if 'broadcastDates' in video:
-		airedtime = libMediathek.str_to_airedtime(video['broadcastDates'][0])
-		if airedtime:
-			d['_airedtime'] = airedtime.strftime('%H:%M')
+		d['_airedISO8601'] = video['broadcastDates'][0]
 	if video['images']['landscape']:
 		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
 		d['thumb'] = max_res['url']
