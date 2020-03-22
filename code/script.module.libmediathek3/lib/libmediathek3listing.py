@@ -54,10 +54,10 @@ def addEntries(l):
 			if isinstance(d['name'], unicode):
 				d['name'] = d['name'].encode('utf-8')
 		d['name'] = clearString(d['name'])
-		if 'airedISO8601' in d or 'airedISO8601A' in d:
+		if 'airedISO8601' in d:
 			d['aired'],d['airedtime'] = _airedISO8601(d)
 
-		if d.get('type',None) == 'date' and 'airedtime' in d:
+		if d.get('type',None) == 'date' and d.get('airedtime',None):
 			d['name'] = '[COLOR orange]' + str(d['airedtime']) + '[/COLOR]  ' + d['name']
 
 		ilabels = {
