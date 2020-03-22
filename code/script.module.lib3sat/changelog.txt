@@ -1,3 +1,6 @@
+1.2.8
+- Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"
+- Code entflochten
 1.2.7
 - Code vereinfacht
 1.2.6

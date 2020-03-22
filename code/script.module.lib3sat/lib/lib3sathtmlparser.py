@@ -1,8 +1,7 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
-import time
 import json
-from datetime import date, datetime, timedelta
-# import xbmc
+from datetime import datetime
 import bs4 as bs
 import libmediathek3 as libMediathek
 
@@ -14,39 +13,6 @@ thumbnail1_types = ['is-desktop', 'is-mobile']
 thumbnail2_types = ['is-16-9', 'is-8-9']
 preferred_thumbnail_type = 0 # => Desktop
 preferred_resolutions = [['384w', '768w', '1280w', '1920w', '2400w'], ['240w', '640w', '1152w']]
-
-translation = libMediathek.getTranslation
-params = libMediathek.get_params()
-
-
-def list():
-	return libMediathek.list(modes, 'lib3satHtmlListMain', 'lib3satHtmlPlay')
-
-
-def lib3satHtmlListMain():
-	l = []
-	l.append({'name':translation(31032), 'mode':'lib3satHtmlListLetters', '_type':'dir'})
-	l.append({'name':translation(31033), 'mode':'lib3satHtmlListDate', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'lib3satHtmlSearch', '_type':'dir'})
-	return l
-
-
-def lib3satHtmlListLetters():
-	# URL z.B.: https://www.3sat.de/sendungen-a-z?group=a
-	mode = 'lib3satHtmlListShows'
-	l = libMediathek.populateDirAZ(mode, ['#'])
-	d = {}
-	d['mode'] = mode
-	d['name'] = '0-9'
-	d['_type'] = 'dir'
-	l.append(d)
-	return l
-
-
-def lib3satHtmlListDate():
-	# URL z.B.: https://www.3sat.de/programm?airtimeDate=2019-06-21
-	l = libMediathek.populateDirDate('lib3satHtmlListDateVideos')
-	return l
 
 
 def chooseImage(pictureList, thumbnail_type):
@@ -78,14 +44,13 @@ def getDate(date_str):
 		d = {}
 		name = article.find('h3')
 		if not (name is None):
-			d['_type'] = 'video'
+			d['_type'] = 'date'
 			d['mode'] = 'lib3satHtmlPlay'
 			d['name'] = name.text
 			airedtime_begin = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-begin', None))
 			if not (airedtime_begin is None):
 				airedtime = datetime (airedtime_begin.year, airedtime_begin.month, airedtime_begin.day, airedtime_begin.hour, int(airedtime_begin.minute / 5) * 5)
 				d['_airedtime'] = airedtime.strftime('%H:%M')
-				d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
 				airedtime_end = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-end', None))
 				if not (airedtime_end is None):
 					d['duration'] = str((airedtime_end - airedtime_begin).seconds)
@@ -101,17 +66,6 @@ def getDate(date_str):
 				if not (href is None):
 					d['url'] = base + href
 			l.append(d)
-	return l
-
-
-def lib3satHtmlListDateVideos():
-	if 'datum' in params:
-		day = date.today() - timedelta(int(params['datum']))
-		yyyy_mm_dd = day.strftime('%Y-%m-%d')
-	else:
-		ddmmyyyy = libMediathek.dialogDate()
-		yyyy_mm_dd = ddmmyyyy[4:8] + '-' + ddmmyyyy[0:2] + '-' + ddmmyyyy[2:4]
-	l = getDate(yyyy_mm_dd)
 	return l
 
 
@@ -138,23 +92,6 @@ def getAZ(url):
 					d['thumb'] = chooseImage(picture.contents, thumbnail2_types)
 				l.append(d)
 	return l
-
-
-def lib3satHtmlListShows():
-	libMediathek.sortAZ()
-	url = base + '/sendungen-a-z?group=' + params['name'].lower()
-	l = getAZ(url)
-	return l
-
-
-def lib3satHtmlSearch():
-	search_string = libMediathek.getSearchString()
-	if search_string:
-		url = base + '/suche?q=' +search_string
-		l = getAZ(url)
-		return l
-	else:
-		return None
 
 
 def grepItem(target):
@@ -216,9 +153,10 @@ def getVideoUrl(url, api_token):
 	return d
 
 
-def lib3satHtmlPlay(url = None):
+def lib3satHtmlPlay(url):
 	result = None
 	if url is None:
+		params = libMediathek.get_params()
 		url = params['url']
 	response = libMediathek.getUrl(url)
 	soup = bs.BeautifulSoup(response, 'html.parser')
@@ -233,16 +171,4 @@ def lib3satHtmlPlay(url = None):
 			target = json.loads(content_response)
 			j = grepItem(target)
 			result = getVideoUrl(j['url'], api_token)
-	result = libMediathek.getMetadata(result)
 	return result
-
-
-modes = {
-	'lib3satHtmlListMain': lib3satHtmlListMain,
-	'lib3satHtmlListLetters': lib3satHtmlListLetters,
-	'lib3satHtmlListDate': lib3satHtmlListDate,
-	'lib3satHtmlListDateVideos': lib3satHtmlListDateVideos,
-	'lib3satHtmlSearch': lib3satHtmlSearch,
-	'lib3satHtmlListShows': lib3satHtmlListShows,
-	'lib3satHtmlPlay': lib3satHtmlPlay,
-}

@@ -1,4 +1,4 @@
 ﻿# -*- coding: utf-8 -*-
-import lib3sathtmlparser
+import lib3sat
 
-lib3sathtmlparser.list()
+lib3sat.list()
