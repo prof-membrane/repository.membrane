@@ -38,7 +38,6 @@ def _parse_data(video):
 		airedtime = libMediathek.str_to_airedtime(video['broadcastDates'][0])
 		if airedtime:
 			d['_airedtime'] = airedtime.strftime('%H:%M')
-			d['name'] = '(' + d['_airedtime'] + ') ' + d['name']
 	if video['images']['landscape']:
 		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
 		d['thumb'] = max_res['url']
@@ -52,7 +51,7 @@ def _parse_data(video):
 	else:
 		d['url'] = '/videoStreams?programId=' + video['programId'] + stream_params + '&kind=' + video['kind']['code']
 		d['mode'] = 'libArtePlay'
-		d['_type'] = 'video'
+		d['_type'] = 'date'
 		d['_duration'] = video['duration']
 	return d
 
