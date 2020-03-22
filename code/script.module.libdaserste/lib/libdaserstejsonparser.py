@@ -124,10 +124,10 @@ def _parseVideo(entry,t='video'):
 		epoch = entry['referenceDate']/1000
 		d['_epoch'] = str(epoch)
 		airedtime =  datetime.fromtimestamp(epoch)
-		d['_aired'] = airedtime.strftime('%Y-%m-%d')
-		d['_airedtime'] = airedtime.strftime('%H:%M')
 		if 'serialProgramName' in entry:
-			d['_name'] = '(' + d['_aired'] + ') ' + d['_name']
+			d['_airedtime'] = airedtime.strftime('%Y-%m-%d')
+		else:
+			d['_airedtime'] = airedtime.strftime('%H:%M')
 	d['url'] = 'http://www.daserste.de/dasersteapp/' + entry['id'] + '~full.json'
 	d['_type'] = t
 	d['mode'] = 'libDasErstePlay'
