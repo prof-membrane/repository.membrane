@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.17" provider-name="68000a">
+<addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.18" provider-name="68000a">
   <requires>
     <import addon="xbmc.python" version="2.25.0" />
   </requires>

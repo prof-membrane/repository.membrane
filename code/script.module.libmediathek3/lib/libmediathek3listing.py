@@ -51,28 +51,26 @@ def addEntries(l):
 			if not 'mode' in d:
 				d['mode'] = get_params()['mode']
 		if sys.version_info[0] < 3: # for Python 2
-			if isinstance(d["name"], unicode):
-				d["name"] = d["name"].encode('utf-8')
-		d["name"] = clearString(d["name"])
+			if isinstance(d['name'], unicode):
+				d['name'] = d['name'].encode('utf-8')
+		d['name'] = clearString(d['name'])
 		if 'airedISO8601' in d or 'airedISO8601A' in d:
 			d['aired'],d['airedtime'] = _airedISO8601(d)
 
-		if 'type' in d and d['type'] == 'date' and 'airedtime' in d:
-			d["name"] = '(' + str(d["airedtime"]) + ') ' + d["name"]
-		elif 'type' in d and d['type'] == 'date' and 'time' in d:
-			d["name"] = '(' + str(d["date"]) + ') ' + d["name"]
+		if d.get('type',None) == 'date' and 'airedtime' in d:
+			d['name'] = '[COLOR orange]' + str(d['airedtime']) + '[/COLOR]  ' + d['name']
 
 		ilabels = {
-			"Title": clearString(d.get('name','')),
-			"Plot": clearString(d.get('plot','')),
-			"Plotoutline": clearString(d.get('plot','')),
-			"Duration": d.get('duration',''),
-			"Mpaa": d.get('mpaa',''),
-			"Aired": d.get('aired',''),
-			"Studio": d.get('channel',''),
+			'Title': clearString(d.get('name','')),
+			'Plot': clearString(d.get('plot','')),
+			'Plotoutline': clearString(d.get('plot','')),
+			'Duration': d.get('duration',''),
+			'Mpaa': d.get('mpaa',''),
+			'Aired': d.get('aired',''),
+			'Studio': d.get('channel',''),
 			}
 		if 'epoch' in d:
-			ilabels['aired'] = time.strftime("%Y-%m-%d", time.gmtime(float(d['epoch'])))
+			ilabels['aired'] = time.strftime('%Y-%m-%d', time.gmtime(float(d['epoch'])))
 		if 'episode' in d:
 			ilabels['Episode'] = d['episode']
 		if 'Season' in d:
@@ -96,9 +94,9 @@ def addEntries(l):
 		ok=True
 		liz=xbmcgui.ListItem(clearString(d.get('name','')))
 		if d.get('type',None) == 'audio':
-			liz.setInfo( type="music", infoLabels=ilabels)
+			liz.setInfo( type='music', infoLabels=ilabels)
 		else:
-			liz.setInfo( type="video", infoLabels=ilabels)
+			liz.setInfo( type='video', infoLabels=ilabels)
 		liz.addStreamInfo('subtitle', {'language': 'deu'})
 		art = {}
 		art['thumb'] = d.get('thumb')
@@ -113,7 +111,7 @@ def addEntries(l):
 				liz.setProperty(prop, d['customprops'][prop])
 
 		if d.get('type',None) == 'video' or d.get('type',None) == 'live' or d.get('type',None) == 'date' or d.get('type',None) == 'clip' or d.get('type',None) == 'episode' or d.get('type',None) == 'audio':
-			#xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="episodes" )
+			#xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='episodes' )
 			liz.setProperty('IsPlayable', 'true')
 			if d.get('type',None) == 'live':
 				liz.setProperty('starttime','1')
@@ -125,13 +123,13 @@ def addEntries(l):
 	if len(l) > 0:
 		type = l[0]['_type']
 		if type == 'video' or type == 'live':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="videos" )
+			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='videos' )
 		elif type == 'date' or type == 'clip' or type == 'episode':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="episodes" )
+			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='episodes' )
 		elif type == 'shows' or type == 'season':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="tvshows" )
+			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='tvshows' )
 		else:
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content="files" )
+			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='files' )
 
 	xbmcplugin.addDirectoryItems(int(sys.argv[1]), lists)
 
@@ -156,19 +154,11 @@ def _buildUri(d):
 
 def _airedISO8601(d):
 	iso = d['airedISO8601']
-	try:
-		tempdate = datetime.strptime(iso[:19], '%Y-%m-%dT%H:%M:%S')
-	except TypeError:#workaround:
-		tempdate = datetime(*(time.strptime(iso[:19], '%Y-%m-%dT%H:%M:%S')[0:6]))
-	offset = iso.replace(':','')[-5:]
-	HH = offset[1:3]
-	MM = offset[4:5]
-	delta = timedelta(hours=int(HH),minutes=int(MM))
-	#if offset.startswith('+'):
-	#	tempdate += delta
-	#else:
-	#	tempdate -= delta
-	return tempdate.strftime('%Y-%m-%d'), tempdate.strftime('%H:%M')
+	tempdate = str_to_airedtime(iso)
+	if tempdate:
+		return tempdate.strftime('%Y-%m-%d'), tempdate.strftime('%H:%M')
+	else:
+		return '', ''
 
 def str_to_airedtime(airedtime_str):
 	airedtime = None

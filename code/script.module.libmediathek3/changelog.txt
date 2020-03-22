@@ -1,4 +1,6 @@
-﻿1.5.17
+﻿1.5.18
+- Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"
+1.5.17
 - "Sendungen nach Datum" funktionierte seit 1.März wg. Umlaut im Monatsnamen nicht mehr
 1.5.16
 - Vorbereitung für neue ARD-Mediathek
