@@ -15,8 +15,8 @@ def parseVideos(url):#TODO remove "mehr"
 	feed = re.compile('<link rel="alternate".+?href="(.+?)"').findall(response)[0]
 	feed = base + feed.replace('.feed','~_format-mp111_type-rss.feed')
 	return parseFeed(feed)
-	
-def parseFeed(feed,type=False):
+
+def parseFeed(feed,type=None):
 	response = libMediathek.getUrl(feed)
 	items = re.compile('<item>(.+?)</item>', re.DOTALL).findall(response)
 	l = []
@@ -33,21 +33,16 @@ def parseFeed(feed,type=False):
 			if '<mp:expires>' in item:
 				d['_ttl'] = re.compile('<mp:expires>(.+?)</mp:expires>', re.DOTALL).findall(item)[0]
 			d['_thumb'] = _chooseThumb(re.compile('<mp:image>(.+?)</mp:image>', re.DOTALL).findall(item))
-			
+
 			dcdate = re.compile('<dc:date>(.+?)</dc:date>', re.DOTALL).findall(item)[0]#TODO
-			s = dcdate.split('T')
-			d['_aired'] = s[0]
-			t = s[1].replace('Z','').split(':')
-			d['_airedtime'] = str(int(t[0])+2) + ':' + t[1]
-			d['sort'] = s[1].replace('Z','').replace(':','')
-			if len(d['_airedtime']) == 4:
-				d['_airedtime'] = '0' + d['_airedtime']
+			d['_airedISO8601'] = dcdate
 			if type:
 				d['_type'] = type
 			else:
-				d['_type'] = 'video'
+				d['_type'] = 'date'
 			d['mode'] = 'libWdrPlay'
 			l.append(d)
+	l.sort(key = lambda x: x.get('_airedISO8601',None), reverse = (type != 'date'))
 	return l
 
 def _chooseThumb(thumbs):

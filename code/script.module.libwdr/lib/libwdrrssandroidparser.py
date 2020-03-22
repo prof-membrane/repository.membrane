@@ -34,7 +34,7 @@ def parseShows(letter):
 				d['id'],extension = re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0].split('/')[-1].split('~')
 				#libMediathek.log(d['id'])
 				#libMediathek.log(re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0])
-				d['_channel'] = creator		
+				d['_channel'] = creator
 				d['thumb'] = _chooseThumb(re.compile('<mp:image>(.+?)</mp:image>', re.DOTALL).findall(item))
 				d['_type'] = 'dir'
 				if extension.endswith('rss'):
@@ -42,8 +42,8 @@ def parseShows(letter):
 				d['mode'] = 'libWdrListVideos'
 				l.append(d)
 	return l
-	
-def parseVideos(url,ty=False,grepShowFromVideo=False):
+
+def parseVideos(url,type=None,grepShowFromVideo=False):
 	if grepShowFromVideo:
 		response = libMediathek.getUrl(url)
 		url = re.compile('<link rel="alternate".+?href="(.+?)"').findall(response)[0]
@@ -52,7 +52,7 @@ def parseVideos(url,ty=False,grepShowFromVideo=False):
 	items = re.compile('<item>(.+?)</item>', re.DOTALL).findall(response)
 	l = []
 	for item in items:
-		
+
 		d = {}
 		dctype = re.compile('<dc:type>(.+?)</dc:type>', re.DOTALL).findall(item)[0]
 		if 'Video' in dctype:# or (dctype == 'Sportnachricht - sportschau.de' and '<title>' in item):
@@ -71,24 +71,18 @@ def parseVideos(url,ty=False,grepShowFromVideo=False):
 			if '<mp:expires>' in item:
 				d['_ttl'] = re.compile('<mp:expires>(.+?)</mp:expires>', re.DOTALL).findall(item)[0]
 			d['thumb'] = _chooseThumb(re.compile('<mp:image>(.+?)</mp:image>', re.DOTALL).findall(item))
-			
+
 			dcdate = re.compile('<dc:date>(.+?)</dc:date>', re.DOTALL).findall(item)[0]#TODO
-			s = dcdate.split('T')
-			d['_aired'] = s[0]
-			t = s[1].replace('Z','').split(':')
-			d['_airedtime'] = str(int(t[0])+2) + ':' + t[1]
-			d['sort'] = s[1].replace('Z','').replace(':','')
-			if len(d['_airedtime']) == 4:
-				d['_airedtime'] = '0' + d['_airedtime']
-			if ty:
-				d['_type'] = ty
+			d['_airedISO8601'] = dcdate
+			if type:
+				d['_type'] = type
 			else:
-				d['_type'] = 'video'
+				d['_type'] = 'date'
 			d['mode'] = 'libWdrPlay'
-			d['name'] = '[' + d['_aired'] + '] ' + d['name']
 			l.append(d)
+	l.sort(key = lambda x: x.get('_airedISO8601',None), reverse = (type != 'date'))
 	return l
-	
+
 def _chooseThumb(thumbs):
 	for thumb in thumbs:
 		w = re.compile('<mp:width>(.+?)</mp:width>', re.DOTALL).findall(thumb)[0]

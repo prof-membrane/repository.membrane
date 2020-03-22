@@ -185,7 +185,7 @@
     <addon id="plugin.video.wdrmediathek" name="WDR Mediathek" version="1.2.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libwdr" version="1.2.6"/>
+            <import addon="script.module.libwdr" version="1.2.7"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -371,10 +371,10 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libwdr" name="libwdr" version="1.2.6" provider-name="68000a">
+    <addon id="script.module.libwdr" name="libwdr" version="1.2.7" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">

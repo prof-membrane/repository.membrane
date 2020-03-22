@@ -41,9 +41,9 @@ def libWdrListVideos():
 
 	url = 'http://www1.wdr.de/'+params['id']+'~_variant-android.mobile'
 	if 'grepShowFromVideo' in params:
-		return libWdrRssAndroidParser.parseVideos(url,grepShowFromVideo=True)
+		return libWdrRssAndroidParser.parseVideos(url,'video',grepShowFromVideo=True)
 	else:
-		return libWdrRssAndroidParser.parseVideos(url)
+		return libWdrRssAndroidParser.parseVideos(url,'video')
 
 def libWdrListFeed():
 	return libWdrRssParser.parseFeed(params['url'])
@@ -59,7 +59,7 @@ def libWdrListDateVideos():
 		ddmmyyyy = libMediathek.dialogDate()
 	url = 'http://www1.wdr.de/mediathek/video/sendungverpasst/sendung-verpasst-100~_tag-'+ddmmyyyy+'_variant-android.mobile'
 	#return libWdrRssParser.parseFeed(url,'video')
-	return libWdrRssAndroidParser.parseVideos(url,'video')
+	return libWdrRssAndroidParser.parseVideos(url,'date')
 
 def libWdrSearch(search_string = None):
 	import libwdrhtmlparser as libWdrHtmlParser
