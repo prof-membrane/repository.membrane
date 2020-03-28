@@ -1,5 +1,5 @@
 script_name = "repo_prep.py"
-revision_number = 5
+revision_number = 6
 homepage = 'http://forum.xbmc.org/showthread.php?tid=129401'
 script_credits = 'All code copyleft (GNU GPL v3) by Unobtanium @ XBMC Forums'
 
@@ -33,7 +33,9 @@ compress_addons = True
 
 #Optional set a custom directory of where your addons are. False will use the current directory.
 # NOTE: the settings.py of repository aggregator will override this
-repo_root = False
+code_root = 'C:\Daten\Kodi\Gigathek\code'
+repo_root = 'C:\Daten\Kodi\Gigathek'
+repo_matrix = 'C:\Daten\Kodi\GigathekMatrix'
 ########## End SETTINGS
 
 # check if repo-prep.py is being run standalone or called from another python file
@@ -43,7 +45,10 @@ else: standalone = False
 # this 'if' block adds support for the repo aggregator script
 # set the repository's root folder here, if the script user has not set a custom path.
 if standalone:
-            if repo_root == False: repo_root = os.getcwd()
+            if not code_root:
+                code_root = os.getcwd()
+            else:
+                os.chdir(code_root)
             print script_name + '  v' + str(revision_number)
             print script_credits
             print 'Homepage and updates: ' + homepage
@@ -65,7 +70,7 @@ def is_addon_dir( addon ):
     # very very simple and weak check that it is an addon dir.
     # intended to be fast, not totally accurate.
     # skip any file or .svn folder
-    if not os.path.isdir( addon ) or addon == ".svn": return False
+    if not os.path.isdir( addon ) or addon in (".svn","code","Gigathek"): return False
     else: return True
 
 
@@ -78,18 +83,18 @@ class Generator:
     def __init__( self ):
 
         #paths
-        self.addons_xml = os.path.join( repo_root, "addons.xml" )
-        self.addons_xml_md5 = os.path.join( repo_root, "addons.xml.md5" )
+        self.addons_xml = os.path.join( repo_matrix, "addons.xml" )
+        self.addons_xml_md5 = os.path.join( repo_matrix, "addons.xml.md5" )
 
         # call master function
         self._generate_addons_files()
 
     def _generate_addons_files( self ):
         # addon list
-        addons = os.listdir( repo_root )
+        addons = os.listdir( repo_matrix )
 
         # final addons text
-        addons_xml = u"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<addons>\n"
+        addons_xml = u"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n<addons>\n\n"
 
         found_an_addon = False
 
@@ -114,6 +119,10 @@ class Generator:
                         for line in xml_lines:
                             # skip encoding format line
                             if ( line.find( "<?xml" ) >= 0 ): continue
+
+                            # replace Python version
+                            line = line.replace('<import addon="xbmc.python" version="2.25.0"/>', '<import addon="xbmc.python" version="3.0.0"/>')
+
                             # add line
                             addon_xml += unicode( line.rstrip() + "\n", "UTF-8" )
 
@@ -125,7 +134,7 @@ class Generator:
                 print "Excluding %s for %s" % ( _path, e, )
 
         # clean and add closing tag
-        addons_xml = addons_xml.strip() + u"\n</addons>\n"
+        addons_xml = addons_xml.strip() + u"\n\n</addons>\n"
 
         # only generate files if we found an addon.xml
         if found_an_addon:
@@ -143,7 +152,7 @@ class Generator:
     def _generate_md5_file( self ):
         try:
             # create a new md5 hash
-            m = md5.new( open( self.addons_xml ).read() ).hexdigest()
+            m = md5.new( open( self.addons_xml, "rb" ).read() ).hexdigest()
 
             # save file
             self._save_file( m, self.addons_xml_md5 )
@@ -170,6 +179,8 @@ class Compressor:
        # variables used later on
        self.addon_name = None
        self.addon_path = None
+       self.addon_filename = None
+       self.addon_matrix_path = None
        self.addon_folder_contents = None
        self.addon_xml = None
        self.addon_version_number = None
@@ -185,10 +196,13 @@ class Compressor:
 
                # set variables
                self.addon_name = str(addon)
-               self.addon_path = os.path.join( repo_root, addon )
 
                # skip any file or .svn folder.
-               if is_addon_dir( self.addon_path ):
+               if is_addon_dir( self.addon_name ):
+
+                       # setup paths
+                       self.addon_path = os.path.join( repo_root, addon )
+                       self.addon_matrix_path = os.path.join( repo_matrix, addon )
 
                        # set another variable
                        self.addon_folder_contents = os.listdir( self.addon_path )
@@ -196,46 +210,49 @@ class Compressor:
                        # check if addon has a current zipped release in it.
                        addon_zip_exists = self._get_zipped_addon_path()
 
-                       # checking for addon.xml and try reading it.
-                       addon_xml_exists = self._read_addon_xml()
-
                        # generator class relies on addon.xml being in release folder. so if need be, fix a zipped addon release folder lacking an addon.xml
                        if addon_zip_exists:
-                               if not addon_xml_exists:
-                                       # extract the addon_xml from the zip archive into the addon release folder.
-                                       self._extract_addon_xml_to_release_folder()
+                               self._clean_release_folder()
+                               self._extract_addon_xml_to_release_folder()
+                               self._create_compressed_addon_release()
 
-                       else:
-                               if addon_xml_exists:
-                                       # now addon.xml has been read, scrape version number from it. we need this when naming the zip (and if it exists the changelog)
-                                       self._read_version_number()
-                                       print 'Create compressed addon release for -- ' + self.addon_name + '  v' + self.addon_version_number
-                                       self._create_compressed_addon_release()
+   def _clean_release_folder( self ):
+       shutil.rmtree( os.path.join(self.addon_matrix_path, self.addon_name), ignore_errors=True )
+       try:
+           os.mkdir( self.addon_matrix_path )
+       except:
+            pass
 
    def _get_zipped_addon_path( self ):
        # get name of addon zip file. returns False if not found.
        for the_file in self.addon_folder_contents:
            if '.zip' in the_file:
                    if ( self.addon_name + '-') in the_file:
+                           self.addon_filename = the_file
                            self.addon_zip_path = os.path.join ( self.addon_path, the_file )
                            return True
        # if loop is not broken by returning the addon path, zip was not found so return False
        self.addon_zip_path = None
        return False
 
-   def _extract_addon_xml_to_release_folder():
+   def _extract_addon_xml_to_release_folder( self ):
            the_zip = zipfile.ZipFile( self.addon_zip_path, 'r' )
            for filename in the_zip.namelist():
-                        if filename.find('addon.xml'):
-                                the_zip.extract( filename, self.addon_path )
-                                break
+                        the_zip.extract( filename, self.addon_matrix_path )
+                        if filename.find('addon.xml') >= 0:
+                                infile = os.path.join( self.addon_matrix_path, filename )
+                                # Safely read the input filename using 'with'
+                                with open(infile) as f:
+                                    newText = f.read().replace('<import addon="xbmc.python" version="2.25.0"/>', '<import addon="xbmc.python" version="3.0.0"/>')
+                                with open(infile, "w") as f:
+                                    f.write(newText)
 
    def _recursive_zipper( self, dir, zip_file ):
             #initialize zipping module
             zip = zipfile.ZipFile( zip_file, 'w', compression=zipfile.ZIP_DEFLATED )
 
             # get length of characters of what we will use as the root path
-            root_len = len( os.path.dirname(os.path.abspath(dir))   )
+            root_len = len( os.path.abspath(dir) )
 
             #recursive writer
             for root, dirs, files in os.walk(dir):
@@ -245,38 +262,21 @@ class Compressor:
 
                     for f in files:
                             fullpath = os.path.join( root, f )
-                            archive_name = os.path.join( archive_root, f )
-                            zip.write( fullpath, archive_name, zipfile.ZIP_DEFLATED )
+                            if fullpath != zip_file:
+                                    archive_name = os.path.join( archive_root, f )
+                                    zip.write( fullpath, archive_name, zipfile.ZIP_DEFLATED )
             zip.close()
 
    def _create_compressed_addon_release( self ):
        # create a zip of the addon into repo root directory, tagging it with '-x.x.x' release number scraped from addon.xml
-       zipname = self.addon_name + '-' + self.addon_version_number + '.zip'
-       zippath = os.path.join( repo_root, zipname )
+       zipname = self.addon_filename
+       zippath = os.path.join( self.addon_matrix_path, zipname )
 
        # zip full directories
-       self._recursive_zipper( self.addon_path , zippath )
+       self._recursive_zipper( self.addon_matrix_path , zippath )
 
-       # now move the zip into the addon folder, which we will now treat as the 'addon release directory'
-       os.rename( zippath, os.path.join( self.addon_path, zipname ) )
-
-       # in the addon release directory, delete every file apart from addon.xml, changelog, fanart, icon and the zip we just constructed. also rename changelog.
-       for the_file in self.addon_folder_contents:
-
-              the_path = os.path.join( self.addon_path, the_file )
-
-              # delete directories
-              if not os.path.isfile( the_path ):
-                      shutil.rmtree( the_path )
-
-              # list of files we specifically need to retain for the addon release folder (folder containing the zip
-              elif not ( ('addon.xml' in the_file) or ('hangelog' in the_file) or ('fanart' in the_file) or ('icon' in the_file) or (zipname in the_file)):
-                      os.remove( the_path )
-
-               # tag the changelog with '-x.x.x' release number
-              elif 'hangelog' in the_file: # hangelog so that it is detected irrespective of whether C is capitalised
-                       changelog = 'changelog-' + self.addon_version_number + '.txt'
-                       os.rename( the_path, os.path.join( self.addon_path, changelog ) )
+       # clean output folder
+       self._clean_release_folder()
 
    def _read_addon_xml( self ):
       # check for addon.xml and try and read it.
