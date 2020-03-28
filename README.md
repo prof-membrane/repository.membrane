@@ -1,7 +1,7 @@
 # Willkommen zu meinem Kodi Repository
 
 Dieses Repository stellt Addons zu verschiedenen deutschen öffentlich-rechtlichen Mediatheken zur Verfügung.
-Es kann [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek.zip) heruntergeladen werden.
+Es kann [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek/Gigathek-1.0.0.zip) heruntergeladen werden.
 Im kodi.tv Wiki gibt es eine [Installationsanleitung](https://kodi.wiki/view/HOW-TO:Install_add-ons_from_zip_files).
 
 Die Gigathek ist eine Fortführung des Repository [repository.membrane](https://github.com/prof-membrane/repository.membrane)
