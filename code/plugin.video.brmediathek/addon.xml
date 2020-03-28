@@ -11,7 +11,7 @@
         <platform>all</platform>
         <language>de</language>
         <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-        <source>https://github.com/prof-membrane/plugin.video.brmediathek</source>
+        <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.brmediathek</source>
         <summary lang="en">This is an add-on for the BR Mediathek http://www.br.de/mediathek/video/index.html.</summary>
         <description lang="en">This add-on provides access to the German VOD platform http://www.br.de/mediathek/video/index.html.</description>
         <summary lang="de">Sendebeiträge der BR Mediathek.</summary>
