@@ -75,7 +75,7 @@ def getVideoUrl(uri):
 		url = fallbacks[-1]
 	if url.startswith('//'):
 		url = 'http:' + url
-	if url.startswith('http://wdradaptiv') or url.endswith('.mp4'):
+	if url.endswith('.mp4'):
 		d = {'media':[{'url':url, 'type': 'video', 'stream':'mp4'}]}
 	else:
 		d = {'media':[{'url':url, 'type': 'video', 'stream':'HLS'}]}
