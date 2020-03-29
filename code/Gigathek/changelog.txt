@@ -1,5 +1,7 @@
 [B]Version 1.0.19[/B]
 - Matrix Version renamed to 1.0.19
+[B]Version 1.0.17[/B]
+- Krypton/Leia Version renamed to 1.0.17
 [B]Version 1.0.1[/B]
 - Matrix Support
 [B]Version 1.0.0[/B]

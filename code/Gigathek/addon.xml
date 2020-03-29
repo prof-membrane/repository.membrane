@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.19" provider-name="68000a">
+<addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.17" provider-name="68000a">
 	<requires>
-		<import addon="xbmc.python" version="3.0.0"/>
+		<import addon="xbmc.python" version="2.25.0"/>
 	</requires>
 	<extension point="xbmc.addon.repository" name="Deutsche TV-Mediatheken Add-on Repository">
-		<info compressed="false">https://raw.githubusercontent.com/68000aMatrix/GigathekMatrix/master/addons.xml</info>
-		<checksum>https://raw.githubusercontent.com/68000aMatrix/GigathekMatrix/master/addons.xml.md5</checksum>
-		<datadir zip="true">https://raw.githubusercontent.com/68000aMatrix/GigathekMatrix/master/</datadir>
+		<info compressed="false">https://raw.githubusercontent.com/68000a/Gigathek/master/addons.xml</info>
+		<checksum>https://raw.githubusercontent.com/68000a/Gigathek/master/addons.xml.md5</checksum>
+		<datadir zip="true">https://raw.githubusercontent.com/68000a/Gigathek/master/</datadir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
 		<summary>Deutsche öffentlich-rechtliche TV-Mediatheken</summary>
-		<description>Download and install addons for German TV media libraries. This repository is compatible with Kodi 19 "Matrix"</description>
+		<description>Download and install addons for German TV media libraries. Compatible with Kodi 17 "Krypton" and Kodi 18 "Leia". To upgrade this repository to Kodi 19 "Matrix" download file "Gigathek-1.0.19.zip" from this location: "https://github.com/68000a/Gigathek/tree/master/Gigathek" and install manually.</description>
 		<platform>all</platform>
 	</extension>
 </addon>

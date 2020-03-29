@@ -4,9 +4,9 @@ Dieses Repository stellt Addons zu verschiedenen deutschen öffentlich-rechtlich
 
 Die Addons sind lauffähig unter Kodi 17 "Krypton", Kodi 18 "Leia" und Kodi 19 "Matrix".
 
-Für Krypton und Leia kann das Repository [hier](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek/Gigathek-1.0.0.zip) heruntergeladen werden.
+Für Krypton und Leia kann das Repository [hier](https://github.com/68000a/Gigathek/raw/master/Gigathek/Gigathek-1.0.17.zip) heruntergeladen werden.
 
-Für Matrix muss [diese Datei](https://raw.githubusercontent.com/68000a/Gigathek/master/Gigathek/Gigathek-1.0.19.zip) heruntergeladen werden.
+Für Matrix muss [diese Datei](https://github.com/68000a/Gigathek/raw/master/Gigathek/Gigathek-1.0.19.zip) heruntergeladen werden.
 
 Wichtig: die heruntergeladene ZIP-Datei auf jeden Fall in ein Verzeichnis kopieren auf welches Kodi Zugriff hat!!!
 
