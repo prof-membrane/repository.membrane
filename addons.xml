@@ -329,6 +329,7 @@
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.beautifulsoup4" version="4.5.3"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
