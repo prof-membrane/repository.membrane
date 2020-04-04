@@ -2,7 +2,7 @@
 <addon id="plugin.video.artemediathek" name="Arte Mediathek" version="1.0.8" provider-name="68000a">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-        <import addon="script.module.libarte" version="1.0.16"/>
+        <import addon="script.module.libarte" version="1.0.16" provider-name="68000a"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
