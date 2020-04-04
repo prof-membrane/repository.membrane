@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
 
-    <addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.17" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0"/>
-        </requires>
+    <addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.18" provider-name="68000a">
         <extension point="xbmc.addon.repository" name="Deutsche TV-Mediatheken Add-on Repository">
         </extension>
         <extension point="xbmc.addon.metadata">
             <summary>Deutsche öffentlich-rechtliche TV-Mediatheken</summary>
-            <description>Download and install addons for German TV media libraries. Compatible with Kodi 17 "Krypton" and Kodi 18 "Leia". To upgrade this repository to Kodi 19 "Matrix" download file "Gigathek-1.0.19.zip" from this location: "https://github.com/68000a/Gigathek/tree/master/Gigathek" and install manually.</description>
+            <description>Download and install addons for German TV media libraries. Compatible with Kodi 17 "Krypton", Kodi 18 "Leia" and Kodi 19 "Matrix".</description>
             <platform>all</platform>
         </extension>
     </addon>
@@ -157,7 +154,7 @@
     <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.3" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -219,7 +216,7 @@
     <addon id="plugin.video.zdftivi" name="ZDF Tivi" version="1.0.1" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
             <import addon="script.module.libzdf" version="2.1.15"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
@@ -299,7 +296,7 @@
     <addon id="script.module.libbr" name="libbr" version="2.0.9" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
@@ -328,7 +325,7 @@
     <addon id="script.module.libhr" name="libhr" version="1.9.5" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
             <import addon="script.module.beautifulsoup4" version="4.5.3"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
@@ -344,7 +341,7 @@
     <addon id="script.module.libkika" name="libkika" version="2.0.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
@@ -373,7 +370,7 @@
     <addon id="script.module.libsr" name="libsr" version="2.0.4" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
@@ -403,7 +400,7 @@
     <addon id="script.module.libzdf" name="libzdf" version="2.1.15" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
-            <import addon="script.module.libmediathek3" version="1.5.17"/>
+            <import addon="script.module.libmediathek3" version="1.5.18"/>
         </requires>
         <extension point="xbmc.python.module" library="lib" />
         <extension point="xbmc.addon.metadata">
