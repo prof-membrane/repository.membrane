@@ -1,3 +1,5 @@
+2.0.5
+- Neue Einstellung "Adaptive Streams wenn möglich ignorieren"
 2.0.4
 - Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
 2.0.3

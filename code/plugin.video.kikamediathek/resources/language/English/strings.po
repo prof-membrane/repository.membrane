@@ -1,0 +1,13 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+
+msgctxt "#32000"
+msgid "General"
+msgstr "General"
+
+msgctxt "#32001"
+msgid "Ignore adaptive streams if possible"
+msgstr "Ignore adaptive streams if possible"

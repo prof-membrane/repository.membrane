@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 import json
 import libmediathek3 as libMediathek
 
@@ -55,28 +56,31 @@ def getVideos(uri='/api/videos?limit=20&orderBy=date&orderDirection=DESC'):
 	return l
 
 def getVideoUrl(uri):
+	finalUrl = None
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+	quality = -1
 	response = libMediathek.getUrl(baseUrl+uri)
 	j = json.loads(response)
-	quality = -1
-	url = None
-	fallbacks = []
-	for asset in j['assets']:
-		if type(asset['quality']) == type(quality):
-			currentQuality = asset['quality']
-			if currentQuality > quality:
-				url = asset['url']
-				quality = currentQuality
-		elif asset['quality'] == 'Video 2014 | MP4 Web XL | 16:9 | 1280x720':
-			url = asset['url']
-		elif asset['quality'] == 'auto':
-			url = asset['url']
-		fallbacks.append(asset['url'])
-	if not url:
-		url = fallbacks[-1]
-	if url.startswith('//'):
-		url = 'http:' + url
-	if url.endswith('.mp4'):
-		d = {'media':[{'url':url, 'type': 'video', 'stream':'mp4'}]}
-	else:
-		d = {'media':[{'url':url, 'type': 'video', 'stream':'HLS'}]}
-	return d
+	for asset in j.get('hbbtvAssets', []) + j.get('assets',[]):
+		currentQuality = asset.get('quality',-1);
+		if not isinstance(currentQuality, int):
+			if currentQuality == 'auto':
+				currentQuality = 0 if ignore_adaptive else sys.maxsize
+			else:
+				try:
+					currentQuality = ('low','med','high','veryhigh').index(currentQuality)
+				except:
+					currentQuality = -1
+		if currentQuality > quality:
+			finalUrl = asset['url']
+			quality = currentQuality
+	if finalUrl:
+		d = {}
+		if finalUrl.startswith('//'):
+			finalUrl = 'http:' + finalUrl
+		if finalUrl.endswith('.mp4'):
+			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
+		else:
+			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
+		return d
+	return None
