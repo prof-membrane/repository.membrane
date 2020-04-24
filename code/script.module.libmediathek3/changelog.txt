@@ -1,4 +1,8 @@
-﻿1.5.19
+﻿1.5.21
+- Unicode-Problem in getSetting() unter Python 2.x behoben
+1.5.20
+- Schönheitskorrektur
+1.5.19
 - Download-Funktionalität hinzugefügt
 1.5.18
 - Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"

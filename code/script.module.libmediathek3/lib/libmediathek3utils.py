@@ -173,7 +173,7 @@ def setSetting(id, value):
 	addon.setSetting(id,value)
 
 def getSetting(id):
-	return addon.getSetting(id)
+	return '%s' % addon.getSetting(id)	# Quirks wg. Unicode
 
 def setSettingBool(id, value):
 	addon.setSetting(id, 'true' if bool(value) else 'false')
