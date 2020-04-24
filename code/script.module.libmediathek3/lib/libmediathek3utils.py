@@ -173,11 +173,10 @@ def setSetting(id, value):
 	addon.setSetting(id,value)
 
 def getSetting(id):
-	# nicht "return addon.getSetting(id)" wg. Unicode
-	return xbmcplugin.getSetting(int(sys.argv[1]), id)
+	return addon.getSetting(id)
 
 def setSettingBool(id, value):
 	addon.setSetting(id, 'true' if bool(value) else 'false')
 
 def getSettingBool(id):
-	return (xbmcplugin.getSetting(int(sys.argv[1]), id) == 'true')
+	return (addon.getSetting(id) == 'true')

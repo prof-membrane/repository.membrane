@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
+import os
 import xbmc
 import xbmcgui
 import xbmcaddon
@@ -35,7 +36,7 @@ def list():
 			addon = xbmcaddon.Addon()
 			title = addon.getAddonInfo('name')
 			text = addon.getLocalizedString(32101)
-			xbmcgui.Dialog().notification(title, text, addon.getAddonInfo('path')+'/icon.png')
+			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
 	if use_classic: 
 		return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayHtml')
 	else:
