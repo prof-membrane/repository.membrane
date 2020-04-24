@@ -169,8 +169,10 @@ def getVideoUrlHtml(url):
 
 def extractBestQuality(streams, fnGetFinalUrl):
 	finalUrl = None
+	finalUrlMP4 = None
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
 	quality = -1
+	qualityMP4 = -1
 	for item in streams:
 		if isinstance(item,dict) and (item.get('__typename',None) == 'MediaStreamArray'):
 			currentQuality = item.get('_quality',-1);
@@ -179,10 +181,14 @@ def extractBestQuality(streams, fnGetFinalUrl):
 					currentQuality = 0 if ignore_adaptive else sys.maxsize
 				else:
 					currentQuality = int(currentQuality)
-			if currentQuality > quality:
-				stream = item.get('_stream',None)
-				if stream:
-					finalUrl = fnGetFinalUrl(stream)
+			stream = item.get('_stream',None)
+			if stream:
+				url = fnGetFinalUrl(stream).lower()
+				if currentQuality > qualityMP4 and url.endswith('.mp4'):
+					finalUrlMP4 = url
+					qualityMP4 = currentQuality
+				if currentQuality > quality:
+					finalUrl = url
 					quality = currentQuality
 	if finalUrl:
 		d = {}
@@ -192,6 +198,10 @@ def extractBestQuality(streams, fnGetFinalUrl):
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 		else:
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
+			if finalUrlMP4:
+				if finalUrlMP4.startswith('//'):
+					finalUrlMP4 = 'http:' + finalUrlMP4
+				d['media'].append({'url':finalUrlMP4, 'type': 'video', 'stream':'mp4'})
 		return d
 	return None
 

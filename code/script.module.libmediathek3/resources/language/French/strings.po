@@ -59,3 +59,7 @@ msgstr "Recherche détaillée"
 msgctxt "#31043"
 msgid "This media is not playable"
 msgstr "Ce média n'est pas une vidéo jouable"
+
+msgctxt "#31044"
+msgid "No download available"
+msgstr "Aucun download disponible"

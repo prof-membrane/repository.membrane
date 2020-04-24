@@ -9,6 +9,7 @@ import xbmcaddon
 import libmediathek3
 
 from libmediathek3utils import clearString
+from libmediathek3utils import getSetting
 from libmediathek3utils import getTranslation as translation
 
 if sys.version_info[0] < 3: # for Python 2
@@ -25,6 +26,8 @@ def sortAZ():
 def addEntries(l):
 	lists = []
 	doneList = []
+
+	download_dir = getSetting('download_dir')
 
 	for d in l:
 		if str(d) in doneList:#primitive methode to filter duplicated entries
@@ -116,6 +119,8 @@ def addEntries(l):
 			if d.get('type',None) == 'live':
 				liz.setProperty('starttime','1')
 				liz.setProperty('totaltime','1')
+			if download_dir and d.get('type',None) in ('video','date'):
+				liz.addContextMenuItems([('Download', 'RunPlugin(%s&download_dir=%s)' % (u,quote_plus(download_dir)))])
 			lists.append([u,liz,False])
 		else:
 			lists.append([u,liz,True])
@@ -197,7 +202,8 @@ def getMetadata(result):
 
 def list(modes, defaultMode, *playModes):
 	if playModes: # must contain at least one item
-		mode = get_params().get('mode', defaultMode)
+		params = get_params()
+		mode = params.get('mode', defaultMode)
 		fn = modes.get(mode, None)
 		if fn:
 			res = fn()
@@ -205,11 +211,11 @@ def list(modes, defaultMode, *playModes):
 				if res is None:
 					dialog = xbmcgui.Dialog()
 					title = xbmcaddon.Addon().getAddonInfo('name')
-					text = libmediathek3.getTranslation(31043)
+					text = translation(31043)
 					dialog.ok(title, text)
 					return None
 				else:
-					libmediathek3.play(res)
+					libmediathek3.play(res,download_dir=params.get('download_dir',None))
 			else:
 				if not (res is None):
 					addEntries(res)

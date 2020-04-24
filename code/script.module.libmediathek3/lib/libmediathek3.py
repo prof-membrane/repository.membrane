@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import os
 import sys
+import string
 import xbmc
 import xbmcgui
 import xbmcplugin
+from datetime import datetime
 
 import libmediathek3debug
 from libmediathek3utils import *
@@ -20,23 +23,26 @@ subtitleenabled = False
 subtitleenabled = True
 """
 
-def _chooseBitrate(l):
+def _chooseBitrate(l, force_MP4 = False):
 	bitrate = 0
-	url = False
-	streamType = False
+	listitem = None
+	url = None
+	streamType = None
 	for item in l:
-		if item.get('stream','').lower() == 'hls':#prefer hls
+		if not force_MP4 and item.get('stream','').lower() == 'hls':#prefer hls
 			url = item['url']
 			streamType = 'HLS'
 			break
-		if item.get('stream','').lower() == 'dash':
-			url = item['url']
-			streamType = 'DASH'
 		if item.get('stream','').lower() == 'mp4' and item.get('bitrate',0) >= bitrate:
 			bitrate = item.get('bitrate',0)
 			url = item['url']
 			streamType = 'MP4'
-		if item.get('stream','').lower() == 'audio':
+			if force_MP4:
+				break;
+		if not force_MP4 and item.get('stream','').lower() == 'dash':
+			url = item['url']
+			streamType = 'DASH'
+		if not force_MP4 and item.get('stream','').lower() == 'audio':
 			url = item['url']
 			streamType = 'AUDIO'
 	listitem = xbmcgui.ListItem(path=url)
@@ -57,7 +63,7 @@ def _chooseBitrate(l):
 
 	return listitem,url
 
-def play(d,external=False):
+def play(d,external=None,download_dir=None):
 	"""
 	if 'lang' in d['media'][0]:
 		url = _chooseBitrate(d['media'])
@@ -92,7 +98,7 @@ def play(d,external=False):
 	"""
 
 	#listitem = xbmcgui.ListItem(path=url)
-	listitem,url = _chooseBitrate(d['media'])
+	listitem,url = _chooseBitrate(d['media'], force_MP4 = bool(download_dir))
 
 	i = 0
 	if 'subtitle' in d:
@@ -128,7 +134,33 @@ def play(d,external=False):
 		#listitem.setProperty('inputstream.adaptive.media_headers',d['media']['header'])
 		listitem.setProperty('inputstream.adaptive.stream_headers',d['media']['header'])
 
-	if external:
+	if download_dir:
+		filename = datetime.today().strftime('%Y-%m-%d-%H%M%S.mp4')
+		title = d.get('metadata',filename).get('name',filename)
+		addon_icon = os.path.join(addon.getAddonInfo('path'), 'icon.png')
+		if url:
+			if title != filename:
+				filename = title + ' - ' + filename
+				valid_chars = frozenset('-_.() %s%s' % (string.ascii_letters, string.digits))
+				filename = ''.join(c for c in filename if c in valid_chars)
+			filename = 'DL - ' + filename
+			tuple = (addon.getAddonInfo('name'), addon_icon, title, os.path.join(download_dir, filename), url)
+			arg = None
+			for item in tuple:
+				if sys.version_info[0] < 3:
+					item = item.decode('utf-8')
+				if arg is None: arg = item
+				else: 			arg = arg + '\0' + item
+			path = os.path.join(xbmc.translatePath('special://home'), 'addons', 'script.module.libmediathek3', 'lib', 'download.py')
+			if sys.version_info[0] >= 3: # for Python 3
+				import base64
+				base64str = base64.b64encode(arg.encode('utf-8')).decode('ascii').strip()
+			else:
+				base64str = arg.encode('utf-8').encode('base64').strip()
+			xbmc.executebuiltin('RunScript(%s, %s)' % (path, base64str))
+		else:
+			xbmcgui.Dialog().notification(getTranslation(31044), title, addon_icon)
+	elif external:
 		xbmc.Player().play(url, listitem)
 	else:
 		pluginhandle = int(sys.argv[1])

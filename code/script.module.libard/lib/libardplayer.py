@@ -31,13 +31,13 @@ def getVideoUrlClassic(url=False,videoID=False):
 		#return fetchTvaVideo(videoID)
 
 def fetchJsonVideo(id):
-	d = {}
+	finalUrl = None
+	finalUrlMP4 = None
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
 	response = libMediathek.getUrl('http://www.ardmediathek.de/play/media/'+id)
 	j = json.loads(response)
-	if '_subtitleUrl' in j:
-		d['subtitle'] = [{'url':j['_subtitleUrl'], 'type': 'ttml', 'lang':'de'}]
 	quality = -1
+	qualityMP4 = -1
 	for mediaArray in j['_mediaArray']:
 		for mediaStreamArray in mediaArray['_mediaStreamArray']:
 			currentQuality = mediaStreamArray.get('_quality',-1);
@@ -45,23 +45,33 @@ def fetchJsonVideo(id):
 				if (currentQuality == 'auto'):
 					currentQuality = 0 if ignore_adaptive else sys.maxsize
 				else:
-					currentQuality = -1
+					currentQuality = int(currentQuality)
+			if isinstance(mediaStreamArray['_stream'],list):
+				url = mediaStreamArray['_stream'][0].lower()
+			else:
+				url = mediaStreamArray['_stream'].lower()
+			if currentQuality > qualityMP4 and url.endswith('.mp4'):
+				finalUrlMP4 = url
+				qualityMP4 = currentQuality
 			if currentQuality > quality:
-				if isinstance(mediaStreamArray['_stream'],list):
-					# xbmc.log('%s' % ( mediaStreamArray['_stream'][0] ), xbmc.LOGFATAL)
-					finalUrl = mediaStreamArray['_stream'][0]
-					quality = currentQuality
-				else:
-					# xbmc.log('%s' % ( mediaStreamArray['_stream'] ), xbmc.LOGFATAL)
-					finalUrl = mediaStreamArray['_stream']
-					quality = currentQuality
-	if finalUrl.startswith('//'):
-		finalUrl = 'http:' + finalUrl
-	if finalUrl.endswith('.mp4'):
-		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
-	else:
-		d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
-	return d
+				finalUrl = url
+				quality = currentQuality
+	if finalUrl:
+		d = {}
+		if finalUrl.startswith('//'):
+			finalUrl = 'http:' + finalUrl
+		if finalUrl.endswith('.mp4'):
+			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
+		else:
+			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
+			if finalUrlMP4:
+				if finalUrlMP4.startswith('//'):
+					finalUrlMP4 = 'http:' + finalUrlMP4
+				d['media'].append({'url':finalUrlMP4, 'type': 'video', 'stream':'mp4'})
+		if '_subtitleUrl' in j:
+			d['subtitle'] = [{'url':j['_subtitleUrl'], 'type': 'ttml', 'lang':'de'}]
+		return d
+	return None
 
 def fetchTvaVideo(id):
 	xml = libMediathek.getUrl('http://www.ardmediathek.de/ard/servlet/export/tva/id='+id+'/index.xml')
