@@ -183,8 +183,8 @@ def extractBestQuality(streams, fnGetFinalUrl):
 					currentQuality = int(currentQuality)
 			stream = item.get('_stream',None)
 			if stream:
-				url = fnGetFinalUrl(stream).lower()
-				if currentQuality > qualityMP4 and url.endswith('.mp4'):
+				url = fnGetFinalUrl(stream)
+				if currentQuality > qualityMP4 and url[-4:].lower() == '.mp4':
 					finalUrlMP4 = url
 					qualityMP4 = currentQuality
 				if currentQuality > quality:
@@ -194,7 +194,7 @@ def extractBestQuality(streams, fnGetFinalUrl):
 		d = {}
 		if finalUrl.startswith('//'):
 			finalUrl = 'http:' + finalUrl
-		if finalUrl.endswith('.mp4'):
+		if finalUrl[-4:].lower() == '.mp4':
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 		else:
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]

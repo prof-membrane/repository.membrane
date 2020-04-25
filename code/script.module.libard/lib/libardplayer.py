@@ -47,10 +47,10 @@ def fetchJsonVideo(id):
 				else:
 					currentQuality = int(currentQuality)
 			if isinstance(mediaStreamArray['_stream'],list):
-				url = mediaStreamArray['_stream'][0].lower()
+				url = mediaStreamArray['_stream'][0]
 			else:
-				url = mediaStreamArray['_stream'].lower()
-			if currentQuality > qualityMP4 and url.endswith('.mp4'):
+				url = mediaStreamArray['_stream']
+			if currentQuality > qualityMP4 and url[-4:].lower() == '.mp4':
 				finalUrlMP4 = url
 				qualityMP4 = currentQuality
 			if currentQuality > quality:
@@ -60,7 +60,7 @@ def fetchJsonVideo(id):
 		d = {}
 		if finalUrl.startswith('//'):
 			finalUrl = 'http:' + finalUrl
-		if finalUrl.endswith('.mp4'):
+		if finalUrl[-4:].lower() == '.mp4':
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
 		else:
 			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
