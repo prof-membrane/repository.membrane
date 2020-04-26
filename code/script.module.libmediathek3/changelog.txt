@@ -1,5 +1,5 @@
-﻿1.5.21
-- Unicode-Problem in getSetting() unter Python 2.x behoben
+﻿1.5.22
+- Neue libmediathek3 wg. Problemen im Multiversions-Repo
 1.5.20
 - Schönheitskorrektur
 1.5.19
