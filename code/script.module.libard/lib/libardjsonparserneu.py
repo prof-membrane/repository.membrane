@@ -6,10 +6,8 @@ import re
 import libmediathek3 as libMediathek
 
 if sys.version_info[0] < 3: # for Python 2
-	alt_str_type = unicode
 	from urllib import urlencode
 else: # for Python 3
-	alt_str_type = bytes
 	from urllib.parse import urlencode
 	from functools import reduce
 
@@ -168,42 +166,31 @@ def getVideoUrlHtml(url):
 	return None
 
 def extractBestQuality(streams, fnGetFinalUrl):
-	finalUrl = None
-	finalUrlMP4 = None
-	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
-	quality = -1
-	qualityMP4 = -1
+	media = []
 	for item in streams:
 		if isinstance(item,dict) and (item.get('__typename',None) == 'MediaStreamArray'):
-			currentQuality = item.get('_quality',-1);
-			if isinstance(currentQuality,str) or isinstance(currentQuality,alt_str_type):
-				if currentQuality == 'auto':
-					currentQuality = 0 if ignore_adaptive else sys.maxsize
-				else:
-					currentQuality = int(currentQuality)
 			stream = item.get('_stream',None)
 			if stream:
 				url = fnGetFinalUrl(stream)
-				if currentQuality > qualityMP4 and url[-4:].lower() == '.mp4':
-					finalUrlMP4 = url
-					qualityMP4 = currentQuality
-				if currentQuality > quality:
-					finalUrl = url
-					quality = currentQuality
-	if finalUrl:
-		d = {}
-		if finalUrl.startswith('//'):
-			finalUrl = 'http:' + finalUrl
-		if finalUrl[-4:].lower() == '.mp4':
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
-		else:
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
-			if finalUrlMP4:
-				if finalUrlMP4.startswith('//'):
-					finalUrlMP4 = 'http:' + finalUrlMP4
-				d['media'].append({'url':finalUrlMP4, 'type': 'video', 'stream':'mp4'})
-		return d
-	return None
+				if url.startswith('//'):
+					url = 'http:' + url
+				quality = item.get('_quality',-1);
+				if quality == 'auto':
+					media.insert(0,{'url':url, 'type':'video', 'stream':'HLS'})
+				elif url[-4:].lower() == '.mp4':
+					try:
+						quality = int(quality)
+					except ValueError:
+						pass
+					else:
+						media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'HLS':
+		del media[0]
+	if media: 
+		return dict(media = media)
+	else: 
+		return None
 
 def parse(pageIndex, url, partnerKey=None, channelKey=None):
 	result = []
