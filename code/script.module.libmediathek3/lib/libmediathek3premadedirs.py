@@ -31,7 +31,7 @@ def populateDirAZ(mode,ignore=[],channel=None):
 	return l
 
 def labelDirDate(day,relative_weekday=None):
-	format_string = u'{day_of_month:02d}. {month_shortstr} | {day_of_week}'
+	format_string = u'[COLOR orange]{day_of_month:02d}. {month_shortstr}[/COLOR] | {day_of_week}'
 	month_shortstr = xbmc.getLocalizedString(50+day.month)
 	if relative_weekday:
 		day_of_week = xbmc.getLocalizedString(relative_weekday) 

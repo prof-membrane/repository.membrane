@@ -37,8 +37,6 @@ def _chooseBitrate(l, force_MP4 = False):
 			bitrate = item.get('bitrate',0)
 			url = item['url']
 			streamType = 'MP4'
-			if force_MP4:
-				break;
 		if not force_MP4 and item.get('stream','').lower() == 'dash':
 			url = item['url']
 			streamType = 'DASH'
@@ -144,7 +142,7 @@ def play(d,external=None,download_dir=None):
 				valid_chars = frozenset('-_.() %s%s' % (string.ascii_letters, string.digits))
 				filename = ''.join(c for c in filename if c in valid_chars)
 			filename = 'DL - ' + filename
-			tuple = (addon.getAddonInfo('name'), addon_icon, title, os.path.join(download_dir, filename), url)
+			tuple = (addon.getAddonInfo('name'), addon_icon, title, os.path.abspath(os.path.join(download_dir, filename)), url)
 			arg = None
 			for item in tuple:
 				if sys.version_info[0] < 3:

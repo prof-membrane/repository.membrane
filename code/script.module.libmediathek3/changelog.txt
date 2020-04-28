@@ -1,4 +1,6 @@
-﻿1.5.22
+﻿1.5.23
+- Kleinere Verbesserungen
+1.5.22
 - Neue libmediathek3 wg. Problemen im Multiversions-Repo
 1.5.20
 - Schönheitskorrektur
