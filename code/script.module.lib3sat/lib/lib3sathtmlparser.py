@@ -136,21 +136,39 @@ def getU(url, api_token):
 
 
 def getVideoUrl(url, api_token):
-	d = {}
-	d['media'] = []
+	media = []
 	response = getU(url,api_token)
 	j = json.loads(response)
-	for caption in j.get('captions',[]):
-		if caption['format'] == 'ebu-tt-d-basic-de':
-			d['subtitle'] = [{'url':caption['uri'], 'type':'ttml', 'lang':'de', 'colour':True}]
-		#elif caption['format'] == 'webvtt':
-		#	d['subtitle'] = [{'url':caption['uri'], 'type':'webvtt', 'lang':'de', 'colour':False}]
 	for item in j['priorityList']:
-		if item['formitaeten'][0]['type'] == 'h264_aac_ts_http_m3u8_http':
-			for quality in item['formitaeten'][0]['qualities']:
-				if quality['quality'] == 'auto':
-					d['media'].append({'url':quality['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'HLS'})
-	return d
+		if (item['formitaeten'][0].get('type',None) == 'h264_aac_ts_http_m3u8_http' 
+			or 
+			item['formitaeten'][0].get('mimeType',None) == 'application/x-mpegURL'
+		): 
+			for streams in item['formitaeten'][0]['qualities']:
+				if streams['quality'] == 'auto':
+					media.insert(0, {'url':streams['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'HLS'})
+		elif (item['formitaeten'][0].get('type',None) == 'h264_aac_mp4_http_na_na'
+			or  
+			item['formitaeten'][0].get('mimeType',None) == 'video/mp4'
+		):
+			for streams in item['formitaeten'][0]['qualities']:
+				try:
+					quality = ('low','med','high','veryhigh').index(streams['quality'])
+				except ValueError:
+					pass
+				else:
+					media.append({'url':streams['audio']['tracks'][0]['uri'], 'type':'video', 'stream':'mp4', 'bitrate':quality})
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'HLS':
+		del media[0]
+	if media: 
+		result = dict(media = media)
+		for caption in j.get('captions',[]):
+			if caption['format'] == 'ebu-tt-d-basic-de':
+				result['subtitle'] = [{'url':caption['uri'], 'type':'ttml', 'lang':'de', 'colour':True}]
+		return result
+	else: 
+		return None
 
 
 def lib3satHtmlPlay(url):

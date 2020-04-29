@@ -5,16 +5,13 @@ import lib3sathtmlparser as lib3satHtmlParser
 import libmediathek3 as libMediathek
 
 
-translation = libMediathek.getTranslation
-params = libMediathek.get_params()
-
-
 def list():
 	return libMediathek.list(modes, 'lib3satHtmlListMain', 'lib3satHtmlPlay')
 
 
 def lib3satHtmlListMain():
 	l = []
+	translation = libMediathek.getTranslation
 	l.append({'name':translation(31032), 'mode':'lib3satHtmlListLetters', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'lib3satHtmlListDate', '_type':'dir'})
 	l.append({'name':translation(31039), 'mode':'lib3satHtmlSearch', '_type':'dir'})
@@ -40,6 +37,7 @@ def lib3satHtmlListDate():
 
 
 def lib3satHtmlListDateVideos():
+	params = libMediathek.get_params()
 	if 'datum' in params:
 		day = date.today() - timedelta(int(params['datum']))
 		yyyy_mm_dd = day.strftime('%Y-%m-%d')
@@ -51,6 +49,7 @@ def lib3satHtmlListDateVideos():
 
 
 def lib3satHtmlListShows():
+	params = libMediathek.get_params()
 	libMediathek.sortAZ()
 	url = lib3satHtmlParser.base + '/sendungen-a-z?group=' + params['name'].lower()
 	l = lib3satHtmlParser.getAZ(url)
