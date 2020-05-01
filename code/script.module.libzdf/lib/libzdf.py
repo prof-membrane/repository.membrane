@@ -5,8 +5,6 @@ from datetime import date, timedelta
 import libmediathek3 as libMediathek
 import libzdfjsonparser as libZdfJsonParser
 
-translation = libMediathek.getTranslation
-
 
 #https://api.zdf.de/content/documents/zdf-startseite-100.json?profile=default
 #https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=teaser
@@ -17,13 +15,17 @@ translation = libMediathek.getTranslation
 #https://api.zdf.de/cmdm/epg/broadcasts?from=2016-10-28T05%3A30%3A00%2B02%3A00&to=2016-10-29T05%3A29%3A00%2B02%3A00&limit=500&profile=teaser
 #https://api.zdf.de/cmdm/epg/broadcasts?from=2016-10-28T05%3A30%3A00%2B02%3A00&to=2016-10-29T05%3A29%3A00%2B02%3A00&limit=500&profile=teaser&tvServices=ZDF
 
-channels = 	['ZDF','ZDFinfo','ZDFneo',]
+channels = ('ZDF','ZDFinfo','ZDFneo')
+
+def list():
+	return libMediathek.list(modes, 'libZdfListMain', 'libZdfPlay', 'libZdfPlayById')
 
 def getMostViewed():#used in unithek
 	return libZdfJsonParser.parsePage('https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default')
 
 def libZdfListMain():
 	l = []
+	translation = libMediathek.getTranslation
 	l.append({'_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
 	l.append({'_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
 	l.append({'_name':translation(31033), 'mode':'libZdfListChannel', '_type': 'dir'})
@@ -32,24 +34,28 @@ def libZdfListMain():
 	return l
 
 def libZdfListShows():
-	libMediathek.sortAZ()
+	params = libMediathek.get_params()
 	if 'url' in params:
 		return libZdfJsonParser.getAZ(params['url'])
 	else:
 		return libZdfJsonParser.getAZ()
 
 def libZdfListPage():
+	params = libMediathek.get_params()
 	return libZdfJsonParser.parsePage(params['url'])
 
 def libZdfListVideos():
+	params = libMediathek.get_params()
 	return libZdfJsonParser.getVideos(params['url'])
 
 def libZdfPlay():
+	params = libMediathek.get_params()
 	result = libZdfJsonParser.getVideoUrl(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result
 
 def libZdfPlayById():
+	params = libMediathek.get_params()
 	result = libZdfJsonParser.getVideoUrlById(params['id'])
 	result = libMediathek.getMetadata(result)
 	return result
@@ -66,9 +72,11 @@ def libZdfListChannel():
 	return l
 
 def libZdfListChannelDate():
+	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libZdfListChannelDateVideos',params['channel'])
 
 def libZdfListChannelDateVideos():
+	params = libMediathek.get_params()
 	if 'datum' in params:
 		day = date.today() - timedelta(int(params['datum']))
 		yyyymmdd = day.strftime('%Y-%m-%d')
@@ -81,6 +89,7 @@ def libZdfListChannelDateVideos():
 	return libZdfListPage()
 
 def libZdfSearch():
+	params = libMediathek.get_params()
 	search_string = libMediathek.getSearchString()
 	if (search_string):
 		params['url'] = "https://api.zdf.de/search/documents?q="+search_string
@@ -92,18 +101,6 @@ def libZdfGetVideoHtml(url):
 	import re
 	response = libMediathek.getUrl(url)
 	return libZdfJsonParser.getVideoUrl(re.compile('"contentUrl": "(.+?)"', re.DOTALL).findall(response)[0])
-
-def list():
-	global params
-	params = libMediathek.get_params()
-	mode = params.get('mode','libZdfListMain')
-	if mode == 'libZdfPlay' or mode == 'libZdfPlayById':
-		libMediathek.play(modes.get(mode)())
-	else:
-		l = modes.get(mode)()
-		if not (l is None):
-			libMediathek.addEntries(l)
-			libMediathek.endOfDirectory()
 
 modes = {
 	'libZdfListMain':libZdfListMain,

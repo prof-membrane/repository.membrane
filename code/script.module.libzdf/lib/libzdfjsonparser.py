@@ -18,7 +18,7 @@ def getU(url,Menu=False):
 		header = getHeader(Menu, tokenMenu, tokenPlayer)
 		response = libMediathek.getUrl(url,header)
 	return response
-	
+
 def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 	if Menu:
 		header = { 'Api-Auth': 'Bearer ' + (tokenMenu if tokenMenu else libMediathek.f_open(libMediathek.pathUserdata('tokenMenu'))) }
@@ -28,7 +28,7 @@ def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 
 def parsePage(url):
 	response = getU(url,True)
-	
+
 	j = json.loads(response)
 	if   j['profile'] == 'http://zdf.de/rels/search/result':
 		return _parseSearch(j)
@@ -60,7 +60,7 @@ def getAZ(url='https://api.zdf.de/content/documents/sendungen-100.json?profile=d
 					if d:
 						l.append(d)
 	return l
-	
+
 def _parseSearch(j):
 	l = []
 	for module in j['module']:
@@ -71,7 +71,7 @@ def _parseSearch(j):
 				d['_views'] = str(result['viewCount'])
 				l.append(d)
 	return l
-			
+
 def _parseSearchPage(j):
 	l = []
 	for result in j['http://zdf.de/rels/search/results']:
@@ -81,7 +81,7 @@ def _parseSearchPage(j):
 			l.append(d)
 	l.sort(key = lambda x: x['name'])
 	return l
-	
+
 def _parsePageIndex(j):
 	l = []
 	for result in j['module'][0]['filterRef']['resultsWithVideo']['http://zdf.de/rels/search/results']:
@@ -91,7 +91,7 @@ def _parsePageIndex(j):
 			d['_views'] = str(result['viewCount'])
 			l.append(d)
 	return l
-	
+
 def _parseBroadcast(j):
 	l = []
 	for broadcast in j['http://zdf.de/rels/cmdm/broadcasts']:
@@ -105,10 +105,11 @@ def _parseBroadcast(j):
 				d['_type'] = 'date'
 				l.append(d)
 	return l
+
 def _grepItem(target):
 	if target['profile'] == 'http://zdf.de/rels/not-found':
 		return False
-	if not ('contentType' in target): 
+	if not ('contentType' in target):
 		return False
 	d = {}
 	d['name'] = target['teaserHeadline']
@@ -141,13 +142,13 @@ def _grepItem(target):
 				content = target['mainVideoContent']['http://zdf.de/rels/target']
 			elif 'mainContent' in target:
 				content = target['mainContent'][0]['videoContent'][0]['http://zdf.de/rels/target']
-				
+
 			d['url'] = base + content['http://zdf.de/rels/streams/ptmd-template'].replace('{playerId}',playerId)
 			if 'duration' in content:
 				d['_duration'] = str(content['duration'])
 			d['_type'] = 'video'
 			d['mode'] = 'libZdfPlay'
-			
+
 			programmeItem = target.get('programmeItem', None)
 			if isinstance(programmeItem, list) and len(programmeItem) > 0:
 				episode = programmeItem[0].get('http://zdf.de/rels/target', None)
@@ -161,10 +162,10 @@ def _grepItem(target):
 					season = episode.get('http://zdf.de/rels/cmdm/season', None)
 					if season:
 						seasonTitle = season.get('seasonTitle', None)
-						if seasonTitle:  
+						if seasonTitle:
 							d['name'] = str(seasonTitle) + ' - ' + d['name']
 						series = season.get('http://zdf.de/rels/cmdm/series',None)
-						if series:  
+						if series:
 							brand = series.get('http://zdf.de/rels/cmdm/brand',None)
 							if brand:
 								brandName = brand.get('brandName', None)
@@ -174,14 +175,15 @@ def _grepItem(target):
 				brand = target.get('http://zdf.de/rels/brand',None)
 				if brand:
 					title = brand.get('title',None)
-					if title: 
-						d['name'] = title + ' - ' + d['name']  
-		except: 
+					if title:
+						d['name'] = title + ' - ' + d['name']
+		except:
 			d = False
 	else:
 		libMediathek.log('Unknown target type: ' + target['contentType'])
 		d = False
 	return d
+
 def _chooseImage(teaserImageRef,isVideo=False):
 	if not isVideo:
 		if 'layouts' in teaserImageRef:
@@ -189,30 +191,47 @@ def _chooseImage(teaserImageRef,isVideo=False):
 				return teaserImageRef['layouts']['384xauto']
 			elif '1920x1080' in teaserImageRef['layouts']:
 				return teaserImageRef['layouts']['1920x1080']
-		
+
 	return ''
-	
+
 def getVideoUrlById(id):
 	url = base + '/content/documents/' + id + '.json?profile=player'
 	response = getU(url,True)
 	j = json.loads(response)
 	url = base + j['mainVideoContent']['http://zdf.de/rels/target']['http://zdf.de/rels/streams/ptmd-template'].replace('{playerId}',playerId)
 	return getVideoUrl(url)
-	
+
 def getVideoUrl(url):
-	d = {}
-	d['media'] = []
-	#response = libMediathek.getUrl(url,headerPlayer)
+	media = []
 	response = getU(url,False)
 	j = json.loads(response)
-	for caption in j.get('captions',[]):
-		if caption['format'] == 'ebu-tt-d-basic-de':
-			d['subtitle'] = [{'url':caption['uri'], 'type':'ttml', 'lang':'de', 'colour':True}]
-		#elif caption['format'] == 'webvtt':
-		#	d['subtitle'] = [{'url':caption['uri'], 'type':'webvtt', 'lang':'de', 'colour':False}]
 	for item in j['priorityList']:
-		if item['formitaeten'][0]['type'] == 'h264_aac_ts_http_m3u8_http':
-			for quality in item['formitaeten'][0]['qualities']:
-				if quality['quality'] == 'auto':
-					d['media'].append({'url':quality['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'HLS'})
-	return d
+		if (item['formitaeten'][0].get('type',None) == 'h264_aac_ts_http_m3u8_http'
+			or
+			item['formitaeten'][0].get('mimeType',None) == 'application/x-mpegURL'
+		):
+			for streams in item['formitaeten'][0]['qualities']:
+				if streams['quality'] == 'auto':
+					media.insert(0, {'url':streams['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'HLS'})
+		elif (item['formitaeten'][0].get('type',None) == 'h264_aac_mp4_http_na_na'
+			or
+			item['formitaeten'][0].get('mimeType',None) == 'video/mp4'
+		):
+			for streams in item['formitaeten'][0]['qualities']:
+				try:
+					quality = ('low','med','high','veryhigh').index(streams['quality'])
+				except ValueError:
+					pass
+				else:
+					media.append({'url':streams['audio']['tracks'][0]['uri'], 'type':'video', 'stream':'mp4', 'bitrate':quality})
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'HLS':
+		del media[0]
+	if media:
+		result = dict(media = media)
+		for caption in j.get('captions',[]):
+			if caption['format'] == 'ebu-tt-d-basic-de':
+				result['subtitle'] = [{'url':caption['uri'], 'type':'ttml', 'lang':'de', 'colour':True}]
+		return result
+	else:
+		return None
