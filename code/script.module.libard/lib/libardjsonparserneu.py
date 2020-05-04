@@ -173,7 +173,7 @@ def extractBestQuality(streams, fnGetFinalUrl):
 			if stream:
 				url = fnGetFinalUrl(stream)
 				if url.startswith('//'):
-					url = 'http:' + url
+					url = 'https:' + url
 				quality = item.get('_quality',-1);
 				if quality == 'auto':
 					media.insert(0,{'url':url, 'type':'video', 'stream':'HLS'})

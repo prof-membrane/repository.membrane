@@ -27,7 +27,6 @@ def list():
 	use_classic = libMediathek.getSettingBool('use_classic')
 	use_classic_prev_value = libMediathek.getSettingBool('use_classic_prev_value')
 	if (use_classic != use_classic_prev_value) or show_hint_classic:
-		xbmc.executebuiltin('Container.Update(path,replace)')
 		params = libMediathek.get_params()
 		if 'mode' in params: 
 			del params['mode']  # force default mode
@@ -37,6 +36,7 @@ def list():
 			title = addon.getAddonInfo('name')
 			text = addon.getLocalizedString(32101)
 			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
+			xbmc.executebuiltin('Container.Update(path,replace)')
 	if use_classic: 
 		return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayHtml')
 	else:

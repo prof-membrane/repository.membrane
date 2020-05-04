@@ -22,7 +22,7 @@ def fetchJsonVideo(id):
 			else:
 				url = stream['_stream']
 			if url.startswith('//'):
-				url = 'http:' + url
+				url = 'https:' + url
 			quality = stream.get('_quality',-1);
 			if quality == 'auto':
 				media.insert(0,{'url':url, 'type':'video', 'stream':'HLS'})
@@ -41,5 +41,5 @@ def fetchJsonVideo(id):
 		if '_subtitleUrl' in j:
 			result['subtitle'] = [{'url':j['_subtitleUrl'], 'type':'ttml', 'lang':'de'}]
  		return result
-	else: 
+	else:
 		return None
