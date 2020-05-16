@@ -8,6 +8,14 @@ msgctxt "#32000"
 msgid "General"
 msgstr "General"
 
-msgctxt "#32001"
+msgctxt "#32003"
 msgid "Ignore adaptive streams if possible"
 msgstr "Ignore adaptive streams if possible"
+
+msgctxt "#32010"
+msgid "Download settings"
+msgstr "Download settings"
+
+msgctxt "#32011"
+msgid "Download directory"
+msgstr "Download directory"

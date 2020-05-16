@@ -56,31 +56,44 @@ def getVideos(uri='/api/videos?limit=20&orderBy=date&orderDirection=DESC'):
 	return l
 
 def getVideoUrl(uri):
-	finalUrl = None
-	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
-	quality = -1
+	mediaHLS = []
+	mediaMP4 = []
 	response = libMediathek.getUrl(baseUrl+uri)
 	j = json.loads(response)
 	for asset in j.get('hbbtvAssets', []) + j.get('assets',[]):
-		currentQuality = asset.get('quality',-1);
-		if not isinstance(currentQuality, int):
-			if currentQuality == 'auto':
-				currentQuality = 0 if ignore_adaptive else sys.maxsize
-			else:
-				try:
-					currentQuality = ('low','med','high','veryhigh').index(currentQuality)
-				except:
-					currentQuality = -1
-		if currentQuality > quality:
-			finalUrl = asset['url']
-			quality = currentQuality
-	if finalUrl:
-		d = {}
-		if finalUrl.startswith('//'):
-			finalUrl = 'http:' + finalUrl
-		if finalUrl.endswith('.mp4'):
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'mp4'}]
+		url = asset['url']
+		if url.startswith('//'):
+			url = 'https:' + url
+		quality = asset.get('quality',None)
+		if quality is None:
+			continue 
+		elif isinstance(quality, int):
+			pass
 		else:
-			d['media'] = [{'url':finalUrl, 'type': 'video', 'stream':'HLS'}]
-		return d
-	return None
+			try:
+				quality = quality.split(' ')[0];
+				if len(quality) == 1:
+					quality = ('0','1','2','3','4','5','6','7','8','9').index(quality)
+				else:
+					quality = ('low','med','high','veryhigh','auto').index(quality)
+			except ValueError:
+				continue
+		isAdaptive = asset.get('isAdaptive',None)
+		if isAdaptive is None:
+			isAdaptive = (url[-4:].lower() != '.mp4')
+		if isAdaptive:
+			mediaHLS.append({'url':url, 'type':'video', 'stream':'hls', 'bitrate':quality})
+		else:
+			mediaMP4.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
+	mediaHLS.sort(key = lambda x: x['bitrate'], reverse=True)
+	mediaHLS = mediaHLS[0:1]
+	mediaMP4.sort(key = lambda x: x['bitrate'], reverse=True)
+	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+	if ignore_adaptive and mediaMP4:
+		media = mediaMP4
+	else: 
+		media = mediaHLS + mediaMP4   
+	if media: 
+		return dict(media = media)
+	else: 
+		return None
