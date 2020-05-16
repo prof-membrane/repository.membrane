@@ -56,5 +56,5 @@ def getVideoUrl(smubl):
 					url = quality['audio']['tracks'][0]['uri']
 	d = {}
 	d['media'] = []
-	d['media'].append({'url':url, 'type': 'video', 'stream':'HLS'})
+	d['media'].append({'url':url, 'type': 'video', 'stream':'hls'})
 	return d

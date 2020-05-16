@@ -225,7 +225,7 @@ def parseVideo(id):
 		node = x[0]['node']
 		d = {}
 		d['media'] = []
-		d['media'].append({'url':node['publicLocation'], 'stream':'HLS'})
+		d['media'].append({'url':node['publicLocation'], 'stream':'hls'})
 		try:
 			sub = node['subtitles']['edges'][0]['node']['timedTextFiles']['edges'][0]['node']['publicLocation']
 			d['subtitle'] = [{'url':sub, 'type': 'ttml', 'lang':'de'}]

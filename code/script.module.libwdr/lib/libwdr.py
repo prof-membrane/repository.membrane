@@ -80,7 +80,7 @@ def libWdrPlay():
 	if 'm3u8' in params:
 		result = {}
 		result['media'] = []
-		#d['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'HLS'})
+		#d['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'hls'})
 		result['media'].append({'url':params['m3u8'], 'type': 'video', 'stream':'mp4'})
 	else:
 		result = libWdrParser.parseVideo(params['url'])

@@ -160,7 +160,7 @@ def getVideo(url):
 	#	videoUrl = j['assets'][0]['urls'][0]['url']
 	d = {}
 	d['media'] = []
-	d['media'].append({'url':videoUrl, 'stream':'HLS'})
+	d['media'].append({'url':videoUrl, 'stream':'hls'})
 	thumb = j['teaserImages'][0]['variantes'][0]['url']
 	for possiblethumb in j['teaserImages'][0]['variantes']:
 		if possiblethumb['type'] == 'varxl':

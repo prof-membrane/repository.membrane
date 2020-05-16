@@ -176,7 +176,7 @@ def extractBestQuality(streams, fnGetFinalUrl):
 					url = 'https:' + url
 				quality = item.get('_quality',-1);
 				if quality == 'auto':
-					media.insert(0,{'url':url, 'type':'video', 'stream':'HLS'})
+					media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
 				elif url[-4:].lower() == '.mp4':
 					try:
 						quality = int(quality)
@@ -185,7 +185,7 @@ def extractBestQuality(streams, fnGetFinalUrl):
 					else:
 						media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
-	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'HLS':
+	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
 		del media[0]
 	if media: 
 		return dict(media = media)

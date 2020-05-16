@@ -76,5 +76,5 @@ def getEpisodes(showid, showname = None):
 def getVideo(url):
 	d = {}
 	d['media'] = []
-	d['media'].append({'url': url, 'type': 'video', 'stream': 'mp4' if url.endswith('.mp4') else 'HLS'})
+	d['media'].append({'url': url, 'type': 'video', 'stream': 'mp4' if url.endswith('.mp4') else 'hls'})
 	return d

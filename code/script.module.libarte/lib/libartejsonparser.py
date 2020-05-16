@@ -183,5 +183,5 @@ def getVideoUrl(url):
 		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
 			storedLang = currentLang
 			bitrate = currentBitrate
-			result = {'url':video['url'], 'type': 'video', 'stream':'HLS'}
+			result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
 	return {'media': [result]} if result else None

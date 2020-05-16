@@ -146,7 +146,7 @@ def getVideoUrl(url, api_token):
 		): 
 			for streams in item['formitaeten'][0]['qualities']:
 				if streams['quality'] == 'auto':
-					media.insert(0, {'url':streams['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'HLS'})
+					media.insert(0, {'url':streams['audio']['tracks'][0]['uri'], 'type': 'video', 'stream':'hls'})
 		elif (item['formitaeten'][0].get('type',None) == 'h264_aac_mp4_http_na_na'
 			or  
 			item['formitaeten'][0].get('mimeType',None) == 'video/mp4'
@@ -159,7 +159,7 @@ def getVideoUrl(url, api_token):
 				else:
 					media.append({'url':streams['audio']['tracks'][0]['uri'], 'type':'video', 'stream':'mp4', 'bitrate':quality})
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
-	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'HLS':
+	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
 		del media[0]
 	if media: 
 		result = dict(media = media)

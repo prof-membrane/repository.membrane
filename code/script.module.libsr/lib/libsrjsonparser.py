@@ -151,5 +151,5 @@ def getVideoUrl(id):
 	if j['_type'] == 'audio':
 		d['media'].append({'url':url, 'stream':'MP4'})
 	else:
-		d['media'].append({'url':url, 'stream':'HLS'})
+		d['media'].append({'url':url, 'stream':'hls'})
 	return d
