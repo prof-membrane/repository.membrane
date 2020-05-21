@@ -1,24 +1,43 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
 import sys
-import urllib
+import os
 from datetime import date, timedelta
-import libmediathek3 as libMediathek
+import xbmc
+import xbmcgui
+import xbmcaddon
+import libzdfneu
 import libzdfjsonparser as libZdfJsonParser
+import libmediathek3 as libMediathek
 
-
-#https://api.zdf.de/content/documents/zdf-startseite-100.json?profile=default
-#https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=teaser
-#https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default
-#https://api.zdf.de/content/documents/sendungen-100.json?profile=default
-#api.zdf.de/search/documents?hasVideo=true&q=*&types=page-video&sender=ZDFneo&paths=%2Fzdf%2Fcomedy%2Fneo-magazin-mit-jan-boehmermann%2Ffilter%2C%2Fzdf%2Fcomedy%2Fneo-magazin-mit-jan-boehmermann&sortOrder=desc&limit=1&editorialTags=&sortBy=date&contentTypes=episode&exclEditorialTags=&allEditorialTags=false
-#api.zdf.de/search/documents?hasVideo=true&q=*&types=page-video&sender=ZDFneo&paths=%2Fzdf%2Fnachrichten%2Fzdfspezial%2Ffilter%2C%2Fzdf%nachrichten%2Fzdfspezial&sortOrder=desc&limit=1&editorialTags=&sortBy=date&contentTypes=episode&exclEditorialTags=&allEditorialTags=false
-#https://api.zdf.de/cmdm/epg/broadcasts?from=2016-10-28T05%3A30%3A00%2B02%3A00&to=2016-10-29T05%3A29%3A00%2B02%3A00&limit=500&profile=teaser
-#https://api.zdf.de/cmdm/epg/broadcasts?from=2016-10-28T05%3A30%3A00%2B02%3A00&to=2016-10-29T05%3A29%3A00%2B02%3A00&limit=500&profile=teaser&tvServices=ZDF
 
 channels = ('ZDF','ZDFinfo','ZDFneo')
 
 def list():
-	return libMediathek.list(modes, 'libZdfListMain', 'libZdfPlay', 'libZdfPlayById')
+	show_hint_mobile = libMediathek.getSettingBool('show_hint_mobile')
+	if show_hint_mobile:
+		libMediathek.setSettingBool('show_hint_mobile', False)
+		addon = xbmcaddon.Addon()
+		title = addon.getAddonInfo('name')
+		text = addon.getLocalizedString(32100)
+		xbmcgui.Dialog().ok(title, text)
+	use_mobile = libMediathek.getSettingBool('use_mobile')
+	use_mobile_prev_value = libMediathek.getSettingBool('use_mobile_prev_value')
+	if (use_mobile != use_mobile_prev_value) or show_hint_mobile:
+		params = libMediathek.get_params()
+		if 'mode' in params:
+			del params['mode']  # force default mode
+		if use_mobile != use_mobile_prev_value:
+			libMediathek.setSettingBool('use_mobile_prev_value', use_mobile)
+			addon = xbmcaddon.Addon()
+			title = addon.getAddonInfo('name')
+			text = addon.getLocalizedString(32101)
+			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
+			xbmc.executebuiltin('Container.Update(path,replace)')
+	if use_mobile:
+		return libzdfneu.list()
+	else:
+		return libMediathek.list(modes, 'libZdfListMain', 'libZdfPlay', 'libZdfPlayById')
 
 def getMostViewed():#used in unithek
 	return libZdfJsonParser.parsePage('https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default')

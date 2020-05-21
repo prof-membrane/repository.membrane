@@ -8,6 +8,14 @@ msgctxt "#32000"
 msgid "General"
 msgstr "Allgemein"
 
+msgctxt "#32001"
+msgid "Use mobile version of ZDF media library"
+msgstr "Mobile Version der ZDF Mediathek verwenden"
+
+msgctxt "#32002"
+msgid "Show hint on mobile version at start"
+msgstr "Hinweis auf Mobile-Version beim Start anzeigen"
+
 msgctxt "#32003"
 msgid "Ignore adaptive streams if possible"
 msgstr "Adaptive Streams wenn möglich ignorieren"
@@ -19,3 +27,12 @@ msgstr "Download Einstellungen"
 msgctxt "#32011"
 msgid "Download directory"
 msgstr "Downloadverzeichnis"
+
+
+msgctxt "#32100"
+msgid "Usage of the mobile version can be defined in the addon settings."
+msgstr "Die Verwendung der Mobile-Version kann in den Addon-Einstellung festgelegt werden."
+
+msgctxt "#32101"
+msgid "Restart because of changed settings"
+msgstr "Neustart wegen geänderter Einstellungen."
