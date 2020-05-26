@@ -40,6 +40,6 @@ def fetchJsonVideo(id):
 		result = dict(media = media)
 		if '_subtitleUrl' in j:
 			result['subtitle'] = [{'url':j['_subtitleUrl'], 'type':'ttml', 'lang':'de'}]
- 		return result
+		return result
 	else:
 		return None
