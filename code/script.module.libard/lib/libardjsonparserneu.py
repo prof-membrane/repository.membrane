@@ -105,7 +105,52 @@ def parseVideo(pageIndex, url):
 def parseSearchHtml(url):
 	l = []
 	response = libMediathek.getUrl(url)
-	split = response.split('window.__APOLLO_STATE__');
+	split = response.split('window.__FETCHED_CONTEXT__');
+	if (len(split) > 1):
+		json_str = split[1]
+		start = 0
+		while json_str[start] in (' ','='):
+			start += 1
+		end = start
+		while True:
+			while json_str[end] != ';':
+				end += 1
+			if json_str[end+1:].lstrip().startswith('</script>'): break
+			else: end += 1
+		json_str = json_str[start:end]
+		j = json.loads(json_str)
+		for grid_item in j.values():
+			if isinstance(grid_item,dict) and (grid_item.get('type',None) == 'gridlist'):
+				for item in grid_item.get('teasers',[]):
+					if isinstance(item,dict) and (item.get('type',None) == 'ondemand'):
+						id = item.get('id',None)
+						name = item['shortTitle']
+						if id and name:
+							d ={}
+							d['documentId'] = id
+							d['url'] = baseUrlHtml + id
+							d['duration'] = str(item.get('duration',None))
+							d['name'] = name
+							d['plot'] = item.get('longTitle',None)
+							d['date'] = item.get('broadcastedOn',None)
+							thumb_id = '$Teaser:' + id
+							thumb_item = deep_get(item, 'images.aspect16x9')
+							if not thumb_item:
+								thumb_item = deep_get(item, 'images.aspect1x1')
+							if not thumb_item:
+								thumb_item = deep_get(item, 'images.aspect16x7')
+							if thumb_item:
+								thumb_src = thumb_item.get('src','')
+								thumb_src = thumb_src.replace('{width}','1024')
+								d['thumb'] = thumb_src
+							d['_type'] = 'video'
+							d['mode'] = 'libArdPlayHtml'
+							l.append(d)
+	return l
+
+def getVideoUrlHtml(url):
+	response = libMediathek.getUrl(url)
+	split = response.split('window.__FETCHED_CONTEXT__');
 	if (len(split) > 1):
 		json_str = split[1]
 		start = 0
@@ -120,70 +165,35 @@ def parseSearchHtml(url):
 		json_str = json_str[start:end]
 		j = json.loads(json_str)
 		for item in j.values():
-			if isinstance(item,dict) and (item.get('type',None) == 'ondemand'):
-				id = item.get('id',None)
-				name = item['shortTitle']
-				if id and name:
-					d ={}
-					d['documentId'] = id
-					d['url'] = baseUrlHtml + id
-					d['duration'] = str(item.get('duration',None))
-					d['name'] = name
-					d['plot'] = item.get('longTitle',None)
-					d['date'] = item.get('broadcastedOn',None)
-					thumb_id = '$Teaser:' + id
-					thumb_item = j.get(thumb_id + '.images.aspect16x9',None)
-					if not thumb_item:
-						thumb_item = j.get(thumb_id + '.images.aspect1x1',None)
-					if not thumb_item:
-						thumb_item = j.get(thumb_id + '.images.aspect16x7',None)
-					if thumb_item and (thumb_item.get('__typename',None) == 'Image'):
-						thumb_src = thumb_item.get('src','')
-						thumb_src = thumb_src.replace('{width}','1024')
-						d['thumb'] = thumb_src
-					d['_type'] = 'video'
-					d['mode'] = 'libArdPlayHtml'
-					l.append(d)
-	return l
-
-def getVideoUrlHtml(url):
-	response = libMediathek.getUrl(url)
-	split = response.split('window.__APOLLO_STATE__');
-	if (len(split) > 1):
-		json_str = split[1]
-		start = 0
-		while json_str[start] in (' ','='):
-			start += 1
-		end = start
-		while True:
-			while json_str[end] != ';':
-				end += 1
-			if json_str[end+1:].lstrip().startswith('</script>'): break
-			else: end += 1
-		json_str = json_str[start:end]
-		j = json.loads(json_str)
-		return extractBestQuality(j.values(), lambda x: x[x['type']][0])
+			widgets = item.get('widgets',None)
+			if widgets:
+				for widget in widgets:
+					if widget.get('type',None) == 'player_ondemand':
+						mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
+						if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict): 
+							return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
 def extractBestQuality(streams, fnGetFinalUrl):
 	media = []
 	for item in streams:
-		if isinstance(item,dict) and (item.get('__typename',None) == 'MediaStreamArray'):
+		if isinstance(item,dict) and (item.get('__typename','MediaStreamArray') == 'MediaStreamArray'):
 			stream = item.get('_stream',None)
 			if stream:
 				url = fnGetFinalUrl(stream)
-				if url.startswith('//'):
-					url = 'https:' + url
-				quality = item.get('_quality',-1);
-				if quality == 'auto':
-					media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
-				elif url[-4:].lower() == '.mp4':
-					try:
-						quality = int(quality)
-					except ValueError:
-						pass
-					else:
-						media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
+				if url:
+					if url.startswith('//'):
+						url = 'https:' + url
+					quality = item.get('_quality',-1);
+					if quality == 'auto':
+						media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
+					elif url[-4:].lower() == '.mp4':
+						try:
+							quality = int(quality)
+						except ValueError:
+							pass
+						else:
+							media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
 	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
 		del media[0]
