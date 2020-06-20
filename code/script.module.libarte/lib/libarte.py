@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import urllib
 import libartejsonparser as libArteJsonParser
 import libmediathek3 as libMediathek
 
