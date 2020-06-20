@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import urllib
 import libbrjsonparser as libBrJsonParser
 import libmediathek3 as libMediathek
 
@@ -12,18 +11,9 @@ def list():
 
 def getDate(date,channel='BR'):
 	return libBrJsonParser.parseDate(date,channel)
-def search(searchString):
-	return libBrJsonParser.search(searchString)
+
 def getVideoUrl(url):
 	return libBrJsonParser.parseVideo(url)
-"""
-def play(dict):
-	url,sub = getVideoUrl(dict["url"])
-	#listitem = xbmcgui.ListItem(label=video["name"],thumbnailImage=video["thumb"],path=url)
-	#listitem = xbmcgui.ListItem(label=dict["name"],path=url)
-	listitem = xbmcgui.ListItem(label='TODO',path=url)
-	xbmc.Player().play(url, listitem)
-"""
 
 def libBrListMain():
 	#libBrJsonParser.getIntrospection()
@@ -35,7 +25,7 @@ def libBrListMain():
 	l.append({'name':translation(31035), 'mode':'libBrListCategories', '_type':'dir'})
 	#l.append({'name':'Genres', 'mode':'libBrListGenres', '_type':'dir'})
 	#l.append({'name':'#sections', 'mode':'libBrListSections', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libBrSearch', '_type':'dir'})
+	l.append({'name':translation(31039), 'mode':'libBrListSearch', '_type':'dir'})
 	return l
 
 def libBrListNew():
@@ -85,15 +75,9 @@ def libBrListChannelDate():
 def libBrListChannelDateVideos():
 	return libBrJsonParser.parseDate(params['yyyymmdd'],params['channel'])
 
-def libBrSearch():
+def libBrListSearch():
 	search_string = libMediathek.getSearchString()
 	return libBrJsonParser.parseSearch(search_string) if search_string else None
-	#return libBrListSearch(search_string)
-
-def libBrListSearch(searchString=False):
-	if not searchString:
-		searchString = params['searchString']
-	return search(searchString)
 
 def libBrPlay():
 	result = libBrJsonParser.parseVideo(params['id'])
@@ -122,7 +106,6 @@ modes = {
 	'libBrListChannel': libBrListChannel,
 	'libBrListChannelDate': libBrListChannelDate,
 	'libBrListChannelDateVideos': libBrListChannelDateVideos,
-	'libBrSearch': libBrSearch,
 	'libBrListSearch': libBrListSearch,
 	'libBrPlay': libBrPlay,
 	'libBrPlayOld': libBrPlayOld
