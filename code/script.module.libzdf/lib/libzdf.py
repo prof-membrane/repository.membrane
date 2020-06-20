@@ -10,8 +10,8 @@ import libzdfneu
 import libzdfjsonparser as libZdfJsonParser
 import libmediathek3 as libMediathek
 
-
 channels = ('ZDF','ZDFinfo','ZDFneo')
+params = libMediathek.get_params()
 
 def list():
 	show_hint_mobile = libMediathek.getSettingBool('show_hint_mobile')
@@ -24,7 +24,6 @@ def list():
 	use_mobile = libMediathek.getSettingBool('use_mobile')
 	use_mobile_prev_value = libMediathek.getSettingBool('use_mobile_prev_value')
 	if (use_mobile != use_mobile_prev_value) or show_hint_mobile:
-		params = libMediathek.get_params()
 		if 'mode' in params:
 			del params['mode']  # force default mode
 		if use_mobile != use_mobile_prev_value:
@@ -53,28 +52,23 @@ def libZdfListMain():
 	return l
 
 def libZdfListShows():
-	params = libMediathek.get_params()
 	if 'url' in params:
 		return libZdfJsonParser.getAZ(params['url'])
 	else:
 		return libZdfJsonParser.getAZ()
 
 def libZdfListPage():
-	params = libMediathek.get_params()
 	return libZdfJsonParser.parsePage(params['url'])
 
 def libZdfListVideos():
-	params = libMediathek.get_params()
 	return libZdfJsonParser.getVideos(params['url'])
 
 def libZdfPlay():
-	params = libMediathek.get_params()
 	result = libZdfJsonParser.getVideoUrl(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result
 
 def libZdfPlayById():
-	params = libMediathek.get_params()
 	result = libZdfJsonParser.getVideoUrlById(params['id'])
 	result = libMediathek.getMetadata(result)
 	return result
@@ -91,11 +85,9 @@ def libZdfListChannel():
 	return l
 
 def libZdfListChannelDate():
-	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libZdfListChannelDateVideos',params['channel'])
 
 def libZdfListChannelDateVideos():
-	params = libMediathek.get_params()
 	if 'datum' in params:
 		day = date.today() - timedelta(int(params['datum']))
 		yyyymmdd = day.strftime('%Y-%m-%d')
@@ -108,7 +100,6 @@ def libZdfListChannelDateVideos():
 	return libZdfListPage()
 
 def libZdfSearch():
-	params = libMediathek.get_params()
 	search_string = libMediathek.getSearchString()
 	if (search_string):
 		params['url'] = "https://api.zdf.de/search/documents?q="+search_string

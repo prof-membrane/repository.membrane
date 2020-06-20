@@ -3,6 +3,8 @@
 import libzdfjsonparserneu as libZdfJsonParserNeu
 import libmediathek3 as libMediathek
 
+params = libMediathek.get_params()
+
 def list():
 	return libMediathek.list(modesNeu, 'libZdfListMainNeu', 'libZdfPlayNeu', 'libZdfPlayLivestream')
 
@@ -23,11 +25,9 @@ def libZdfListChannelDates():
 	return l
 
 def libZdfListDateByChannel():
-	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libZdfListChannelDateVideos', params['channel'])
 
 def libZdfListChannelDateVideos():
-	params = libMediathek.get_params()
 	channelIndex = int(params['channel'])
 	channel = channels[channelIndex]
 	return libZdfJsonParserNeu.parseDate(None if channelIndex == 0 else channel[0], params['yyyymmdd'])
@@ -50,11 +50,9 @@ def libZdfListSearch():
 		return None
 
 def libZdfPlayLivestream():
-	params = libMediathek.get_params()
 	return dict (media = [{'url':params['url'], 'type':'video', 'stream':params['stream']}])
 
 def libZdfPlayNeu():
-	params = libMediathek.get_params()
 	result = libZdfJsonParserNeu.parseVideo(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result
