@@ -3,6 +3,8 @@
 import libardjsonparserneu as libArdJsonParserNeu
 import libmediathek3 as libMediathek
 
+params = libMediathek.get_params()
+
 def list():
 	return libMediathek.list(modesNeu, 'libArdListMainNeu', 'libArdPlay', 'libArdPlayHtml')
 
@@ -17,7 +19,6 @@ def libArdListMainNeu():
 
 def libArdListChannels():
 	l = []
-	params = libMediathek.get_params()
 	mode = params['mode']
 	for i, channel in enumerate(channels):
 		d = {}
@@ -37,22 +38,18 @@ def libArdListChannels():
 	return l
 
 def libArdListShowsByChannel():
-	params = libMediathek.get_params()
 	return libMediathek.populateDirAZ('libArdListChannelShowVideos', [], params['channel'])
 
 def libArdListDateByChannel():
-	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libArdListChannelDateVideos', params['channel'])
 
 def libArdListLivestreamsByChannel():
-	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
 	# Livestreams sind nicht sinnvoll vorsortiert
 	libMediathek.sortAZ()
 	return libArdJsonParserNeu.parseLivestreams(channel[2], 'ard' if (channel[1] & live_byard) else channel[3])
 
 def libArdListChannelShowVideos():
-	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
 	letter = params['name'].upper()
 	if letter == '#':
@@ -60,7 +57,6 @@ def libArdListChannelShowVideos():
 	return libArdJsonParserNeu.parseAZ(channel[3], letter)
 
 def libArdListChannelDateVideos():
-	params = libMediathek.get_params()
 	channel = channels[int(params['channel'])]
 	partnerKey = channel[2]
 	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
@@ -73,17 +69,14 @@ def libArdListSearch():
 		return None
 
 def libArdListShow():
-	params = libMediathek.get_params()
 	return libArdJsonParserNeu.parseShow(params['documentId'])
 
 def libArdPlay():
-	params = libMediathek.get_params()
 	result = libArdJsonParserNeu.getVideoUrl(params['documentId'])
 	result = libMediathek.getMetadata(result)
 	return result
 
 def libArdPlayHtml():
-	params = libMediathek.get_params()
 	result = libArdJsonParserNeu.getVideoUrlHtml(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result

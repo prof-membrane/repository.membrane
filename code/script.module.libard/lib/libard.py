@@ -8,8 +8,9 @@ import xbmcaddon
 import libardneu
 import libardplayer
 import libardjsonparser as libArdJsonParser
-
 import libmediathek3 as libMediathek
+
+params = libMediathek.get_params()
 
 if sys.version_info[0] < 3: # for Python 2
 	from urllib import quote_plus
@@ -27,8 +28,7 @@ def list():
 	use_classic = libMediathek.getSettingBool('use_classic')
 	use_classic_prev_value = libMediathek.getSettingBool('use_classic_prev_value')
 	if (use_classic != use_classic_prev_value) or show_hint_classic:
-		params = libMediathek.get_params()
-		if 'mode' in params: 
+		if 'mode' in params:
 			del params['mode']  # force default mode
 		if use_classic != use_classic_prev_value:
 			libMediathek.setSettingBool('use_classic_prev_value', use_classic)
@@ -37,7 +37,7 @@ def list():
 			text = addon.getLocalizedString(32101)
 			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
 			xbmc.executebuiltin('Container.Update(path,replace)')
-	if use_classic: 
+	if use_classic:
 		return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayHtml')
 	else:
 		return libardneu.list()
@@ -74,7 +74,6 @@ def libArdListMain():
 	return l
 
 def libArdListVideos():
-	params = libMediathek.get_params()
 	return libArdJsonParser.parseVideos(params['url'])
 
 def libArdListShows():
@@ -92,16 +91,13 @@ def libArdListChannel():
 	return l
 
 def libArdListChannelDate():
-	params = libMediathek.get_params()
 	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
 
 def libArdListChannelDateVideos():
-	params = libMediathek.get_params()
 	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[int(params['channel'])][1]+'&tag='+params['datum']
 	return libArdJsonParser.parseDate(url)
 
 def libArdPlayClassic():
-	params = libMediathek.get_params()
 	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
 	result = libMediathek.getMetadata(result)
 	return result
