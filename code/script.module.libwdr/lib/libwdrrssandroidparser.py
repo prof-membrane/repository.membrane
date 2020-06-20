@@ -18,8 +18,8 @@ def parseShows(letter):
 		d['_channel'] = 'WDR'		
 		d['thumb'] = 'https://www1.wdr.de/fernsehen/quarks/quarks-logo-102~_v-ARDKleinerTeaser.jpg'
 		d['_type'] = 'dir'
-		d['mode'] = 'libWdrSearch'
-		d['search'] = 'quarks'
+		d['mode'] = 'libWdrListSearch'
+		d['searchString'] = 'quarks'
 		l.append(d)
 	else:
 		response = libMediathek.getUrl(base+'/sendungen-'+letter+'-102~_variant-android.mobile')

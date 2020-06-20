@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import sys
-import urllib
 from datetime import date, timedelta
 import libwdrparser as libWdrParser
 import libwdrjsonparser as libWdrJsonParser
 import libwdrrssparser as libWdrRssParser
 import libwdrrssandroidparser as libWdrRssAndroidParser
+import libwdrhtmlparser as libWdrHtmlParser
 import libmediathek3 as libMediathek
 
 ignoreLetters=['#']
@@ -25,7 +25,7 @@ def libWdrListMain():
 	l.append({'_name':translation(31033), 'mode':'libWdrListDate', '_type':'dir'})
 	#l.append({'name':'Videos in Gebärdensprache', 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungen/videos-dgs-100~_format-mp111_type-rss.feed', '_type':'dir'})
 	#l.append({'name':'Videos mit Untertiteln', 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungen/videos-untertitel-100~_format-mp111_type-rss.feed', '_type':'dir'})
-	l.append({'_name':translation(31039), 'mode':'libWdrSearch', '_type':'dir'})
+	l.append({'_name':translation(31039), 'mode':'libWdrListSearch', '_type':'dir'})
 	return l
 
 def libWdrListLetters():
@@ -61,20 +61,13 @@ def libWdrListDateVideos():
 	#return libWdrRssParser.parseFeed(url,'video')
 	return libWdrRssAndroidParser.parseVideos(url,'date')
 
-def libWdrSearch(search_string = None):
-	import libwdrhtmlparser as libWdrHtmlParser
-	if ('params' in globals() and 'search' in params and params['search']):
-		search_string = params['search']
-	elif not search_string:
-		search_string = libMediathek.getSearchString()
-	return\
-		libWdrHtmlParser.parse(\
-			"http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string\
-		) if search_string else None
-
 def libWdrListSearch():
-	import libwdrhtmlparser as libWdrHtmlParser
-	return libWdrHtmlParser.parse(params['url'])
+	search_string = params.get('searchString', None)
+	if search_string is None:
+		search_string = libMediathek.getSearchString()
+	return libWdrHtmlParser.parse(
+		"http://www1.wdr.de/mediathek/video/suche/avsuche100~suche_parentId-videosuche100.html?pageNumber=1&sort=date&q="+search_string\
+	) if search_string else None
 
 def libWdrPlay():
 	if 'm3u8' in params:
@@ -100,7 +93,6 @@ modes = {
 	'libWdrListFeed': libWdrListFeed,
 	'libWdrListDate': libWdrListDate,
 	'libWdrListDateVideos': libWdrListDateVideos,
-	'libWdrSearch': libWdrSearch,
 	'libWdrListSearch': libWdrListSearch,
 	'libWdrPlay': libWdrPlay,
 	'libWdrPlayJs': libWdrPlayJs,
