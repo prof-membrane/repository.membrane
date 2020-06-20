@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import urllib
 from datetime import date, timedelta
 import libdaserstejsonparser as libDasErsteJsonParser
 import libmediathek3 as libMediathek
@@ -33,7 +32,7 @@ def libDasErsteListMain():
 	l.append({'name':translation(31032), 'mode':'libDasErsteListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libDasErsteListDate', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libDasErsteListCategories', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libDasErsteSearch', '_type':'dir'})
+	l.append({'name':translation(31039), 'mode':'libDasErsteListSearch', '_type':'dir'})
 	return l
 
 def libDasErsteListShows():
@@ -52,14 +51,9 @@ def libDasErsteListDateVideos():
 	datum = date.today() - timedelta(int(params['datum']))
 	return libDasErsteJsonParser.getDate(datum.strftime('%Y%m%d'))
 
-def libDasErsteSearch():
+def libDasErsteListSearch():
 	search_string = libMediathek.getSearchString()
-	return libDasErsteListSearch(search_string) if search_string else None
-
-def libDasErsteListSearch(searchString=False):
-	if not searchString:
-		searchString = params['searchString']
-	return libDasErsteJsonParser.getSearch(searchString)
+	return libDasErsteJsonParser.getSearch(search_string) if search_string else None
 
 def libDasErstePlay():
 	return libDasErsteJsonParser.getVideo(params['url'])
@@ -71,15 +65,7 @@ modes = {
 	'libDasErsteListVideos':	libDasErsteListVideos,
 	'libDasErsteListDate':		libDasErsteListDate,
 	'libDasErsteListDateVideos':libDasErsteListDateVideos,
-	'libDasErsteSearch':		libDasErsteSearch,
 	'libDasErsteListSearch':	libDasErsteListSearch,
 	'libDasErstePlay':			libDasErstePlay,
 }
 
-views = {
-	'libDasErsteListShows': 'shows',
-	'libDasErsteListVideos': 'videos',
-	'libDasErsteListDate': 'videos',
-	'libDasErsteListDateVideos': 'videos',
-	'libDasErsteListSearch': 'videos',
-}
