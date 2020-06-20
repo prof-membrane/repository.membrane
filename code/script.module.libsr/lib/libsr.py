@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import sys
-import urllib
 import libsrjsonparser as libSrJsonParser
 import libmediathek3 as libMediathek
 
@@ -18,7 +17,7 @@ def libSrListMain():
 	l.append({'name':translation(31032), 'mode':'libSrListShows', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libSrListDate', '_type':'dir'})
 	l.append({'name':translation(31035), 'mode':'libSrListTopics', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libSrSearch', '_type':'dir'})
+	l.append({'name':translation(31039), 'mode':'libSrListSearch', '_type':'dir'})
 	return l
 
 def libSrListDate():
@@ -42,14 +41,9 @@ def libSrListVideos():
 	#libMediathek.log(str(params))
 	return libSrJsonParser.getSearch(params['urlargs'])
 
-def libSrSearch():
+def libSrListSearch():
 	search_string = libMediathek.getSearchString()
-	return libSrListSearch(search_string) if search_string else None
-
-def libSrListSearch(searchString=False):
-	if not searchString:
-		searchString = params['searchString']
-	return libSrJsonParser.getSearch('{"suche":"'+searchString+'"}')
+	return libSrJsonParser.getSearch('{"suche":"'+search_string+'"}') if search_string else None
 
 def libSrPlay():
 	result = libSrJsonParser.getVideoUrl(params['id'])
@@ -65,6 +59,5 @@ modes = {
 	'libSrListTopics': libSrListTopics,
 	'libSrListTopic': libSrListTopic,
 	'libSrPlay': libSrPlay,
-	'libSrSearch': libSrSearch,
 	'libSrListSearch': libSrListSearch,
 }
