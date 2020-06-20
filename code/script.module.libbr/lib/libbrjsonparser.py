@@ -311,11 +311,6 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 			l.append(d)
 	return l
 
-def search(searchString):
-	j = _parseMain()
-	url = j["_links"]["search"]["href"].replace('{term}',quote_plus(searchString))
-	return parseLinks(url)
-
 def parseLinks(url):
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
