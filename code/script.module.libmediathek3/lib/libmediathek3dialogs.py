@@ -7,15 +7,19 @@ if sys.version_info[0] < 3: # for Python 2
 else: # for Python 3
 	from urllib.parse import quote_plus
 
-import libmediathek3utils
+from libmediathek3utils import *
 
 def dialogDate():
 	dialog = xbmcgui.Dialog()
-	return dialog.numeric(1, libmediathek3utils.getTranslation(31030)).replace('/','').replace(' ','0')
+	return dialog.numeric(1, getTranslation(31030)).replace('/','').replace(' ','0')
 
 def getSearchString(do_quote=True):
+	keySearchString = 'searchString'
+	f_mkdir(pathUserdata(''))
+	search_string = f_open(pathUserdata(keySearchString))
 	dialog = xbmcgui.Dialog()
-	d = dialog.input(libmediathek3utils.getTranslation(31039),type=xbmcgui.INPUT_ALPHANUM)
+	search_string = dialog.input(getTranslation(31039),type=xbmcgui.INPUT_ALPHANUM,defaultt=search_string)
+	f_write(pathUserdata(keySearchString), search_string)
 	if do_quote:
-		d = quote_plus(d)
-	return d
+		search_string = quote_plus(search_string)
+	return search_string
