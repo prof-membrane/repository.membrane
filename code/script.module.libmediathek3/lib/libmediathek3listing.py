@@ -219,7 +219,7 @@ def list(modes, defaultMode, *playModes):
 			else:
 				if not (res is None):
 					addEntries(res)
-				endOfDirectory()
+					endOfDirectory()
 			return True # OK
 	raise NotImplementedError()
 

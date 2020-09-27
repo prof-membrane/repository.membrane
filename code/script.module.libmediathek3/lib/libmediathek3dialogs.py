@@ -17,9 +17,10 @@ def getSearchString(do_quote=True):
 	keySearchString = 'searchString'
 	f_mkdir(pathUserdata(''))
 	search_string = f_open(pathUserdata(keySearchString))
-	dialog = xbmcgui.Dialog()
-	search_string = dialog.input(getTranslation(31039),type=xbmcgui.INPUT_ALPHANUM,defaultt=search_string)
-	f_write(pathUserdata(keySearchString), search_string)
+	if xbmc.getInfoLabel('Container.FolderPath') == sys.argv[0]:
+		dialog = xbmcgui.Dialog()
+		search_string = dialog.input(getTranslation(31039),type=xbmcgui.INPUT_ALPHANUM,defaultt=search_string)
+		f_write(pathUserdata(keySearchString), search_string)
 	if do_quote:
 		search_string = quote_plus(search_string)
 	return search_string

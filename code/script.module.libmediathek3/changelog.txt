@@ -1,4 +1,6 @@
-﻿1.5.25
+﻿1.5.26
+- Verhalten der Suchfunktion nochmals verbessert
+1.5.25
 - Verhalten der Suchfunktion verbessert
 1.5.24
 - Seltsames Verhalten der Suchfunktion unter Kodi 18 etwas abgemildert
