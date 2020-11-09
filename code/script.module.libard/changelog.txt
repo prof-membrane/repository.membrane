@@ -1,3 +1,5 @@
+5.1.25
+- Suche funktioniert jetzt auch mit Umlauten
 5.1.24
 - Suche funktioniert wieder
 5.1.23
