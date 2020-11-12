@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addons>
 
-    <addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.18" provider-name="68000a">
+    <addon id="Gigathek" name="Deutsche öffentlich-rechtliche TV-Mediatheken" version="1.0.18.1" provider-name="68000a">
         <extension point="xbmc.addon.repository" name="Deutsche TV-Mediatheken Add-on Repository">
         </extension>
         <extension point="xbmc.addon.metadata">
