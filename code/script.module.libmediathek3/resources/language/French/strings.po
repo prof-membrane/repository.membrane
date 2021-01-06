@@ -1,0 +1,65 @@
+# KODI Media Center language file
+# Addon Name: libmediathek3
+# Addon id: script.module.libmediathek3
+# Addon version: 1.2.1
+# Addon Provider: 68000a
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgctxt "#31022"
+msgid "Choose date"
+msgstr "Sélectionnez la date"
+
+msgctxt "#31030"
+msgid "New"
+msgstr "Nouveau"
+
+msgctxt "#31031"
+msgid "Most viewed"
+msgstr "Le plus regardé"
+
+msgctxt "#31032"
+msgid "Shows by A-Z"
+msgstr "Spectacles de A-Z"
+
+msgctxt "#31033"
+msgid "Shows by date"
+msgstr "Spectacles par date"
+
+msgctxt "#31034"
+msgid "Rubrics"
+msgstr "Rubriques"
+
+msgctxt "#31035"
+msgid "Topics"
+msgstr "Sujets"
+
+msgctxt "#31036"
+msgid "Livestreams"
+msgstr "Livestreams"
+
+msgctxt "#31039"
+msgid "Search"
+msgstr "Chercher"
+
+msgctxt "#31040"
+msgid "More Entries"
+msgstr "Plus d'entrées"
+
+msgctxt "#31041"
+msgid "Archive"
+msgstr "Archives"
+
+msgctxt "#31042"
+msgid "Detailed search"
+msgstr "Recherche détaillée"
+
+msgctxt "#31043"
+msgid "This media is not playable"
+msgstr "Ce média n'est pas une vidéo jouable"
+
+msgctxt "#31044"
+msgid "No download available"
+msgstr "Aucun download disponible"
