@@ -20,9 +20,9 @@ def libWdrListMain():
 	libMediathek.searchWorkaroundRemove()
 	l = []
 	#l.append({'_name':translation(31030), 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungverpasst/sendung-verpasst-100~_format-mp111_type-rss.feed', '_type':'dir'})
-	l.append({'_name':translation(31030), 'mode':'libWdrListVideos', 'id':'sendung-verpasst-100', '_type':'dir'})
+	#l.append({'_name':translation(31030), 'mode':'libWdrListVideos', 'id':'sendung-verpasst-100', '_type':'dir'})
 	l.append({'_name':translation(31032), 'mode':'libWdrListLetters', '_type':'dir'})
-	l.append({'_name':translation(31033), 'mode':'libWdrListDate', '_type':'dir'})
+	#l.append({'_name':translation(31033), 'mode':'libWdrListDate', '_type':'dir'})
 	#l.append({'name':'Videos in Gebärdensprache', 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungen/videos-dgs-100~_format-mp111_type-rss.feed', '_type':'dir'})
 	#l.append({'name':'Videos mit Untertiteln', 'mode':'libWdrListFeed', 'url':'http://www1.wdr.de/mediathek/video/sendungen/videos-untertitel-100~_format-mp111_type-rss.feed', '_type':'dir'})
 	l.append({'_name':translation(31039), 'mode':'libWdrListSearch', '_type':'dir'})

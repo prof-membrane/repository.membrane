@@ -1,3 +1,5 @@
+1.2.8
+- Menüpunkte "Neu" und "Sendungen nach Datum" entfernt: nicht mehr funktionsfähig
 1.2.7
 - Suche funktioniert wieder
 1.2.6
