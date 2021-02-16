@@ -12,7 +12,7 @@
         <language>de</language>
         <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
         <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.srmediathek</source>
-		    <summary lang="en">This is an add-on for http://sr-mediathek.de/.</summary>
+        <summary lang="en">This is an add-on for http://sr-mediathek.de/.</summary>
         <description lang="en">This add-on provides access to the German VOD platform http://sr-mediathek.de/.</description>
         <summary lang="de">Sendebeiträge der SR Mediathek.</summary>
         <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des SR. Zur Auswahl stehen vorallem Reportagen.</description>
