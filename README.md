@@ -9,7 +9,7 @@ Das Repository kann [hier](https://github.com/68000a/Gigathek/raw/master/Gigathe
 Wichtig: die heruntergeladene ZIP-Datei auf jeden Fall in ein Verzeichnis kopieren auf welches Kodi Zugriff hat!!!
 
 In Kodi müssen danach die beiden folgenden Schritte ausgeführt werden:
-1. Addons -> Addon-Browser -> Aus ZIP-Datei installieren -> heruntergeladene ZIP-Datei "Gigathek-1.0.18.zip" auswählen
+1. Addons -> Addon-Browser -> Aus ZIP-Datei installieren -> heruntergeladene ZIP-Datei "Gigathek-1.0.18.1.zip" auswählen
 2. Addons -> Addon-Browser -> Aus Repository installieren -> "Deutsche öffentlich-rechliche TV-Mediatheken" -> Gewünschte Mediathek auswählen
 
 Die Gigathek ist eine Fortführung des Repository [repository.membrane](https://github.com/prof-membrane/repository.membrane)
