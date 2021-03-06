@@ -9,18 +9,8 @@ base = 'http://www1.wdr.de'
 
 def parseShows(letter):
 	l = []
-	if (letter == 'x'):
+	if (letter in ('x','q')):
 		pass
-	elif (letter == 'q'):
-		d = {}
-		d['name'] = 'Quarks'
-		d['id'] = 'quarks-und-co'
-		d['_channel'] = 'WDR'		
-		d['thumb'] = 'https://www1.wdr.de/fernsehen/quarks/quarks-logo-102~_v-ARDKleinerTeaser.jpg'
-		d['_type'] = 'dir'
-		d['mode'] = 'libWdrListSearch'
-		d['searchString'] = 'quarks'
-		l.append(d)
 	else:
 		response = libMediathek.getUrl(base+'/sendungen-'+letter+'-102~_variant-android.mobile')
 		items = re.compile('<mp:additionallink>(.+?)</mp:additionallink>', re.DOTALL).findall(response)
@@ -43,11 +33,13 @@ def parseShows(letter):
 				l.append(d)
 	return l
 
-def parseVideos(url,type=None,grepShowFromVideo=False):
+def parseVideos(id,type=None,grepShowFromVideo=False):
 	if grepShowFromVideo:
+		url = 'http://www1.wdr.de/Medien/mediathek/video/sendungen-a-z/'+id+'~_variant-android.rss'
 		response = libMediathek.getUrl(url)
-		url = re.compile('<link rel="alternate".+?href="(.+?)"').findall(response)[0]
-		url = base + url.replace('.feed','~_variant-android.mobile')
+		url = re.compile('<link>(.+?)</link>').findall(response)[0]
+	else:
+		url = 'http://www1.wdr.de/'+id+'~_variant-android.mobile'
 	response = libMediathek.getUrl(url)
 	items = re.compile('<item>(.+?)</item>', re.DOTALL).findall(response)
 	l = []
