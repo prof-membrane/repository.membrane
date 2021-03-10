@@ -24,7 +24,7 @@ subtitleenabled = True
 """
 
 def _chooseBitrate(l, force_MP4 = False):
-	bitrate = 0
+	bitrate = -1
 	listitem = None
 	url = None
 	streamType = None
@@ -33,7 +33,7 @@ def _chooseBitrate(l, force_MP4 = False):
 			url = item['url']
 			streamType = 'HLS'
 			break
-		if item.get('stream','').lower() == 'mp4' and item.get('bitrate',0) >= bitrate:
+		if item.get('stream','').lower() == 'mp4' and item.get('bitrate',0) > bitrate:
 			bitrate = item.get('bitrate',0)
 			url = item['url']
 			streamType = 'MP4'

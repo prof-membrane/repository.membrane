@@ -1,4 +1,6 @@
-﻿1.5.26
+﻿1.5.27
+- Kleine Verbesserung der Download-Funktionalität
+1.5.26
 - Verhalten der Suchfunktion nochmals verbessert
 1.5.25
 - Verhalten der Suchfunktion verbessert
