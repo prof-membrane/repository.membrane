@@ -1,4 +1,6 @@
-﻿1.5.27
+﻿1.5.28
+- Notification anzeigen und Log-Eintrag erzeugen falls ein Download fehlschlug
+1.5.27
 - Kleine Verbesserung der Download-Funktionalität
 1.5.26
 - Verhalten der Suchfunktion nochmals verbessert

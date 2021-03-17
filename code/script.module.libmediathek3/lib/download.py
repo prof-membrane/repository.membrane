@@ -1,3 +1,4 @@
+import xbmc
 import xbmcgui
 import sys
 
@@ -18,4 +19,10 @@ def reporthook(block_number, block_size, total_size):
 		xbmcgui.Dialog().notification('End download', title, addon_icon)
 
 xbmcgui.Dialog().notification('Start download', title, addon_icon)
-urlretrieve(video_url, filename, reporthook)
+try:
+	urlretrieve(video_url, filename, reporthook)
+except Exception as e:
+	heading = 'Failed download'
+	errormsg = type(e).__name__ + ' ' + str(e)
+	xbmc.log(heading + ' "' + title + '": ' + errormsg, xbmc.LOGERROR)
+	xbmcgui.Dialog().notification(heading, title + ': '  + errormsg, addon_icon)
