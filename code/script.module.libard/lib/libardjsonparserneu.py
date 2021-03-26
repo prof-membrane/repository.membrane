@@ -12,7 +12,7 @@ else: # for Python 3
 	from functools import reduce
 
 baseUrlJson = 'https://api.ardmediathek.de/public-gateway?'
-baseUrlHtml = 'http://www.ardmediathek.de/ard/player/'
+baseUrlHtml = 'https://www.ardmediathek.de/video/'
 
 keyOperationName = 'operationName'
 keyVariables = 'variables'
