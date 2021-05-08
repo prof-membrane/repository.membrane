@@ -1,4 +1,6 @@
-﻿2.1.17
+﻿2.1.18
+- "Sendungen nach Datum" funktioniert wieder
+2.1.17
 - Implementierung "Mobile Version der ZDF Mediathek"
 2.1.16
 - Download-Funktionalität hinzugefügt
