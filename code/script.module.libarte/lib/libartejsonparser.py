@@ -17,6 +17,8 @@ opa_token = {"Authorization": "Bearer Nzc1Yjc1ZjJkYjk1NWFhN2I2MWEwMmRlMzAzNjI5Nm
 emac_url = 'https://api.arte.tv/api/emac/v3/' + current_lang + '/web'
 emac_token = {"Authorization": "Bearer MWZmZjk5NjE1ODgxM2E0MTI2NzY4MzQ5MTZkOWVkYTA1M2U4YjM3NDM2MjEwMDllODRhMjIzZjQwNjBiNGYxYw"}
 
+magazines_url = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/magazines/' +  current_lang;
+
 stream_params = '&quality=$in:XQ,HQ,SQ&mediaType=hls&language=' + current_lang + '&channel=' + current_lang.upper()
 
 
@@ -36,13 +38,14 @@ def _parse_data(video):
 		d['plot'] = video['shortDescription']
 	if 'broadcastDates' in video:
 		d['_airedISO8601'] = video['broadcastDates'][0]
-	if video['images']['landscape']:
-		max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
-		d['thumb'] = max_res['url']
-	elif video['images']['portrait']:
-		max_res = max(video['images']['portrait']['resolutions'], key=lambda item: item['h'])
-		d['thumb'] = max_res['url']
-	if video['kind']['isCollection']:
+	if 'images' in video and video['images']:
+		if video['images']['landscape']:
+			max_res = max(video['images']['landscape']['resolutions'], key=lambda item: item['w'])
+			d['thumb'] = max_res['url']
+		elif video['images']['portrait']:
+			max_res = max(video['images']['portrait']['resolutions'], key=lambda item: item['h'])
+			d['thumb'] = max_res['url']
+	if video['kind'] == "MAGAZINE" or ('isCollection' in video['kind'] and video['kind']['isCollection']):
 		d['mode'] = 'libArteListCollection'
 		d['url'] = '/programs?programId=' + video['programId'] + '&language=' + current_lang + '&fields=children,programId'
 		d['_type'] = 'dir'
@@ -60,6 +63,16 @@ def getVideos(url):
 	response = libMediathek.getUrl(url, emac_token)
 	j = json.loads(response)
 	for video in j['data']:
+		l.append(_parse_data(video))
+	return l
+
+
+def getMagazines():
+	l = []
+	url = magazines_url
+	response = libMediathek.getUrl(url)
+	j = json.loads(response)
+	for video in j['magazines']:
 		l.append(_parse_data(video))
 	return l
 
