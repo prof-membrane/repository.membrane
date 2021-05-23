@@ -26,7 +26,7 @@ def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 		header = { 'Api-Auth': 'Bearer ' + (tokenPlayer if tokenPlayer else libMediathek.f_open(libMediathek.pathUserdata('tokenPlayer'))) }
 	return header
 
-def parsePage(url):
+def parsePage(url, short = False):
 	response = getU(url,True)
 
 	j = json.loads(response)
@@ -35,7 +35,7 @@ def parsePage(url):
 	elif j['profile'] == 'http://zdf.de/rels/search/result-page':
 		return _parseSearchPage(j)
 	elif j['profile'] == 'http://zdf.de/rels/content/page-index':
-		return _parsePageIndex(j)
+		return _parsePageIndex(j, short)
 	elif j['profile'] == 'http://zdf.de/rels/content/page-index-teaser':
 		return _parseTeaser(j)
 	elif j['profile'] == 'http://zdf.de/rels/cmdm/resultpage-broadcasts':
@@ -82,13 +82,17 @@ def _parseSearchPage(j):
 	l.sort(key = lambda x: x['name'])
 	return l
 
-def _parsePageIndex(j):
+def _parsePageIndex(j, short = False):
 	l = []
-	for result in j['module'][0]['filterRef']['resultsWithVideo']['http://zdf.de/rels/search/results']:
-		target = result['http://zdf.de/rels/target']
-		d = _grepItem(target)
+	for result in j['module'][0]['teaser'] if short else j['module'][0]['filterRef']['resultsWithVideo']['http://zdf.de/rels/search/results']:
+		target = result['target'] if short else result['http://zdf.de/rels/target']
+		d = _grepItem(target, short)
 		if d:
-			d['_views'] = str(result['viewCount'])
+			d['_views'] = str(result.get('viewCount', None))
+			if not 'plot' in d:
+				d['plot'] = result.get('text', None)
+			if not 'thumb' in d:
+				d['thumb'] = _chooseImage(result.get('image', None))
 			l.append(d)
 	return l
 
@@ -106,15 +110,18 @@ def _parseBroadcast(j):
 				l.append(d)
 	return l
 
-def _grepItem(target):
+def _grepItem(target, short = False):
 	if target['profile'] == 'http://zdf.de/rels/not-found':
 		return False
 	if not ('contentType' in target):
 		return False
 	d = {}
-	d['name'] = target['teaserHeadline']
-	d['plot'] = target['teasertext']
-	d['thumb'] = _chooseImage(target['teaserImageRef'])
+	if short:
+		d['name'] = target['title']
+	else:
+		d['name'] = target['teaserHeadline']
+		d['plot'] = target['teasertext']
+		d['thumb'] = _chooseImage(target['teaserImageRef'])
 	#d['url'] = base + target['http://zdf.de/rels/brand']['http://zdf.de/rels/target']['canonical']
 	if target['contentType'] == 'brand' or target['contentType'] == 'category':
 		try:
@@ -134,7 +141,7 @@ def _grepItem(target):
 		except: d = False
 	elif target['contentType'] == 'episode':# or target['contentType'] == 'clip':
 		try:
-			if not target['hasVideo']:
+			if 'hasVideo' in target and not target['hasVideo']:
 				return False
 			#if target['mainVideoContent']['http://zdf.de/rels/target']['showCaption']:
 			#	d['suburl'] = base + target['mainVideoContent']['http://zdf.de/rels/target']['captionUrl']
@@ -185,7 +192,7 @@ def _grepItem(target):
 	return d
 
 def _chooseImage(teaserImageRef,isVideo=False):
-	if not isVideo:
+	if teaserImageRef and not isVideo:
 		if 'layouts' in teaserImageRef:
 			if '384xauto' in teaserImageRef['layouts']:
 				return teaserImageRef['layouts']['384xauto']

@@ -44,7 +44,7 @@ def getMostViewed():#used in unithek
 def libZdfListMain():
 	l = []
 	translation = libMediathek.getTranslation
-	l.append({'_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
+	l.append({'_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
 	l.append({'_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
 	l.append({'_name':translation(31033), 'mode':'libZdfListChannel', '_type': 'dir'})
 	l.append({'_name':translation(31034), 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
@@ -58,7 +58,7 @@ def libZdfListShows():
 		return libZdfJsonParser.getAZ()
 
 def libZdfListPage():
-	return libZdfJsonParser.parsePage(params['url'])
+	return libZdfJsonParser.parsePage(params['url'], 'short' in params)
 
 def libZdfListVideos():
 	return libZdfJsonParser.getVideos(params['url'])
