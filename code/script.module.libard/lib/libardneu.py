@@ -5,8 +5,6 @@ import libmediathek3 as libMediathek
 
 params = libMediathek.get_params()
 
-flavour = 'Classic'
-
 def list():
 	return libMediathek.list(modes, 'libArdListMainMobile', *playModes)
 
