@@ -46,7 +46,7 @@ def list():
 			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
 			xbmc.executebuiltin('Container.Update(path,replace)')
 	if use_classic:
-		return libMediathek.list(modes, 'libArdListMainClassic', 'libArdPlayClassic', 'libArdPlayHtml')
+		return libMediathek.list(modes, 'libArdListMainClassic', *playModes)
 	else:
 		return libardneu.list()
 	"""
