@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
+from operator import itemgetter
+from itertools import groupby
 import xbmc
 import xbmcgui
 import xbmcaddon
@@ -18,6 +20,12 @@ else: # for Python 3
 	from urllib.parse import quote_plus
 
 def list():
+	allModes = modes.copy()
+	allModes.update(libardneu.modes)
+	allPlayModes = set(playModes + libardneu.playModes)
+	return libMediathek.list(allModes, 'libArdListCombined', *allPlayModes)
+
+	"""
 	show_hint_classic = libMediathek.getSettingBool('show_hint_classic')
 	if show_hint_classic:
 		libMediathek.setSettingBool('show_hint_classic', False)
@@ -38,9 +46,10 @@ def list():
 			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
 			xbmc.executebuiltin('Container.Update(path,replace)')
 	if use_classic:
-		return libMediathek.list(modes, 'libArdListMain', 'libArdPlayClassic', 'libArdPlayHtml')
+		return libMediathek.list(modes, 'libArdListMainClassic', 'libArdPlayClassic', 'libArdPlayHtml')
 	else:
 		return libardneu.list()
+	"""
 
 channels = [
 	('ARD-alpha','5868'),
@@ -63,14 +72,20 @@ channels = [
 	('WDR','5902'),
 ]
 
-def libArdListMain():
+def libArdListCombined():
+	l = libArdListMainClassic() + libardneu.libArdListMainMobile()
+	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))   
+	return l
+
+def libArdListMainClassic():
 	l = []
 	translation = libMediathek.getTranslation
-	l.append({'name':translation(31032), 'mode':'libArdListShows', '_type':'dir'})
-	l.append({'name':translation(31033), 'mode':'libArdListChannel', '_type':'dir'})
-	l.append({'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
-	l.append({'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
+	flavour = ' / Classic'
+	l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListShows', '_type':'dir'})
+	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannel', '_type':'dir'})
+	l.append({'sort':'31034', 'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
+	l.append({'sort':'31035', 'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
+	l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
 	return l
 
 def libArdListVideos():
@@ -103,13 +118,16 @@ def libArdPlayClassic():
 	return result
 
 modes = {
-	'libArdListMain': libArdListMain,
-	'libArdListVideos': libArdListVideos,
-	'libArdListShows': libArdListShows,
-	'libArdListChannel': libArdListChannel,
-	'libArdListChannelDate': libArdListChannelDate,
-	'libArdListChannelDateVideos': libArdListChannelDateVideos,
-	'libArdListSearch': libardneu.libArdListSearch,
-	'libArdPlayClassic': libArdPlayClassic,
-	'libArdPlayHtml': libardneu.libArdPlayHtml,
+	'libArdListCombined':           libArdListCombined,
+	'libArdListMainClassic':        libArdListMainClassic,
+	'libArdListVideos':             libArdListVideos,
+	'libArdListShows':              libArdListShows,
+	'libArdListChannel':            libArdListChannel,
+	'libArdListChannelDate':        libArdListChannelDate,
+	'libArdListChannelDateVideos':  libArdListChannelDateVideos,
+	'libArdListSearch':             libardneu.libArdListSearch,
+	'libArdPlayClassic':            libArdPlayClassic,
+	'libArdPlayHtml':               libardneu.libArdPlayHtml,
 }
+
+playModes = ('libArdPlayClassic', 'libArdPlayHtml')

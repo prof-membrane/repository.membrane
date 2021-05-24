@@ -5,16 +5,19 @@ import libmediathek3 as libMediathek
 
 params = libMediathek.get_params()
 
-def list():
-	return libMediathek.list(modesNeu, 'libArdListMainNeu', 'libArdPlay', 'libArdPlayHtml')
+flavour = 'Classic'
 
-def libArdListMainNeu():
+def list():
+	return libMediathek.list(modes, 'libArdListMainMobile', *playModes)
+
+def libArdListMainMobile():
 	l = []
+	flavour = ' / Mobile'
 	translation = libMediathek.getTranslation
-	l.append({'name':translation(31032), 'mode':'libArdListChannelShows', '_type':'dir'})
-	l.append({'name':translation(31033), 'mode':'libArdListChannelDates', '_type':'dir'})
-	l.append({'name':translation(31036), 'mode':'libArdListChannelLivestreams', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
+	l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListChannelShows', '_type':'dir'})
+	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannelDates', '_type':'dir'})
+	l.append({'sort':'31036', 'name':translation(31036), 'mode':'libArdListChannelLivestreams', '_type':'dir'})
+	l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
 	return l
 
 def libArdListChannels():
@@ -27,7 +30,7 @@ def libArdListChannels():
 		elif (mode == 'libArdListChannelDates') and (channel[1] & bydate):
 			d['mode'] = 'libArdListDateByChannel'
 		elif (mode == 'libArdListChannelLivestreams') and (channel[1] & (live_byclient + live_byard)):
-			d['mode'] = 'libArdListLivestreamsByChannel'
+			d['mode'] = 'libArdListLivestreamsOfChannel'
 		else:
 			d['mode'] = None
 		if d['mode']:
@@ -38,25 +41,25 @@ def libArdListChannels():
 	return l
 
 def libArdListShowsByChannel():
-	return libMediathek.populateDirAZ('libArdListChannelShowVideos', [], params['channel'])
+	return libMediathek.populateDirAZ('libArdListShowVideosOfChannel', [], params['channel'])
 
 def libArdListDateByChannel():
-	return libMediathek.populateDirDate('libArdListChannelDateVideos', params['channel'])
+	return libMediathek.populateDirDate('libArdListDateVideosOfChannel', params['channel'])
 
-def libArdListLivestreamsByChannel():
+def libArdListLivestreamsOfChannel():
 	channel = channels[int(params['channel'])]
 	# Livestreams sind nicht sinnvoll vorsortiert
 	libMediathek.sortAZ()
 	return libArdJsonParserNeu.parseLivestreams(channel[2], 'ard' if (channel[1] & live_byard) else channel[3])
 
-def libArdListChannelShowVideos():
+def libArdListShowVideosOfChannel():
 	channel = channels[int(params['channel'])]
 	letter = params['name'].upper()
 	if letter == '#':
 		letter = '09'
 	return libArdJsonParserNeu.parseAZ(channel[3], letter)
 
-def libArdListChannelDateVideos():
+def libArdListDateVideosOfChannel():
 	channel = channels[int(params['channel'])]
 	partnerKey = channel[2]
 	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
@@ -110,18 +113,20 @@ channels = (
 	('Deutsche Welle',live_byard,                         'dw',           None),
 )
 
-modesNeu = {
-	'libArdListMainNeu':              libArdListMainNeu,
+modes = {
+	'libArdListMainMobile':           libArdListMainMobile,
 	'libArdListChannelShows':         libArdListChannels,
 	'libArdListChannelDates':         libArdListChannels,
 	'libArdListChannelLivestreams':   libArdListChannels,
 	'libArdListShowsByChannel':       libArdListShowsByChannel,
 	'libArdListDateByChannel':        libArdListDateByChannel,
-	'libArdListLivestreamsByChannel': libArdListLivestreamsByChannel,
-	'libArdListChannelShowVideos':    libArdListChannelShowVideos,
-	'libArdListChannelDateVideos':    libArdListChannelDateVideos,
+	'libArdListLivestreamsOfChannel': libArdListLivestreamsOfChannel,
+	'libArdListShowVideosOfChannel':  libArdListShowVideosOfChannel,
+	'libArdListDateVideosOfChannel':  libArdListDateVideosOfChannel,
 	'libArdListSearch':               libArdListSearch,
 	'libArdListShow':                 libArdListShow,
 	'libArdPlay':                     libArdPlay,
 	'libArdPlayHtml':                 libArdPlayHtml,
 }
+
+playModes = ('libArdPlay', 'libArdPlayHtml')
