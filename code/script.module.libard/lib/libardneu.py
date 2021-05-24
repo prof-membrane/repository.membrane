@@ -10,8 +10,8 @@ def list():
 
 def libArdListMainMobile():
 	l = []
-	flavour = ' / Mobile'
 	translation = libMediathek.getTranslation
+	flavour = ' / Mobile'
 	l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListChannelShows', '_type':'dir'})
 	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannelDates', '_type':'dir'})
 	l.append({'sort':'31036', 'name':translation(31036), 'mode':'libArdListChannelLivestreams', '_type':'dir'})
