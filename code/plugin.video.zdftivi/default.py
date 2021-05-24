@@ -18,6 +18,6 @@ def main():
 modes = dict (main = main, **libzdf.modes)
 
 def list():
-	return libMediathek.list(modes, 'main', 'libZdfPlay', 'libZdfPlayById')
+	return libMediathek.list(modes, 'main', *libzdf.playModes)
 
 list()

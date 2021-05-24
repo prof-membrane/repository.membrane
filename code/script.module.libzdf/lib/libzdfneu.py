@@ -6,15 +6,16 @@ import libmediathek3 as libMediathek
 params = libMediathek.get_params()
 
 def list():
-	return libMediathek.list(modesNeu, 'libZdfListMainNeu', 'libZdfPlayNeu', 'libZdfPlayLivestream')
+	return libMediathek.list(modes, 'libZdfListMainMobile', *playModes)
 
-def libZdfListMainNeu():
+def libZdfListMainMobile():
 	l = []
+	flavour = ' / Mobile'
 	translation = libMediathek.getTranslation
-	l.append({'name':translation(31033), 'mode':'libZdfListChannelDates', '_type':'dir'})
-	l.append({'name':translation(31036), 'mode':'libZdfListLivestreams', '_type':'dir'})
-	l.append({'name':translation(31034), 'mode':'libZdfListRubrics', '_type':'dir'})
-	l.append({'name':translation(31039), 'mode':'libZdfListSearch', '_type':'dir'})
+	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libZdfListChannelDates', '_type':'dir'})
+	l.append({'sort':'31034'+flavour, 'name':translation(31034)+flavour, 'mode':'libZdfListRubrics', '_type':'dir'})
+	l.append({'sort':'31036', 'name':translation(31036), 'mode':'libZdfListLivestreams', '_type':'dir'})
+	l.append({'sort':'31039'+flavour, 'name':translation(31039)+flavour, 'mode':'libZdfListSearch', '_type':'dir'})
 	return l
 
 def libZdfListChannelDates():
@@ -25,9 +26,9 @@ def libZdfListChannelDates():
 	return l
 
 def libZdfListDateByChannel():
-	return libMediathek.populateDirDate('libZdfListChannelDateVideos', params['channel'])
+	return libMediathek.populateDirDate('libZdfListDateVideosOfChannel', params['channel'])
 
-def libZdfListChannelDateVideos():
+def libZdfListDateVideosOfChannel():
 	channelIndex = int(params['channel'])
 	channel = channels[channelIndex]
 	return libZdfJsonParserNeu.parseDate(channel[2], params['yyyymmdd'])
@@ -73,16 +74,17 @@ channels = (
 	('arte',          live,           None    ),
 )
 
-modesNeu = {
-	'libZdfListMainNeu':              libZdfListMainNeu,
-	'libZdfListChannelDates':         libZdfListChannelDates,
-	'libZdfListDateByChannel':        libZdfListDateByChannel,
-	'libZdfListChannelDateVideos':    libZdfListChannelDateVideos,
-	'libZdfListLivestreams':          libZdfListLivestreams,
-	'libZdfListRubrics':              libZdfListRubrics,
-	'libZdfListCategory':             libZdfListCategory,
-	'libZdfListSearch':               libZdfListSearch,
-	'libZdfPlayLivestream':           libZdfPlayLivestream,
-	'libZdfPlayNeu':                  libZdfPlayNeu,
+modes = {
+	'libZdfListMainMobile':         libZdfListMainMobile,
+	'libZdfListChannelDates':       libZdfListChannelDates,
+	'libZdfListDateByChannel':      libZdfListDateByChannel,
+	'libZdfListDateVideosOfChannel':libZdfListDateVideosOfChannel,
+	'libZdfListLivestreams':        libZdfListLivestreams,
+	'libZdfListRubrics':            libZdfListRubrics,
+	'libZdfListCategory':           libZdfListCategory,
+	'libZdfListSearch':             libZdfListSearch,
+	'libZdfPlayLivestream':         libZdfPlayLivestream,
+	'libZdfPlayNeu':                libZdfPlayNeu,
 }
 
+playModes = ('libZdfPlayNeu', 'libZdfPlayLivestream')

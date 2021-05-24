@@ -3,6 +3,8 @@
 import sys
 import os
 from datetime import date, timedelta
+from operator import itemgetter
+from itertools import groupby
 import xbmc
 import xbmcgui
 import xbmcaddon
@@ -14,6 +16,12 @@ channels = ('ZDF','ZDFinfo','ZDFneo')
 params = libMediathek.get_params()
 
 def list():
+	allModes = modes.copy()
+	allModes.update(libzdfneu.modes)
+	allPlayModes = set(playModes + libzdfneu.playModes)
+	return libMediathek.list(allModes, 'libZdfListCombined', *allPlayModes)
+
+	"""
 	show_hint_mobile = libMediathek.getSettingBool('show_hint_mobile')
 	if show_hint_mobile:
 		libMediathek.setSettingBool('show_hint_mobile', False)
@@ -36,19 +44,23 @@ def list():
 	if use_mobile:
 		return libzdfneu.list()
 	else:
-		return libMediathek.list(modes, 'libZdfListMain', 'libZdfPlay', 'libZdfPlayById')
+		return libMediathek.list(modes, 'libZdfListMainClassic', *playModes)
+	"""
 
-def getMostViewed():#used in unithek
-	return libZdfJsonParser.parsePage('https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default')
+def libZdfListCombined():
+	l = libZdfListMainClassic() + libzdfneu.libZdfListMainMobile()
+	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))
+	return l
 
-def libZdfListMain():
+def libZdfListMainClassic():
 	l = []
+	flavour = ' / Classic'
 	translation = libMediathek.getTranslation
-	l.append({'_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
-	l.append({'_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
-	l.append({'_name':translation(31033), 'mode':'libZdfListChannel', '_type': 'dir'})
-	l.append({'_name':translation(31034), 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
-	l.append({'_name':translation(31039), 'mode':'libZdfSearch',   '_type': 'dir'})
+	l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
+	l.append({'sort':'31032', '_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
+	l.append({'sort':'31033'+flavour, '_name':translation(31033)+flavour, 'mode':'libZdfListChannel', '_type': 'dir'})
+	l.append({'sort':'31034'+flavour, '_name':translation(31034)+flavour, 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
+	l.append({'sort':'31039'+flavour, '_name':translation(31039)+flavour, 'mode':'libZdfSearch',   '_type': 'dir'})
 	return l
 
 def libZdfListShows():
@@ -113,14 +125,17 @@ def libZdfGetVideoHtml(url):
 	return libZdfJsonParser.getVideoUrl(re.compile('"contentUrl": "(.+?)"', re.DOTALL).findall(response)[0])
 
 modes = {
-	'libZdfListMain':libZdfListMain,
-	'libZdfListShows':libZdfListShows,
-	'libZdfListVideos':libZdfListVideos,
-	'libZdfListChannel':libZdfListChannel,
-	'libZdfListChannelDate':libZdfListChannelDate,
-	'libZdfListChannelDateVideos':libZdfListChannelDateVideos,
-	'libZdfSearch':libZdfSearch,
-	'libZdfListPage':libZdfListPage,
-	'libZdfPlay':libZdfPlay,
-	'libZdfPlayById':libZdfPlayById,
+	'libZdfListCombined':           libZdfListCombined,
+	'libZdfListMainClassic':        libZdfListMainClassic,
+	'libZdfListShows':              libZdfListShows,
+	'libZdfListVideos':             libZdfListVideos,
+	'libZdfListChannel':            libZdfListChannel,
+	'libZdfListChannelDate':        libZdfListChannelDate,
+	'libZdfListChannelDateVideos':  libZdfListChannelDateVideos,
+	'libZdfSearch':                 libZdfSearch,
+	'libZdfListPage':               libZdfListPage,
+	'libZdfPlay':                   libZdfPlay,
+	'libZdfPlayById':               libZdfPlayById,
 }
+
+playModes = ('libZdfPlay', 'libZdfPlayById')
