@@ -1,3 +1,5 @@
+5.1.29
+- Suche in der ARD Mediathek funktioniert wieder
 5.1.28
 - Zusammenführung der Classic- und der Mobile-Version der ARD Mediathek
 5.1.27

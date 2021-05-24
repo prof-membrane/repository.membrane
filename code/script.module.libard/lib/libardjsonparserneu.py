@@ -105,19 +105,10 @@ def parseVideo(pageIndex, url):
 def parseSearchHtml(url):
 	l = []
 	response = libMediathek.getUrl(url)
-	split = response.split('window.__FETCHED_CONTEXT__');
+	split = response.split('<script id="fetchedContextValue" type="application/json">');
 	if (len(split) > 1):
 		json_str = split[1]
-		start = 0
-		while json_str[start] in (' ','='):
-			start += 1
-		end = start
-		while True:
-			while json_str[end] != ';':
-				end += 1
-			if json_str[end+1:].lstrip().startswith('</script>'): break
-			else: end += 1
-		json_str = json_str[start:end]
+		json_str = json_str.split('</script>')[0];
 		j = json.loads(json_str)
 		for grid_item in j.values():
 			if isinstance(grid_item,dict) and (grid_item.get('type',None) == 'gridlist'):
@@ -150,19 +141,10 @@ def parseSearchHtml(url):
 
 def getVideoUrlHtml(url):
 	response = libMediathek.getUrl(url)
-	split = response.split('window.__FETCHED_CONTEXT__');
+	split = response.split('<script id="fetchedContextValue" type="application/json">');
 	if (len(split) > 1):
 		json_str = split[1]
-		start = 0
-		while json_str[start] in (' ','='):
-			start += 1
-		end = start
-		while True:
-			while json_str[end] != ';':
-				end += 1
-			if json_str[end+1:].lstrip().startswith('</script>'): break
-			else: end += 1
-		json_str = json_str[start:end]
+		json_str = json_str.split('</script>')[0];
 		j = json.loads(json_str)
 		for item in j.values():
 			widgets = item.get('widgets',None)
@@ -170,7 +152,7 @@ def getVideoUrlHtml(url):
 				for widget in widgets:
 					if widget.get('type',None) == 'player_ondemand':
 						mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
-						if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict): 
+						if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
 							return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
@@ -197,9 +179,9 @@ def extractBestQuality(streams, fnGetFinalUrl):
 	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
 	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
 		del media[0]
-	if media: 
+	if media:
 		return dict(media = media)
-	else: 
+	else:
 		return None
 
 def parse(pageIndex, url, partnerKey=None, channelKey=None):
