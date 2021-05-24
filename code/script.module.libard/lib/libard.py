@@ -74,13 +74,13 @@ channels = [
 
 def libArdListCombined():
 	l = libArdListMainClassic() + libardneu.libArdListMainMobile()
-	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))   
+	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))
 	return l
 
 def libArdListMainClassic():
 	l = []
-	translation = libMediathek.getTranslation
 	flavour = ' / Classic'
+	translation = libMediathek.getTranslation
 	l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListShows', '_type':'dir'})
 	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannel', '_type':'dir'})
 	l.append({'sort':'31034', 'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
