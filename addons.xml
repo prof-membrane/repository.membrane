@@ -34,7 +34,7 @@
     <addon id="plugin.video.ardmediathek_de" name="ARD Mediathek" version="5.1.5" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libard" version="5.1.29"/>
+            <import addon="script.module.libard" version="5.1.30"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -217,7 +217,7 @@
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
             <import addon="script.module.libmediathek3" version="1.5.23"/>
-            <import addon="script.module.libzdf" version="2.1.20"/>
+            <import addon="script.module.libzdf" version="2.1.21"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -232,7 +232,7 @@
     <addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.6" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libzdf" version="2.1.20"/>
+            <import addon="script.module.libzdf" version="2.1.21"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -264,7 +264,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libard" name="libard" version="5.1.29" provider-name="68000a">
+    <addon id="script.module.libard" name="libard" version="5.1.30" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.23"/>
@@ -397,7 +397,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libzdf" name="libzdf" version="2.1.20" provider-name="68000a">
+    <addon id="script.module.libzdf" name="libzdf" version="2.1.21" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.23"/>

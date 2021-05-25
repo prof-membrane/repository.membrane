@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import sys
 import os
-from operator import itemgetter
 from itertools import groupby
 import xbmc
 import xbmcgui
@@ -74,7 +73,7 @@ channels = [
 
 def libArdListCombined():
 	l = libArdListMainClassic() + libardneu.libArdListMainMobile()
-	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))
+	l = [e for e, _ in groupby(sorted(l, key=lambda x: x['sort']))]
 	return l
 
 def libArdListMainClassic():

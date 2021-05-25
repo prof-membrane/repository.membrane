@@ -3,7 +3,6 @@
 import sys
 import os
 from datetime import date, timedelta
-from operator import itemgetter
 from itertools import groupby
 import xbmc
 import xbmcgui
@@ -49,7 +48,7 @@ def list():
 
 def libZdfListCombined():
 	l = libZdfListMainClassic() + libzdfneu.libZdfListMainMobile()
-	l = map(itemgetter(0), groupby(sorted(l, key=lambda x: x['sort'])))
+	l = [e for e, _ in groupby(sorted(l, key=lambda x: x['sort']))]
 	return l
 
 def libZdfListMainClassic():
