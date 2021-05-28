@@ -6,10 +6,12 @@ import urllib
 from operator import itemgetter
 import sys
 import xbmcplugin
+import xbmcaddon
 
 
 lang_german  = libMediathek.getSetting('lang') in ('de','0','',None)
 current_lang = 'de' if lang_german else 'fr'
+addon = xbmcaddon.Addon()
 
 opa_url = 'https://api.arte.tv/api/opa/v3'
 opa_token = {"Authorization": "Bearer Nzc1Yjc1ZjJkYjk1NWFhN2I2MWEwMmRlMzAzNjI5NmU3NWU3ODg4ODJjOWMxNTMxYzEzZGRjYjg2ZGE4MmIwOA"}
@@ -54,6 +56,15 @@ def _parse_data(video):
 		d['mode'] = 'libArtePlay'
 		d['_type'] = 'date'
 		d['_duration'] = video['duration']
+	if 'availability' in video:
+		availability = video['availability'].get('label',None)
+		if availability:
+			d['plot'] = '[COLOR blue]' + availability + '[/COLOR]\n\n' + d['plot']
+		else:
+			aired_str = video['availability'].get('upcomingDate',None)
+			if aired_str:
+				aired_time = libMediathek.str_to_airedtime(aired_str)
+				d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32100) + ': ' + aired_time.strftime('%d/%m/%Y') + '[/COLOR]\n\n' + d['plot']
 	return d
 
 
@@ -87,7 +98,7 @@ def getCollection(url):
 	topics = [item for item in children if item['kind'] == 'TOPIC']
 	for topic in topics:
 		subresponse = libMediathek.getUrl(
-			opa_url + '/programs?programId=' + topic['programId'] + '&language=' + current_lang + 
+			opa_url + '/programs?programId=' + topic['programId'] + '&language=' + current_lang +
 			'&fields=title,subtitle,fullDescription,shortDescription,mainImage.url', opa_token
 		)
 		topic_json = json.loads(subresponse)

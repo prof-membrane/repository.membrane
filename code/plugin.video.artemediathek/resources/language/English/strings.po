@@ -9,3 +9,8 @@ msgstr "General"
 msgctxt "#32001"
 msgid "Language"
 msgstr "Language"
+
+
+msgctxt "#32100"
+msgid "Broadcast date"
+msgstr "Broadcast date"

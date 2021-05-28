@@ -1,3 +1,5 @@
+1.0.18
+- Sendedatum bzw. Verfügbarkeit zum Plot hinzugefügt
 1.0.17
 - Sendungen nach A-Z funktioniert wieder
 1.0.16

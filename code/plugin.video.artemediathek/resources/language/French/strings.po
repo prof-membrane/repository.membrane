@@ -9,3 +9,8 @@ msgstr "Général"
 msgctxt "#32001"
 msgid "Language"
 msgstr "Langue"
+
+
+msgctxt "#32100"
+msgid "Broadcast date"
+msgstr "Date de diffusion"
