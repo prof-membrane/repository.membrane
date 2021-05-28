@@ -1,3 +1,5 @@
+1.0.19
+- Hotfix "Suche"
 1.0.18
 - Sendedatum bzw. Verfügbarkeit zum Plot hinzugefügt
 1.0.17

@@ -56,12 +56,13 @@ def _parse_data(video):
 		d['mode'] = 'libArtePlay'
 		d['_type'] = 'date'
 		d['_duration'] = video['duration']
-	if 'availability' in video:
-		availability = video['availability'].get('label',None)
+	availability_node = video.get('availability',None) 
+	if availability_node:
+		availability = availability_node.get('label',None)
 		if availability:
 			d['plot'] = '[COLOR blue]' + availability + '[/COLOR]\n\n' + d['plot']
 		else:
-			aired_str = video['availability'].get('upcomingDate',None)
+			aired_str = availability_node.get('upcomingDate',None)
 			if aired_str:
 				aired_time = libMediathek.str_to_airedtime(aired_str)
 				d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32100) + ': ' + aired_time.strftime('%d/%m/%Y') + '[/COLOR]\n\n' + d['plot']
