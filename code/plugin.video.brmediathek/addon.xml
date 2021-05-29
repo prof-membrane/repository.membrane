@@ -17,5 +17,9 @@
         <summary lang="de">Sendebeiträge der BR Mediathek.</summary>
         <description lang="de">Dieses Add-on bietet Zugriff auf die Bibliothek des BR. Zur Auswahl stehen unter anderem Dokumentationen und Serien.</description>
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.png</fanart>
+        </assets>
     </extension>
 </addon>
