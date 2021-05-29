@@ -5,26 +5,25 @@ base = 'https://www.phoenix.de/response/template/'
 
 
 def parseMain():
-	response = libMediathek.getUrl(base+'sendungseite_overview_json')
+	response = libMediathek.getUrl(base+'vod_main_json')
 	j = json.loads(response)
 	l = []
-	for item in j['content']['items']:
+	for i,item in enumerate(j['content']['items']):
 		d = {}
 		d['name'] = item['titel']
 		d['plot'] = item['typ']
-		d['thumb'] = 'https://www.phoenix.de' + item['bild_m']
 		d['_type'] = 'dir'
-		d['id'] = item['link'].split('-')[-1].split('.')[0]
+		d['id'] = str(i)
 		d['mode'] = 'listVideos'
 		l.append(d)
 	return l
 
 def parseVideos(id):
-	response = libMediathek.getUrl(base+'vod_main_json?id='+id)
+	response = libMediathek.getUrl(base+'vod_main_json')
 	j = json.loads(response)
 	l = []
 	if j != None:
-		for item in j:
+		for item in j['content']['items'][int(id)]['videos']:
 			d = {}
 			d['name'] = item['title']
 			if not d['name']:
