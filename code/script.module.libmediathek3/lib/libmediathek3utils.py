@@ -15,6 +15,7 @@ dict = xbmc.translatePath(addon.getAddonInfo('profile')+'dict.py')
 socket.setdefaulttimeout(30)
 
 if sys.version_info[0] < 3: # for Python 2
+	libmediathek3_addonid = 'script.module.libmediathek3'
 	from StringIO import StringIO
 	from cookielib import CookieJar
 	from urllib2 import Request, urlopen, build_opener, HTTPCookieProcessor
@@ -22,6 +23,7 @@ if sys.version_info[0] < 3: # for Python 2
 	temp = temp.decode('utf-8')
 	dict = dict.decode('utf-8')
 else: # for Python 3
+	libmediathek3_addonid = 'script.module.libmediathek3.matrix'
 	from io import BytesIO
 	from http.cookiejar import CookieJar
 	from urllib.request import Request, urlopen, build_opener, HTTPCookieProcessor
@@ -31,7 +33,7 @@ else: # for Python 3
 def log(msg):
 	xbmc.log(msg)
 
-def getTranslation(id,addonid='script.module.libmediathek3'):
+def getTranslation(id,addonid=libmediathek3_addonid):
 	return xbmcaddon.Addon(id=addonid).getLocalizedString(id)
 
 def getUrl(url,headers=False,post=False,cookies=False):

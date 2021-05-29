@@ -1,4 +1,6 @@
-﻿1.5.28
+﻿1.5.29
+- Anpassungen für Kodi Matrix
+1.5.28
 - Notification anzeigen und Log-Eintrag erzeugen falls ein Download fehlschlug
 1.5.27
 - Kleine Verbesserung der Download-Funktionalität

@@ -15,7 +15,6 @@ from libmediathek3premadedirs import *
 from libmediathek3dialogs import *
 from libmediathek3webvtt2srt import *
 
-#translation = xbmcaddon.Addon(id='script.module.libmediathek3').getLocalizedString
 """
 prefererdLang = ['de','en','fr']
 prefererdSub = ['de','en','fr']
@@ -149,7 +148,7 @@ def play(d,external=None,download_dir=None):
 					item = item.decode('utf-8')
 				if arg is None: arg = item
 				else: 			arg = arg + '\0' + item
-			path = os.path.join(xbmc.translatePath('special://home'), 'addons', 'script.module.libmediathek3', 'lib', 'download.py')
+			path = os.path.join(xbmc.translatePath('special://home'), 'addons', libmediathek3_addonid, 'lib', 'download.py')
 			if sys.version_info[0] >= 3: # for Python 3
 				import base64
 				base64str = base64.b64encode(arg.encode('utf-8')).decode('ascii').strip()
