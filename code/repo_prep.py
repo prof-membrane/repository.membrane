@@ -36,6 +36,7 @@ my_provider_name = '68000a'
 code_root = 'C:\Daten\Kodi\Gigathek\code'
 repo_root = 'C:\Daten\Kodi\Gigathek'
 repo_matrix = 'C:\Daten\Kodi\GigathekMatrix'
+matrix_extension = '.matrix'
 ########## End SETTINGS
 
 # check if repo-prep.py is being run standalone or called from another python file
@@ -58,9 +59,23 @@ def is_addon_dir( addon ):
 	# very very simple and weak check that it is an addon dir.
 	# intended to be fast, not totally accurate.
 	# skip any file or .svn/.git folder
-	if not os.path.isdir( addon ) or addon in (".svn",".git","code","Gigathek"): return False
-	else: return True
+	if os.path.isdir( addon ):
+		if not (addon in (".svn",".git","code","Gigathek")):
+			return True
+	return False
 
+def adjust_for_matrix( line ):
+	if line.find('<addon') >= 0 and line.find('" provider-name="' + my_provider_name + '"') >= 0:
+		if line.find('<addon id="Gigathek"') < 0:
+			# add matrix_extension to Addon-ID
+			line = line.replace('" name="', matrix_extension + '" name="')
+	elif line.find('<import addon="xbmc.python" version="2.25.0"') >= 0:
+		# replace Python version
+		line = line.replace('<import addon="xbmc.python" version="2.25.0"', '<import addon="xbmc.python" version="3.0.0"')
+	elif line.find('<import') >= 0 and line.find('" provider-name="' + my_provider_name + '"') >= 0:
+		# add matrix_extension to dependency Addon-ID
+		line = line.replace('" version="', matrix_extension + '" version="')
+	return line
 
 class Generator:
 	"""
@@ -89,6 +104,8 @@ class Generator:
 		# loop thru and add each addons addon.xml file
 		for addon in addons:
 			try:
+				addon = addon.replace( matrix_extension , '' )
+
 				# skip any file or .svn folder
 				if is_addon_dir( addon ):
 
@@ -108,11 +125,8 @@ class Generator:
 							# skip encoding format line
 							if ( line.find( "<?xml" ) >= 0 ): continue
 
-							# replace Python version
-							line = line.replace('<import addon="xbmc.python" version="2.25.0"', '<import addon="xbmc.python" version="3.0.0"')
-
-							# add .1 to addon version number
-							line = line.replace('" provider-name="' + my_provider_name + '"','.1" provider-name="' + my_provider_name + '"')
+							# adjust for Kodi Matrix
+							line = adjust_for_matrix(line)
 
 							# add line
 							addon_xml += unicode( line.rstrip() + "\n", "UTF-8" )
@@ -169,6 +183,7 @@ class Compressor:
 	def __init__( self ):
 		# variables used later on
 		self.addon_name = None
+		self.addon_name_matrix = None
 		self.addon_path = None
 		self.addon_filename = None
 		self.addon_matrix_path = None
@@ -187,13 +202,14 @@ class Compressor:
 
 				# set variables
 				self.addon_name = str(addon)
+				self.addon_name_matrix = self.addon_name + matrix_extension
 
 				# skip any file or .svn folder.
 				if is_addon_dir( self.addon_name ):
 
 						# setup paths
 						self.addon_path = os.path.join( repo_root, addon )
-						self.addon_matrix_path = os.path.join( repo_matrix, addon )
+						self.addon_matrix_path = os.path.join( repo_matrix, addon + matrix_extension )
 
 						# set another variable
 						self.addon_folder_contents = os.listdir( self.addon_path )
@@ -211,7 +227,7 @@ class Compressor:
 		if complete:
 			shutil.rmtree( self.addon_matrix_path, ignore_errors=True )
 		else:
-			shutil.rmtree( os.path.join(self.addon_matrix_path, self.addon_name), ignore_errors=True )
+			shutil.rmtree( os.path.join(self.addon_matrix_path, self.addon_name_matrix), ignore_errors=True )
 		try:
 			os.mkdir( self.addon_matrix_path )
 		except:
@@ -236,15 +252,16 @@ class Compressor:
 			if filename.find('addon.xml') >= 0:
 					infile = os.path.join( self.addon_matrix_path, filename )
 					# Safely read the input filename using 'with'
-					with open(infile) as f:
-						# replace Python version
-						newText = f.read().replace('<import addon="xbmc.python" version="2.25.0"', '<import addon="xbmc.python" version="3.0.0"')
-						# add .1 to addon version number
-						newText = newText.replace('" provider-name="' + my_provider_name + '"','.1" provider-name="' + my_provider_name + '"')
-					with open(infile, "w") as f:
-						f.write(newText)
+					xml_lines = open( infile, "r" ).read().splitlines()
+					# loop thru cleaning each line
+					for i,line in enumerate(xml_lines):
+						# adjust for Kodi Matrix
+						line = adjust_for_matrix(line)
+						xml_lines[i] = line
+					with open(infile, "wb") as f:
+						f.write('\n'.join(xml_lines))
 					# change filename to match new version number
-					self.addon_filename = self.addon_filename.replace('.zip','.1.zip')
+					self.addon_filename = self.addon_filename.replace('-', matrix_extension + '-')
 
 	def _recursive_zipper( self, directory, zip_file ):
 		#initialize zipping module
@@ -273,6 +290,11 @@ class Compressor:
 		# create a zip of the addon into repo root directory, tagging it with '-x.x.x' release number scraped from addon.xml
 		zipname = self.addon_filename
 		zippath = os.path.join( self.addon_matrix_path, zipname )
+
+		# add matrix_extension to addon subfolder
+		leia_addon_name = os.path.join( self.addon_matrix_path, self.addon_name )
+		matrix_addon_name = os.path.join( self.addon_matrix_path, self.addon_name_matrix )
+		os.rename( leia_addon_name, matrix_addon_name )
 
 		# zip full directories
 		self._recursive_zipper( self.addon_matrix_path , zippath )
