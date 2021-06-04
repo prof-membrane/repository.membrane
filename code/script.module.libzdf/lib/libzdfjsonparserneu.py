@@ -109,8 +109,9 @@ def parse(url, channel, clusterkey, isSearch = False):
 							currentChannel = item.get('channel',None)
 							if channel is None:
 								if currentChannel:
-									import libzdfneu
-									d['name'] = d['name'] + ' | [COLOR blue]' + next((x[0] for x in libzdfneu.channels if x[2] == currentChannel), '') + '[/COLOR]'
+									# import libzdfneu
+									# d['name'] = d['name'] + ' | [COLOR blue]' + next((x[0] for x in libzdfneu.channels if x[2] == currentChannel), '') + '[/COLOR]'
+									d['name'] = d['name'] + ' | [COLOR blue]' + currentChannel + '[/COLOR]'
 							elif channel:
 								if channel != currentChannel:
 									continue

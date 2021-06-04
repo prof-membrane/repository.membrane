@@ -1,4 +1,6 @@
-﻿2.1.21
+﻿2.1.22
+- "Sendungen nach Datum / Mobile" funktioniert wieder
+2.1.21
 - Kompatibilität mit Python3 wiederhergestellt
 2.1.20
 - Zusammenführung der Classic- und der Mobile-Version der ZDF Mediathek

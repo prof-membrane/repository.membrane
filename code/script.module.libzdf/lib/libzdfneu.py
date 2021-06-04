@@ -31,7 +31,8 @@ def libZdfListDateByChannel():
 def libZdfListDateVideosOfChannel():
 	channelIndex = int(params['channel'])
 	channel = channels[channelIndex]
-	return libZdfJsonParserNeu.parseDate(channel[2], params['yyyymmdd'])
+	# return libZdfJsonParserNeu.parseDate(channel[2], params['yyyymmdd'])
+	return libZdfJsonParserNeu.parseDate(None if channelIndex == 0 else channel[0], params['yyyymmdd'])
 
 def libZdfListLivestreams():
 	return libZdfJsonParserNeu.parseLivestreams()
@@ -69,7 +70,7 @@ channels = (
 	('ZDFinfo',       bydate + live,  '3'     ),
 	('ZDFneo',        bydate + live,  '2'     ),
 	('3sat',          bydate + live,  '8'     ),
-	('KiKA',          bydate + live,  '5'     ),
+	('KI.KA',         bydate + live,  '5'     ),
 	('PHOENIX',       live,           None    ),
 	('arte',          live,           None    ),
 )
