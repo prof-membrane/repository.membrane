@@ -3,10 +3,10 @@ import sys
 import json
 import libmediathek3 as libMediathek
 
-baseUrl = 'http://prod.kinderplayer.cdn.tvnext.tv'
+baseUrl = 'http://www.kika.de/api/v1/kikaplayer/kikaapp'
 
 def getChannel(cid='1'):
-	response = libMediathek.getUrl('http://prod.kinderplayer.cdn.tvnext.tv/api/channels/'+cid)
+	response = libMediathek.getUrl(baseUrl + '/api/channels/' + cid)
 	j = json.loads(response)
 	l = []
 	for entry in j['result']['serialPrograms']:
@@ -23,8 +23,8 @@ def getBrands():#Shows
 		d['name'] = entry['title']
 		if 'description' in entry:
 			d['plot'] = entry['description']
-		d['thumb'] = entry['mediumLogoImageUrl']
-		d['_fanart'] = entry['smallBackgroundImageUrl']
+		d['thumb'] = entry.get('mediumLogoImageUrl', entry.get('smallLogoImageUrl', None))
+		d['_fanart'] = entry.get('smallBackgroundImageUrl', entry.get('mediumLogoImageUrl', None))
 		d['uri'] = entry['_links']['videos']['href']
 		d['mode'] = 'libKikaListVideos'
 		d['_type'] = 'dir'
