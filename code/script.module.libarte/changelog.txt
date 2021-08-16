@@ -1,3 +1,5 @@
+1.0.20
+- Suche: einige Suchbegriffe verursachten einen Absturz
 1.0.19
 - Hotfix "Suche"
 1.0.18
