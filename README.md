@@ -28,7 +28,7 @@ welches offenbar nicht mehr weiterentwickelt wird.
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.brmediathek/icon.png?raw=true" width="32"> BR Mediathek
 
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.daserstemediathek/icon.png?raw=true" width="32"> Das Erste Mediathek
+<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.daserstemediathek/icon.png?raw=true" width="32"> ~~Das Erste Mediathek~~ (lt. Pressemitteilung seit 28.01.2021 offline [[1](https://www.daserste.de/specials/service/app-102.html)])
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.hrmediathek/icon.png?raw=true" width="32"> HR Mediathek
 
