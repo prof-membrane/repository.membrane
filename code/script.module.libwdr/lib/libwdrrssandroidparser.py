@@ -9,7 +9,7 @@ base = 'http://www1.wdr.de'
 
 def parseShows(letter):
 	l = []
-	if (letter in ('x','q')):
+	if (letter in ('a','x','q')):
 		pass
 	else:
 		response = libMediathek.getUrl(base+'/sendungen-'+letter+'-102~_variant-android.mobile')
@@ -21,7 +21,9 @@ def parseShows(letter):
 				d = {}
 				d['name'] = re.compile('<mp:label>(.+?)</mp:label>', re.DOTALL).findall(item)[0]
 				if len(l) != 0 and d['name'] == l[-1]['name']: continue
-				d['id'],extension = re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0].split('/')[-1].split('~')
+				tmpstr = re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0].split('/')[-1]
+				if '~' not in tmpstr: continue
+				d['id'],extension = tmpstr.split('~')
 				#libMediathek.log(d['id'])
 				#libMediathek.log(re.compile('<mp:link>(.+?)</mp:link>', re.DOTALL).findall(item)[0])
 				d['_channel'] = creator
