@@ -9,8 +9,6 @@ import xbmcaddon
 import xbmcvfs
 
 addon = xbmcaddon.Addon()
-temp = xbmc.translatePath(addon.getAddonInfo('profile')+'temp')
-dict = xbmc.translatePath(addon.getAddonInfo('profile')+'dict.py')
 
 socket.setdefaulttimeout(30)
 
@@ -20,8 +18,6 @@ if sys.version_info[0] < 3: # for Python 2
 	from cookielib import CookieJar
 	from urllib2 import Request, urlopen, build_opener, HTTPCookieProcessor
 	from urllib import quote_plus
-	temp = temp.decode('utf-8')
-	dict = dict.decode('utf-8')
 else: # for Python 3
 	libmediathek3_addonid = 'script.module.libmediathek3.matrix'
 	from io import BytesIO
