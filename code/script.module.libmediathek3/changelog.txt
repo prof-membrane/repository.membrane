@@ -1,4 +1,6 @@
-﻿1.5.29
+﻿1.5.30
+- Anpassungen für Kodi Nexus
+1.5.29
 - Anpassungen für Kodi Matrix
 1.5.28
 - Notification anzeigen und Log-Eintrag erzeugen falls ein Download fehlschlug

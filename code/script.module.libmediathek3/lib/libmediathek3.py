@@ -3,6 +3,7 @@ import os
 import sys
 import string
 import xbmc
+import xbmcvfs
 import xbmcgui
 import xbmcplugin
 from datetime import datetime
@@ -148,12 +149,13 @@ def play(d,external=None,download_dir=None):
 					item = item.decode('utf-8')
 				if arg is None: arg = item
 				else: 			arg = arg + '\0' + item
-			path = os.path.join(xbmc.translatePath('special://home'), 'addons', libmediathek3_addonid, 'lib', 'download.py')
-			if sys.version_info[0] >= 3: # for Python 3
+			if sys.version_info[0] < 3: # for Python 2
+				base64str = arg.encode('utf-8').encode('base64').strip()
+				path = os.path.join(xbmc.translatePath('special://home'), 'addons', libmediathek3_addonid, 'lib', 'download.py')
+			else: # for Python 3
 				import base64
 				base64str = base64.b64encode(arg.encode('utf-8')).decode('ascii').strip()
-			else:
-				base64str = arg.encode('utf-8').encode('base64').strip()
+				path = os.path.join(xbmcvfs.translatePath('special://home'), 'addons', libmediathek3_addonid, 'lib', 'download.py')
 			xbmc.executebuiltin('RunScript(%s, %s)' % (path, base64str))
 		else:
 			xbmcgui.Dialog().notification(getTranslation(31044), title, addon_icon)

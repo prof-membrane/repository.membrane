@@ -3,8 +3,9 @@ import sys
 import time
 from datetime import datetime, timedelta
 import xbmc
-import xbmcplugin
+import xbmcvfs
 import xbmcgui
+import xbmcplugin
 import xbmcaddon
 import libmediathek3
 
@@ -12,13 +13,16 @@ from libmediathek3utils import clearString
 from libmediathek3utils import getSetting
 from libmediathek3utils import getTranslation as translation
 
+
 if sys.version_info[0] < 3: # for Python 2
 	from urllib import quote_plus, unquote_plus
+	icon = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
+	fanart = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
 else: # for Python 3
 	from urllib.parse import quote_plus, unquote_plus
+	icon = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
+	fanart = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
 
-icon = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
-fanart = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
 
 def sortAZ():
 	xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_LABEL)

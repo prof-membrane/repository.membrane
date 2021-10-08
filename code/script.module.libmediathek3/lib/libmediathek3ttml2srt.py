@@ -2,17 +2,17 @@
 import sys
 import re
 import xbmc
-import xbmcaddon
 import xbmcvfs
+import xbmcaddon
 import libmediathek3utils as utils
 
-subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/ttml.srt')
 
 if sys.version_info[0] < 3: # for Python 2
 	from HTMLParser import HTMLParser
-	subFile = subFile.decode('utf-8')
+	subFile = xbmc.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/ttml.srt').decode('utf-8')
 else: # for Python 3
 	from html.parser import HTMLParser
+	subFile = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('profile')+'/ttml.srt')
 
 def ttml2Srt(url):
 	return _newSubtitle(url)
