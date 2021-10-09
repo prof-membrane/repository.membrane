@@ -1,4 +1,6 @@
-﻿2.1.22
+﻿2.1.23
+- Rubriken/Classic funktioniert wieder
+2.1.22
 - "Sendungen nach Datum / Mobile" funktioniert wieder
 2.1.21
 - Kompatibilität mit Python3 wiederhergestellt

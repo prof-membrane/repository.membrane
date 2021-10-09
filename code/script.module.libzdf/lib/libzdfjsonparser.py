@@ -121,7 +121,7 @@ def _grepItem(target, short = False):
 	else:
 		d['name'] = target['teaserHeadline']
 		d['plot'] = target['teasertext']
-		d['thumb'] = _chooseImage(target['teaserImageRef'])
+		d['thumb'] = _chooseImage(target.get('teaserImageRef', None))
 	#d['url'] = base + target['http://zdf.de/rels/brand']['http://zdf.de/rels/target']['canonical']
 	if target['contentType'] == 'brand' or target['contentType'] == 'category':
 		try:
