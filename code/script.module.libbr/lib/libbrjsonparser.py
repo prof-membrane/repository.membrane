@@ -16,6 +16,36 @@ graphqlUrl = 'https://proxy-base.master.mango.express/graphql'
 header = {'Content-Type':'application/json'	, 'Accept-Encoding':'gzip, deflate'}
 
 
+def _buildVideoDict(node, type = 'video', mode = 'libBrPlay'):
+	d = {}
+	d['_tvshowtitle'] = node.get('title','')
+	d['_plotoutline'] = node.get('kicker','')
+	if type != 'video':
+		d['_tvshowtitle'] = node.get('kicker','')
+		d['_plotoutline'] = node.get('title','')
+	if d['_plotoutline']:
+		d['name'] = d['_plotoutline']
+		if d['_tvshowtitle'] and d['name'] != d['_tvshowtitle']:
+			d['name'] = d['name'] + ' | ' + d['_tvshowtitle']
+	else:
+		d['name'] = d['_tvshowtitle']
+	d['plot'] = d['_plotoutline']
+	if node.get('shortDescription', None):
+		d['_plotoutline'] = node['shortDescription']
+		d['plot'] = node['shortDescription']
+	if node.get('description', None):
+		d['plot'] = node['description']
+	if node.get('duration', None):
+		d['_duration'] = str(node['duration'])
+	try:
+		d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation'] + '?w=600&q=70'
+	except: pass
+	#libMediathek.log(d['thumb'])
+	d['id'] = node['id']
+	d['_type'] = type
+	d['mode'] = mode
+	return d
+
 def parseSeries():
 	p = json.dumps({'query': queries.getQuerySeries()})
 	response = libMediathek.getUrl(graphqlUrl,header,post=p)
@@ -23,26 +53,8 @@ def parseSeries():
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['allSeries']['edges']:
-		d = {}
-		node = edge['node']
-		d['name'] = node['title']
-		if node['kicker'] != None:
-			d['_tvshowtitle'] = node['kicker']
-			d['_plotoutline'] = node['kicker']
-			d['plot'] = node['kicker']
-		if node['shortDescription'] != None:
-			d['_plotoutline'] = node['shortDescription']
-			d['plot'] = node['shortDescription']
-		if node['description'] != None:
-			d['plot'] = node['description']
-		try:
-			d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
-		except: pass
-		#libMediathek.log(d['thumb'])
-		d['_type'] = 'dir'
-		d['id'] = node['id']
-		d['mode'] = 'libBrListEpisodes'
-		l.append(d)
+		if edge['node']:
+			l.append(_buildVideoDict(edge['node'], type = 'dir', mode = 'libBrListEpisodes'))
 	return l
 
 def parseEpisodes(id):
@@ -55,13 +67,9 @@ def parseEpisodes(id):
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['series']['episodes']['edges']:
-		d = {}
-		node = edge['node']
-		d = _buildVideoDict(node)
-		l.append(d)
+		if edge['node']:
+			l.append(_buildVideoDict(edge['node']))
 	return l
-
-
 
 def parseBoards():
 	boards = [
@@ -87,10 +95,10 @@ def parseBoards():
 	for node in j['data']['nodes']:
 		d = {}
 		d['name'] = node['title'].title()
-		if 'shortDescription' in node and node['shortDescription'] != None:
+		if node.get('shortDescription', None):
 			d['_plotoutline'] = node['shortDescription']
 			d['plot'] = node['shortDescription']
-		if 'description' in node and node['description'] != None:
+		if node.get('description', None):
 			d['plot'] = node['description']
 		d['boardId'] = node['id']
 		d['_type'] = 'dir'
@@ -106,9 +114,8 @@ def parseBoard(boardId):
 	l = []
 	for edge in j['data']['viewer']['board']['sections']['edges']:
 		for edge2 in edge['node']['contents']['edges']:
-			node = edge2['node']['represents']
-			if node:
-				l.append(_buildVideoDict(node))
+			if edge2['node']['represents']:
+				l.append(_buildVideoDict(edge2['node']['represents']))
 	return l
 
 def parseCategories():
@@ -179,14 +186,10 @@ def parseSection(id):
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['section']['contents']['edges']:
-		d = _buildVideoDict(edge['node']['represents'])
-		l.append(d)
+		if edge['node']['represents']:
+			l.append(_buildVideoDict(edge['node']['represents']))
 	return l
 
-#channels:
-#ARD_alpha
-#BR_Fernsehen
-#BRde
 def parseDate(day,channel):
 	variables = {"slots": ["MORNING","NOON","EVENING","NIGHT"], "day": day, "broadcasterId":"av:http://ard.de/ontologies/ard#"+channel}
 	p = json.dumps({'query': queries.getQueryDate(), 'variables':variables})
@@ -198,7 +201,7 @@ def parseDate(day,channel):
 	for epg in j['data']['viewer']['allLivestreams']['edges'][0]['node']['epg']:
 		broadcastEvent = epg['broadcastEvent']
 		publicationOf = broadcastEvent['publicationOf']
-		if len(publicationOf['essences']['edges']) != 0:
+		if publicationOf['essences']['edges']:
 			d = _buildVideoDict(publicationOf)
 			d['_airedISO8601'] = broadcastEvent['start']
 			d['_type'] = 'date'
@@ -208,7 +211,6 @@ def parseDate(day,channel):
 def parseSearch(term):
 	filter = {"term":term,"audioOnly":{"eq":False},"essences":{"empty":{"eq":False}},"status":{"id":{"eq":"av:http://ard.de/ontologies/lifeCycle#published"}}}
 	return _parseAllClips(filter)
-
 
 def parseVideo(id):
 	variables = {'clipId':id}
@@ -244,39 +246,9 @@ def _parseAllClips(filter):
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['allClips']['edges']:
-		d = _buildVideoDict(edge['node'])
-		l.append(d)
+		if edge['node']:
+			l.append(_buildVideoDict(edge['node']))
 	return l
-
-
-
-def _buildVideoDict(node):
-	d = {}
-	d['name'] = node['kicker'] + ' | ' + node['title']
-	d['_tvshowtitle'] = node['kicker']
-	d['_plotoutline'] = node['kicker']
-	d['plot'] = node['kicker']
-	if node['shortDescription'] != None and node['shortDescription'] != '':
-		d['_plotoutline'] = node['shortDescription']
-		d['plot'] = node['shortDescription']
-	if node['description'] != None and node['description'] != '':
-		d['plot'] = node['description']
-	if 'duration' in node:
-		d['_duration'] = str(node['duration'])
-	try:
-		d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation'] + '?w=600&q=70'
-	except: pass
-	#libMediathek.log(d['thumb'])
-	d['_type'] = 'video'
-	d['id'] = node['id']
-	d['mode'] = 'libBrPlay'
-	return d
-
-
-
-
-
-
 
 def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',itemCount=50):
 	#variables = {'boardId':boardId,"itemCount":itemCount}
@@ -289,26 +261,8 @@ def parseNew(boardId='l:http://ard.de/ontologies/mangoLayout#mainBoard_web',item
 	j = json.loads(response)
 	l = []
 	for edge in j['data']['viewer']['board']['sections']['edges'][1]['node']['contents']['edges']:
-		node = edge['node']['represents']
-		if node:
-			d = {}
-			d['name'] = node['title']
-			if node['kicker'] != None:
-				d['_tvshowtitle'] = node['kicker']
-				d['_plotoutline'] = node['kicker']
-				d['plot'] = node['kicker']
-			if node['shortDescription'] != None:
-				d['_plotoutline'] = node['shortDescription']
-				d['plot'] = node['shortDescription']
-			if node['description'] != None:
-				d['plot'] = node['description']
-			d['_duration'] = str(node['duration'])
-			d['thumb'] = node['defaultTeaserImage']['imageFiles']['edges'][0]['node']['publicLocation']
-			#libMediathek.log(d['thumb'])
-			d['_type'] = 'video'
-			d['id'] = node['id']
-			d['mode'] = 'libBrPlay'
-			l.append(d)
+		if edge['node']['represents']:
+			l.append(_buildVideoDict(edge['node']['represents']))
 	return l
 
 def parseLinks(url):
@@ -352,7 +306,6 @@ def parseLinks(url):
 	except: pass
 	return l
 
-
 def parse(url):
 	l = []
 	response = libMediathek.getUrl(url)
@@ -361,8 +314,6 @@ def parse(url):
 def startTimeToInt(s):
 	HH,MM,SS = s.split(":")
 	return int(HH) * 60 + int(MM)
-
-
 
 def getIntrospection():
 	p = json.dumps({'query': libbrgraphqlqueries.getIntrospectionQuery()})

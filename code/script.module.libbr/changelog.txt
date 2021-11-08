@@ -1,4 +1,6 @@
-﻿2.0.9
+﻿2.0.10
+- Anzeige der Titel verbessert
+2.0.9
 - Code vereinfacht
 2.0.8
 - Meistgesehen, Rubriken und Themen funktionierten nicht richtig
