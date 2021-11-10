@@ -74,33 +74,17 @@ def parseDate(partnerKey, clientKey, date):
 	channelKey = clientKey if partnerKey else None
 	return parse(pageIndex, url, partnerKey, channelKey)
 
-def getVideoUrl(clipId):
-	pageIndex = pageIndexPlayerPage
-	variables = '{"client":"ard","clipId":"%s","deviceType":"mobi"}'
-	sha256Hash = '893d15418a9fa569150f104722867e0f6cf39afd443cd53a33aa500e094e0032'
-	queryParams = {}
-	queryParams[keyOperationName] = pageNames[pageIndex]
-	queryParams[keyVariables] = variables % clipId
-	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJson + urlencode(queryParams)
-	return parseVideo(pageIndex, url)
-
-def parseVideo(pageIndex, url):
-	result = None
+def getVideoUrl(url):
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
-	mediaCollection = deep_get(j, 'data.' + pageNames[pageIndex] + '.mediaCollection')
-	if mediaCollection:
-		mediaArray = mediaCollection.get('_mediaArray',None)
-		if mediaArray:
-			mediaStreamArray = mediaArray[0].get('_mediaStreamArray',None)
-			if mediaStreamArray:
-				result = extractBestQuality(mediaStreamArray, lambda x: x[0])
-		if result:
-			subtitleUrl = mediaCollection.get('_subtitleUrl',None)
-			if subtitleUrl:
-				result['subtitle'] = [{'url':subtitleUrl, 'type': 'ttml', 'lang':'de'}]
-	return result
+	widgets = j.get('widgets',None)
+	if widgets:
+		for widget in widgets:
+			if widget.get('type',None).startswith('player'):
+				mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
+				if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
+					return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
+	return None
 
 def parseSearchHtml(url):
 	l = []
@@ -213,6 +197,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 									if documentId and name:
 										d = {}
 										d['documentId'] = documentId
+										d['url'] = deep_get(teaser, 'links.target.href')
 										d['name'] = name
 										d['plot'] = teaser.get('longTitle',None)
 										if (pageIndex == pageIndexProgramPage) and (partnerKey is None) and publicationService:

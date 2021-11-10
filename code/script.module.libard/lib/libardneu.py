@@ -74,7 +74,7 @@ def libArdListShow():
 	return libArdJsonParserNeu.parseShow(params['documentId'])
 
 def libArdPlay():
-	result = libArdJsonParserNeu.getVideoUrl(params['documentId'])
+	result = libArdJsonParserNeu.getVideoUrl(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result
 
