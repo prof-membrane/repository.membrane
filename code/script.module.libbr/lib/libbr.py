@@ -18,7 +18,7 @@ def getVideoUrl(url):
 def libBrListMain():
 	#libBrJsonParser.getIntrospection()
 	l = []
-	l.append({'name':translation(31031), 'mode':'libBrListNew', '_type':'dir'})
+	l.append({'name':translation(31030), 'mode':'libBrListNew', '_type':'dir'})
 	l.append({'name':translation(31032), 'mode':'libBrListSeries', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libBrListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libBrListBoards', '_type':'dir'})

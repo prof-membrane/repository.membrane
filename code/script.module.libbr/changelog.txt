@@ -1,4 +1,6 @@
-﻿2.0.10
+﻿2.0.11
+- Korrektur: Meistgesehen -> Neu
+2.0.10
 - Anzeige der Titel verbessert
 2.0.9
 - Code vereinfacht
