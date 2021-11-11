@@ -80,7 +80,7 @@ def getVideoUrl(url):
 	widgets = j.get('widgets',None)
 	if widgets:
 		for widget in widgets:
-			if widget.get('type',None).startswith('player'):
+			if widget.get('type','').startswith('player'):
 				mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
 				if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
 					return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
