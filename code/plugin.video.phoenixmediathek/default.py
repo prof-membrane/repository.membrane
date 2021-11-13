@@ -24,4 +24,15 @@ modes = {
 	'play': play
 }	
 
-list()
+# list()
+# return
+
+import xbmc
+import xbmcgui
+
+libMediathek.endOfDirectory()
+dialog = xbmcgui.Dialog()
+title = 'Phoenix Mediathek'
+text = 'Die Inhalte dieser Mediathek sind seit 13.11.2021 ausschließlich über die ARD-Mediathek abrufbar.'
+dialog.ok(title, text)
+xbmc.executebuiltin('XBMC.ActivateWindow(Home)')
