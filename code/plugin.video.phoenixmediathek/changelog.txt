@@ -1,3 +1,5 @@
+2.0.6
+- Phoenix Mediathek wieder da :-)
 2.0.5
 - Phoenix Mediathek ist in der ARD Mediathek aufgegangen
 2.0.4

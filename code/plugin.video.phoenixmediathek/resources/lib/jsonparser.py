@@ -9,13 +9,14 @@ def parseMain():
 	j = json.loads(response)
 	l = []
 	for i,item in enumerate(j['content']['items']):
-		d = {}
-		d['name'] = item['titel']
-		d['plot'] = item['typ']
-		d['_type'] = 'dir'
-		d['id'] = str(i)
-		d['mode'] = 'listVideos'
-		l.append(d)
+		if item['videos']:
+			d = {}
+			d['name'] = item['titel']
+			d['plot'] = item['typ']
+			d['_type'] = 'dir'
+			d['id'] = str(i)
+			d['mode'] = 'listVideos'
+			l.append(d)
 	return l
 
 def parseVideos(id):
