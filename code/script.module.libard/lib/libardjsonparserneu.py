@@ -86,9 +86,48 @@ def getVideoUrl(url):
 					return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
-def parseSearchHtml(url):
+def parseSearchAPI(search_string):
 	l = []
-	response = libMediathek.getUrl(url)
+	try:
+		response = libMediathek.getUrl('http://api.ardmediathek.de/page-gateway/widgets/ard/search/vod?searchString='+search_string)
+		j = json.loads(response)
+		for item in j.get('teasers',[]):
+			if isinstance(item,dict) and (item.get('type',None) == 'ondemand'):
+				id = item.get('id',None)
+				name = item['shortTitle']
+				if id and name:
+					d ={}
+					d['documentId'] = id
+					d['url'] = baseUrlHtml + id
+					d['duration'] = str(item.get('duration',None))
+					d['name'] = name
+					d['plot'] = item.get('longTitle',None)
+					d['date'] = item.get('availableTo',None)
+					if d['date']:
+						d['plot'] = '[COLOR blue]Abrufbar bis ' + libMediathek.str_to_airedtime(d['date']).strftime('%d.%m.%Y') + ' | [/COLOR]' + d.get('plot','')
+					d['date'] = item.get('broadcastedOn',None)
+					if d['date']:
+						d['plot'] = '[COLOR blue]Sendedatum ' + libMediathek.str_to_airedtime(d['date']).strftime('%d.%m.%Y') + ' | [/COLOR]' + d.get('plot','')
+					thumb_id = '$Teaser:' + id
+					thumb_item = deep_get(item, 'images.aspect16x9')
+					if not thumb_item:
+						thumb_item = deep_get(item, 'images.aspect1x1')
+					if not thumb_item:
+						thumb_item = deep_get(item, 'images.aspect16x7')
+					if thumb_item:
+						thumb_src = thumb_item.get('src','')
+						thumb_src = thumb_src.replace('{width}','1024')
+						d['thumb'] = thumb_src
+					d['_type'] = 'video'
+					d['mode'] = 'libArdPlayHtml'
+					l.append(d)
+	except:
+		pass
+	return l
+
+def parseSearchHtml(search_string):
+	l = []
+	response = libMediathek.getUrl('https://www.ardmediathek.de/suche/'+search_string)
 	split = response.split('<script id="fetchedContextValue" type="application/json">');
 	if (len(split) > 1):
 		json_str = split[1]

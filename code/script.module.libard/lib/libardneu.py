@@ -63,10 +63,10 @@ def libArdListDateVideosOfChannel():
 	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
 
 def libArdListSearch():
-	search_string = libMediathek.getSearchString(do_quote=False)
+	search_string = libMediathek.getSearchString()
 	if search_string:
-		# ohne Effekt: search_string = search_string.decode('utf-8').encode("ascii", "xmlcharrefreplace")
-		return libArdJsonParserNeu.parseSearchHtml('http://www.ardmediathek.de/ard/suche/'+search_string)
+		return libArdJsonParserNeu.parseSearchAPI(search_string)
+		# return libArdJsonParserNeu.parseSearchHtml(search_string)
 	else:
 		return None
 
