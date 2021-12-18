@@ -1,4 +1,6 @@
-﻿2.1.23
+﻿2.1.24
+- Meistgesehen funktioniert nicht mehr (HTTP-Error 410 - Gone)
+2.1.23
 - Rubriken/Classic funktioniert wieder
 2.1.22
 - "Sendungen nach Datum / Mobile" funktioniert wieder

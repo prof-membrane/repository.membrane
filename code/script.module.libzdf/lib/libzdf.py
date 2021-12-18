@@ -55,7 +55,8 @@ def libZdfListMainClassic():
 	l = []
 	flavour = ' / Classic'
 	translation = libMediathek.getTranslation
-	l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
+	# l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
+	# l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/beliebte-filme-100.json?profile=default'})
 	l.append({'sort':'31032', '_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
 	l.append({'sort':'31033'+flavour, '_name':translation(31033)+flavour, 'mode':'libZdfListChannel', '_type': 'dir'})
 	l.append({'sort':'31034'+flavour, '_name':translation(31034)+flavour, 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
