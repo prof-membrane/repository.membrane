@@ -24,7 +24,7 @@ magazines_url = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/magazi
 stream_params = '&quality=$in:XQ,HQ,SQ&mediaType=hls&language=' + current_lang + '&channel=' + current_lang.upper()
 
 
-def _parse_data(video):
+def _parse_data(video, isByDate = False):
 	d = {}
 	if video['subtitle'] and video['title']:
 		d['name'] = video['title'] + ' | ' + video['subtitle']
@@ -38,7 +38,7 @@ def _parse_data(video):
 		d['plot'] = video['description']
 	elif video['shortDescription']:
 		d['plot'] = video['shortDescription']
-	if 'broadcastDates' in video:
+	if isByDate and ('broadcastDates' in video):
 		d['_airedISO8601'] = video['broadcastDates'][0]
 	if 'images' in video and video['images']:
 		if video['images']['landscape']:
@@ -58,14 +58,15 @@ def _parse_data(video):
 		d['_duration'] = video['duration']
 	availability_node = video.get('availability',None)
 	if availability_node:
+		aired_str = availability_node.get('upcomingDate',None)
+		if isByDate and (d.get('_airedISO8601',None) == None):
+			d['_airedISO8601'] = aired_str
 		availability = availability_node.get('label',None)
 		if availability:
 			d['plot'] = '[COLOR blue]' + availability + ' | [/COLOR]' + d.get('plot','')
-		else:
-			aired_str = availability_node.get('upcomingDate',None)
-			if aired_str:
-				aired_time = libMediathek.str_to_airedtime(aired_str)
-				d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32100) + ' ' + aired_time.strftime('%d/%m/%Y') + ' | [/COLOR]' + d.get('plot','')
+		elif aired_str:
+			aired_time = libMediathek.str_to_airedtime(aired_str)
+			d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32100) + ' ' + aired_time.strftime('%d/%m/%Y') + ' | [/COLOR]' + d.get('plot','')
 	return d
 
 
@@ -131,7 +132,7 @@ def getDate(yyyymmdd):
 	data = j['zones'][1]['data']
 	videos = [video for video in data if video['programId']]
 	for video in videos:
-		l.append(_parse_data(video))
+		l.append(_parse_data(video, True))
 	return l
 
 
