@@ -91,7 +91,7 @@ live_byard =    (1<<3)
 channels = (
 #	(name,            flags,                              partnerKey,     clientKey)
 	('Alle Sender',   ondemand + bydate + live_byard,     None,           'ard'),
-	('Das Erste',     ondemand + bydate + live_byclient,  'das_erste',    'daserste'),
+	('Das Erste',     ondemand + bydate + live_byard,     'das_erste',    'daserste'),
 	('BR',            ondemand + bydate + live_byclient,  'br',           'br'),
 	('HR',            ondemand + bydate + live_byard,     'hr',           'hr'),
 	('MDR',           ondemand + bydate + live_byclient,  'mdr',          'mdr'),
