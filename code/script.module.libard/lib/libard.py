@@ -80,11 +80,11 @@ def libArdListMainClassic():
 	l = []
 	flavour = ' / Classic'
 	translation = libMediathek.getTranslation
-	l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListShows', '_type':'dir'})
-	l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannel', '_type':'dir'})
-	l.append({'sort':'31034', 'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
-	l.append({'sort':'31035', 'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
-	l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
+	# l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListShows', '_type':'dir'})
+	# l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannel', '_type':'dir'})
+	# l.append({'sort':'31034', 'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
+	# l.append({'sort':'31035', 'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
+	# l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
 	return l
 
 def libArdListVideos():
