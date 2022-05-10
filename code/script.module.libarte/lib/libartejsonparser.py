@@ -97,7 +97,7 @@ def getCollection(url):
 	program_id = j['programs'][0]['programId']
 	l = getVideos('/zones/collection_videos?id=' + program_id)
 	children = j['programs'][0]['children']
-	topics = [item for item in children if item['kind'] == 'TOPIC']
+	topics = [item for item in children if (item['kind'] == 'TOPIC' or item['kind'] == 'TV_SERIES')]
 	for topic in topics:
 		subresponse = libMediathek.getUrl(
 			opa_url + '/programs?programId=' + topic['programId'] + '&language=' + current_lang +

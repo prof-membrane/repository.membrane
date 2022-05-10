@@ -1,3 +1,5 @@
+1.0.23
+- Meistgesehen: TV-Serien wurden nicht berücksichtigt
 1.0.22
 - Sendungen nach Datum: Uhrzeit wird wieder angezeigt
 1.0.21
