@@ -115,26 +115,6 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.phoenixmediathek" name="Phoenix Mediathek" version="2.0.6" provider-name="68000a">
-        <requires>
-            <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libmediathek3" version="1.5.29"/>
-        </requires>
-        <extension point="xbmc.python.pluginsource" library="default.py">
-            <provides>video</provides>
-        </extension>
-        <extension point="xbmc.addon.metadata">
-            <platform>all</platform>
-            <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
-            <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.phoenixmediathek</source>
-            <summary lang="en">This video add-on provides access to videos of the German broadcaster Phoenix.</summary>
-            <description lang="en">This video add-on provides access to videos of the German broadcaster Phoenix.</description>
-            <summary lang="de">Die Phoenix Mediathek bietet Zugriff auf Talks, Interviews und weiterer Beiträge.</summary>
-            <description lang="de">Die Phoenix Mediathek bietet Zugriff auf Talks, Interviews und weiterer Beiträge.</description>
-            <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
-        </extension>
-    </addon>
-
     <addon id="plugin.video.srmediathek" name="SR Mediathek" version="2.0.2" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
