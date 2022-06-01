@@ -26,8 +26,6 @@ welches offenbar nicht mehr weiterentwickelt wird.
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.brmediathek/icon.png?raw=true" width="32"> BR Mediathek
 
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.hrmediathek/icon.png?raw=true" width="32"> HR Mediathek
-
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.kikamediathek/icon.png?raw=true" width="32"> KiKA Mediathek
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.wdrmediathek/icon.png?raw=true" width="32"> WDR Mediathek
