@@ -24,8 +24,6 @@ welches offenbar nicht mehr weiterentwickelt wird.
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.ardmediathek_de/icon.png?raw=true" width="32"> ARD Mediathek
 
-<img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.artemediathek/icon.png?raw=true" width="32"> ARTE Mediathek
-
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.brmediathek/icon.png?raw=true" width="32"> BR Mediathek
 
 <img src="https://github.com/68000a/Gigathek/blob/master/code/plugin.video.hrmediathek/icon.png?raw=true" width="32"> HR Mediathek
