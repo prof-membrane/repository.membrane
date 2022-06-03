@@ -192,12 +192,12 @@ subtitles = {
 }
 
 qualities = {
-	'LQ':	lambda: 1,
-	'MQ':	lambda: 2,
-	'HQ':	lambda: 3,
-	'EQ':	lambda: 4,
-	'SQ':	lambda: 5,
-	'XQ':	lambda: 6,
+	'LQ': 1,
+	'MQ': 2,
+	'HQ': 3,
+	'EQ': 4,
+	'SQ': 5,
+	'XQ': 6,
 }
 
 def getVideoUrl(url, documentId):
@@ -242,10 +242,10 @@ def getVideoUrl(url, documentId):
 			# if currentLang is native language => prefer "no subtitle"
 			# if currentLang is foreign language => prefer subtitle in native language
 			currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
-			currentBitrate = qualities.get(video['mainQuality']['code'], lambda:0)()
+			currentBitrate = qualities.get(video['mainQuality']['code'], 0)
 			if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
 				storedLang = currentLang
 				bitrate = currentBitrate
 				result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
 		return {'media': [result]} if result else None
-		
+
