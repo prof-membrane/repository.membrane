@@ -52,6 +52,21 @@
         </extension>
     </addon>
 
+    <addon id="plugin.video.artemediathek" name="Arte Mediathek" version="1.0.10" provider-name="68000a">
+        <requires>
+            <import addon="xbmc.python" version="2.25.0"/>
+            <import addon="script.module.libarte" version="1.0.25"/>
+        </requires>
+        <extension point="xbmc.python.pluginsource" library="default.py">
+            <provides>video</provides>
+        </extension>
+        <extension point="xbmc.addon.metadata">
+            <platform>all</platform>
+            <language>de</language>
+            <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        </extension>
+    </addon>
+
     <addon id="plugin.video.brmediathek" name="BR Mediathek" version="1.1.5" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
@@ -179,6 +194,19 @@
             <source>https://github.com/68000a/Gigathek/tree/master/code/script.module.libard</source>
             <summary lang="en">This is a scraper for http://www.ardmediathek.de/tv.</summary>
             <description lang="en">This is a scraper for http://www.ardmediathek.de/tv.</description>
+        </extension>
+    </addon>
+
+    <addon id="script.module.libarte" name="libarte" version="1.0.25" provider-name="68000a">
+        <requires>
+            <import addon="xbmc.python" version="2.25.0" />
+            <import addon="script.module.libmediathek3" version="1.5.29"/>
+        </requires>
+        <extension point="xbmc.python.module" library="lib" />
+        <extension point="xbmc.addon.metadata">
+            <platform>all</platform>
+            <summary lang="en">This is a scraper for http://arte.tv.</summary>
+            <description lang="en">This is a scraper for http://arte.tv.</description>
         </extension>
     </addon>
 
