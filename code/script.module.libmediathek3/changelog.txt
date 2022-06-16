@@ -1,4 +1,6 @@
-﻿1.5.32
+﻿1.5.33
+- Änderungen aus 1.5.32 wieder rückgängig gemacht
+1.5.32
 - Kleiner Bugfix bei Livestreams
 1.5.31
 - Livestreams sind jetzt auch unter Kodi Matrix zurückspulbar
