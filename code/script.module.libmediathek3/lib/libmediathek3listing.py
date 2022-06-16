@@ -121,8 +121,8 @@ def addEntries(l):
 			#xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='episodes' )
 			liz.setProperty('IsPlayable', 'true')
 			if d.get('type',None) == 'live':
-				liz.setProperty('starttime','1')
-				liz.setProperty('totaltime','1')
+				liz.setProperty('starttime','10799')
+				liz.setProperty('totaltime','10800')
 			if download_dir and d.get('type',None) in ('video','date'):
 				liz.addContextMenuItems([('Download', 'RunPlugin(%s&download_dir=%s)' % (u,quote_plus(download_dir)))])
 			lists.append([u,liz,False])
