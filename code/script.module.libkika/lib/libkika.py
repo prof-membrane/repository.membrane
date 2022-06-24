@@ -41,11 +41,8 @@ def libKikaPlay():
 #	return libKikaJsonParser.getVideos('http://itv.mit-xperts.com/kikamediathek/kika/api.php/videos/hbbtv/suche/hbbtv-search-100-hbbtv.json?searchText='+search_string)
 
 modes = {
-	'libKikaListMain': libKikaListMain,
-	'libKikaListShows': libKikaListShows,
-	'libKikaListVideos': libKikaListVideos,
-#	'libKikaListDate': libKikaListDate,
-#	'libKikaListDateVideos': libKikaListDateVideos,
-#	'libKikaSearch': libKikaSearch,
-	'libKikaPlay': libKikaPlay,
+	'libKikaListMain':  ( libKikaListMain, 'videos' ),
+	'libKikaListShows': ( libKikaListShows, 'videos' ),
+	'libKikaListVideos':( libKikaListVideos, 'movies' ),
+	'libKikaPlay':      ( libKikaPlay, None ),
 }

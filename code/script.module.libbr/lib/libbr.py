@@ -16,15 +16,12 @@ def getVideoUrl(url):
 	return libBrJsonParser.parseVideo(url)
 
 def libBrListMain():
-	#libBrJsonParser.getIntrospection()
 	l = []
 	l.append({'name':translation(31030), 'mode':'libBrListNew', '_type':'dir'})
 	l.append({'name':translation(31032), 'mode':'libBrListSeries', '_type':'dir'})
 	l.append({'name':translation(31033), 'mode':'libBrListChannel', '_type':'dir'})
 	l.append({'name':translation(31034), 'mode':'libBrListBoards', '_type':'dir'})
 	l.append({'name':translation(31035), 'mode':'libBrListCategories', '_type':'dir'})
-	#l.append({'name':'Genres', 'mode':'libBrListGenres', '_type':'dir'})
-	#l.append({'name':'#sections', 'mode':'libBrListSections', '_type':'dir'})
 	l.append({'name':translation(31039), 'mode':'libBrListSearch', '_type':'dir'})
 	return l
 
@@ -48,7 +45,6 @@ def libBrListCategories():
 def libBrListCategorie():
 	return libBrJsonParser.parseCategorie(params['id'])
 
-#cat
 def libBrListGenres():
 	return libBrJsonParser.parseGenres()
 def libBrListGenre():
@@ -59,9 +55,6 @@ def libBrListSections():
 	return libBrJsonParser.parseSections()
 def libBrListSection():
 	return libBrJsonParser.parseSection(params['id'])
-
-def libBrListVideos2():
-	return libBrJsonParser.parseLinks(params['url'])
 
 def libBrListChannel():
 	l = []
@@ -90,23 +83,22 @@ def libBrPlayOld():
 	return result
 
 modes = {
-	'libBrListMain': libBrListMain,
-	'libBrListNew': libBrListNew,
-	'libBrListSeries': libBrListSeries,
-	'libBrListEpisodes': libBrListEpisodes,
-	'libBrListBoards': libBrListBoards,
-	'libBrListBoard': libBrListBoard,
-	'libBrListCategories': libBrListCategories,
-	'libBrListCategorie': libBrListCategorie,
-	'libBrListGenres': libBrListGenres,
-	'libBrListGenre': libBrListGenre,
-	'libBrListSections': libBrListSections,
-	'libBrListSection': libBrListSection,
-	'libBrListVideos2': libBrListVideos2,
-	'libBrListChannel': libBrListChannel,
-	'libBrListChannelDate': libBrListChannelDate,
-	'libBrListChannelDateVideos': libBrListChannelDateVideos,
-	'libBrListSearch': libBrListSearch,
-	'libBrPlay': libBrPlay,
-	'libBrPlayOld': libBrPlayOld
+	'libBrListMain':              ( libBrListMain, 'videos' ),
+	'libBrListNew':               ( libBrListNew, 'movies' ),
+	'libBrListSeries':            ( libBrListSeries, 'videos' ),
+	'libBrListEpisodes':          ( libBrListEpisodes, 'movies' ),
+	'libBrListBoards':            ( libBrListBoards, 'videos' ),
+	'libBrListBoard':             ( libBrListBoard, 'movies' ),
+	'libBrListCategories':        ( libBrListCategories, 'videos' ),
+	'libBrListCategorie':         ( libBrListCategorie, 'movies' ),
+	'libBrListGenres':            ( libBrListGenres, 'videos' ),
+	'libBrListGenre':             ( libBrListGenre, 'movies' ),
+	'libBrListSections':          ( libBrListSections, 'videos' ),
+	'libBrListSection':	          ( libBrListSection, 'movies' ),
+	'libBrListChannel':           ( libBrListChannel, 'videos' ),
+	'libBrListChannelDate':       ( libBrListChannelDate, 'videos' ),
+	'libBrListChannelDateVideos': ( libBrListChannelDateVideos, 'movies' ),
+	'libBrListSearch':            ( libBrListSearch, 'movies' ),
+	'libBrPlay':                  ( libBrPlay, None ),
+	'libBrPlayOld':               ( libBrPlayOld, None ),
 }

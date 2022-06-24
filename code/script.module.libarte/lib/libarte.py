@@ -42,13 +42,13 @@ def libArtePlay():
 	return result
 
 modes = {
-	'libArteListMain': libArteListMain,
-	'libArteListCollection':libArteListCollection,
-	'libArteListVideos': libArteListVideos,
-	'libArteListMagazines': libArteListMagazines,
-	'libArteListDate': libArteListDate,
-	'libArteListDateVideos': libArteListDateVideos,
-	'libArteListSearch': libArteListSearch,
-	'libArtePlay': libArtePlay,
+	'libArteListMain':      ( libArteListMain, 'videos' ),
+	'libArteListCollection':( libArteListCollection, 'movies' ),
+	'libArteListVideos':    ( libArteListVideos, 'movies' ),
+	'libArteListMagazines': ( libArteListMagazines, 'videos' ),
+	'libArteListDate':      ( libArteListDate, 'videos' ),
+	'libArteListDateVideos':( libArteListDateVideos, 'movies' ),
+	'libArteListSearch':    ( libArteListSearch, 'movies' ),
+	'libArtePlay':          ( libArtePlay, None ),
 }
-
+							

@@ -23,9 +23,11 @@ else: # for Python 3
 	icon = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('icon'))
 	fanart = xbmcvfs.translatePath(xbmcaddon.Addon().getAddonInfo('fanart'))
 
+handle = int(sys.argv[1])
+
 
 def sortAZ():
-	xbmcplugin.addSortMethod(int(sys.argv[1]), xbmcplugin.SORT_METHOD_LABEL)
+	xbmcplugin.addSortMethod(handle, xbmcplugin.SORT_METHOD_LABEL)
 
 def addEntries(l):
 	lists = []
@@ -129,21 +131,11 @@ def addEntries(l):
 		else:
 			lists.append([u,liz,True])
 
-	if len(l) > 0:
-		type = l[0]['_type']
-		if type == 'video' or type == 'live':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='videos' )
-		elif type == 'date' or type == 'clip' or type == 'episode':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='episodes' )
-		elif type == 'shows' or type == 'season':
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='tvshows' )
-		else:
-			xbmcplugin.setContent( handle=int( sys.argv[ 1 ] ), content='files' )
-
-	xbmcplugin.addDirectoryItems(int(sys.argv[1]), lists)
+	xbmcplugin.addDirectoryItems(handle, lists)
+	xbmcplugin.setContent(handle, content='videos')
 
 def endOfDirectory():
-	xbmcplugin.endOfDirectory(int(sys.argv[1]),cacheToDisc=True)
+	xbmcplugin.endOfDirectory(handle,cacheToDisc=True)
 
 def _buildUri(d):
 	u = d.get('pluginpath',sys.argv[0])+'?'
@@ -210,7 +202,10 @@ def list(modes, defaultMode, *playModes):
 		mode = params.get('mode', defaultMode)
 		fn = modes.get(mode, None)
 		if fn:
-			res = fn()
+			if isinstance(fn, tuple):
+				res = fn[0]()
+			else:
+				res = fn()
 			if mode in playModes:
 				if res is None:
 					dialog = xbmcgui.Dialog()
@@ -223,6 +218,8 @@ def list(modes, defaultMode, *playModes):
 			else:
 				if not (res is None):
 					addEntries(res)
+					if isinstance(fn, tuple):
+						xbmcplugin.setContent(handle, content=fn[1])
 					endOfDirectory()
 			return True # OK
 	raise NotImplementedError()

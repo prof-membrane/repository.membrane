@@ -1,132 +1,129 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
-import os
-from itertools import groupby
-import xbmc
-import xbmcgui
-import xbmcaddon
-import libardneu
-import libardplayer
-import libardjsonparser as libArdJsonParser
+import libardjsonparserneu as libArdJsonParserNeu
 import libmediathek3 as libMediathek
 
 params = libMediathek.get_params()
 
-if sys.version_info[0] < 3: # for Python 2
-	from urllib import quote_plus
-else: # for Python 3
-	from urllib.parse import quote_plus
-
 def list():
-	allModes = modes.copy()
-	allModes.update(libardneu.modes)
-	allPlayModes = set(playModes + libardneu.playModes)
-	return libMediathek.list(allModes, 'libArdListCombined', *allPlayModes)
+	return libMediathek.list(modes, 'libArdListMainMobile', *playModes)
 
-	"""
-	show_hint_classic = libMediathek.getSettingBool('show_hint_classic')
-	if show_hint_classic:
-		libMediathek.setSettingBool('show_hint_classic', False)
-		addon = xbmcaddon.Addon()
-		title = addon.getAddonInfo('name')
-		text = addon.getLocalizedString(32100)
-		xbmcgui.Dialog().ok(title, text)
-	use_classic = libMediathek.getSettingBool('use_classic')
-	use_classic_prev_value = libMediathek.getSettingBool('use_classic_prev_value')
-	if (use_classic != use_classic_prev_value) or show_hint_classic:
-		if 'mode' in params:
-			del params['mode']  # force default mode
-		if use_classic != use_classic_prev_value:
-			libMediathek.setSettingBool('use_classic_prev_value', use_classic)
-			addon = xbmcaddon.Addon()
-			title = addon.getAddonInfo('name')
-			text = addon.getLocalizedString(32101)
-			xbmcgui.Dialog().notification(title, text, os.path.join(addon.getAddonInfo('path'), 'icon.png'))
-			xbmc.executebuiltin('Container.Update(path,replace)')
-	if use_classic:
-		return libMediathek.list(modes, 'libArdListMainClassic', *playModes)
-	else:
-		return libardneu.list()
-	"""
-
-channels = [
-	('ARD-alpha','5868'),
-	('BR','2224'),
-	('Das Erste','208'),
-	('HR','5884'),
-	('MDR','5882'),
-	('MDR / Sachsen','1386804'),
-	('MDR / Sachsen-Anhalt','1386898'),
-	('MDR / Thüringen','1386988'),
-	('NDR','5906'),
-	('One','673348'),
-	('RB','5898'),
-	('RBB','5874'),
-	('SR','5870'),
-	('SWR','5310'),
-	('SWR / Baden-Württemberg','5904'),
-	('SWR / Rheinland-Pfalz','5872'),
-	('Tagesschau24','5878'),
-	('WDR','5902'),
-]
-
-def libArdListCombined():
-	l = libArdListMainClassic() + libardneu.libArdListMainMobile()
-	l = [e for e, _ in groupby(sorted(l, key=lambda x: x['sort']))]
-	return l
-
-def libArdListMainClassic():
+def libArdListMainMobile():
 	l = []
-	flavour = ' / Classic'
 	translation = libMediathek.getTranslation
-	# l.append({'sort':'31032'+flavour, 'name':translation(31032)+flavour, 'mode':'libArdListShows', '_type':'dir'})
-	# l.append({'sort':'31033'+flavour, 'name':translation(31033)+flavour, 'mode':'libArdListChannel', '_type':'dir'})
-	# l.append({'sort':'31034', 'name':translation(31034), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Rubriken/mehr?documentId=21282550&json', '_type':'dir'})
-	# l.append({'sort':'31035', 'name':translation(31035), 'mode':'libArdListVideos', 'url':'http://www.ardmediathek.de/appdata/servlet/tv/Themen/mehr?documentId=21301810&json', '_type':'dir'})
-	# l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
+	l.append({'sort':'31032', 'name':translation(31032), 'mode':'libArdListChannelShows', '_type':'dir'})
+	l.append({'sort':'31033', 'name':translation(31033), 'mode':'libArdListChannelDates', '_type':'dir'})
+	l.append({'sort':'31036', 'name':translation(31036), 'mode':'libArdListChannelLivestreams', '_type':'dir'})
+	l.append({'sort':'31039', 'name':translation(31039), 'mode':'libArdListSearch', '_type':'dir'})
 	return l
 
-def libArdListVideos():
-	return libArdJsonParser.parseVideos(params['url'])
-
-def libArdListShows():
-	return libArdJsonParser.parseAZ()
-
-def libArdListChannel():
+def libArdListChannels():
 	l = []
+	mode = params['mode']
 	for i, channel in enumerate(channels):
 		d = {}
-		d['_name'] = channel[0]
-		d['_type'] = 'dir'
-		d['channel'] = str(i)
-		d['mode'] = 'libArdListChannelDate'
-		l.append(d)
+		if (mode == 'libArdListChannelShows') and (channel[1] & ondemand):
+			d['mode'] = 'libArdListShowsByChannel'
+		elif (mode == 'libArdListChannelDates') and (channel[1] & bydate):
+			d['mode'] = 'libArdListDateByChannel'
+		elif (mode == 'libArdListChannelLivestreams') and (channel[1] & (live_byclient + live_byard)):
+			d['mode'] = 'libArdListLivestreamsOfChannel'
+		else:
+			d['mode'] = None
+		if d['mode']:
+			d['_name'] = channel[0]
+			d['_type'] = 'dir'
+			d['channel'] = str(i)
+			l.append(d)
 	return l
 
-def libArdListChannelDate():
-	return libMediathek.populateDirDate('libArdListChannelDateVideos',params['channel'])
+def libArdListShowsByChannel():
+	return libMediathek.populateDirAZ('libArdListShowVideosOfChannel', [], params['channel'])
 
-def libArdListChannelDateVideos():
-	url = 'http://appdata.ardmediathek.de/appdata/servlet/tv/sendungVerpasst?json&kanal='+channels[int(params['channel'])][1]+'&tag='+params['datum']
-	return libArdJsonParser.parseDate(url)
+def libArdListDateByChannel():
+	return libMediathek.populateDirDate('libArdListDateVideosOfChannel', params['channel'])
 
-def libArdPlayClassic():
-	result = libardplayer.getVideoUrlClassic(videoID = params['documentId'])
+def libArdListLivestreamsOfChannel():
+	channel = channels[int(params['channel'])]
+	# Livestreams sind nicht sinnvoll vorsortiert
+	libMediathek.sortAZ()
+	return libArdJsonParserNeu.parseLivestreams(channel[2], 'ard' if (channel[1] & live_byard) else channel[3])
+
+def libArdListShowVideosOfChannel():
+	channel = channels[int(params['channel'])]
+	letter = params['name'].upper()
+	if letter == '#':
+		letter = '09'
+	return libArdJsonParserNeu.parseAZ(channel[3], letter)
+
+def libArdListDateVideosOfChannel():
+	channel = channels[int(params['channel'])]
+	partnerKey = channel[2]
+	return libArdJsonParserNeu.parseDate(partnerKey, channel[3], params['yyyymmdd'])
+
+def libArdListSearch():
+	search_string = libMediathek.getSearchString()
+	if search_string:
+		return libArdJsonParserNeu.parseSearchAPI(search_string)
+		# return libArdJsonParserNeu.parseSearchHtml(search_string)
+	else:
+		return None
+
+def libArdListShow():
+	return libArdJsonParserNeu.parseShow(params['documentId'])
+
+def libArdPlay():
+	result = libArdJsonParserNeu.getVideoUrl(params['url'])
 	result = libMediathek.getMetadata(result)
 	return result
 
+def libArdPlayHtml():
+	result = libArdJsonParserNeu.getVideoUrlHtml(params['url'])
+	result = libMediathek.getMetadata(result)
+	return result
+
+ondemand =      (1<<0)
+bydate =        (1<<1)
+live_byclient = (1<<2)
+live_byard =    (1<<3)
+
+channels = (
+#	(name,            flags,                              partnerKey,     clientKey)
+	('Alle Sender',   ondemand + bydate + live_byard,     None,           'ard'),
+	('Das Erste',     ondemand + bydate + live_byard,     'das_erste',    'daserste'),
+	('BR',            ondemand + bydate + live_byclient,  'br',           'br'),
+	('HR',            ondemand + bydate + live_byard,     'hr',           'hr'),
+	('MDR',           ondemand + bydate + live_byclient,  'mdr',          'mdr'),
+	('NDR',           ondemand + bydate + live_byclient,  'ndr',          'ndr'),
+	('Radio Bremen',  ondemand + bydate + live_byard,     'radio_bremen', 'radiobremen'),
+	('RBB',           ondemand + bydate + live_byclient,  'rbb',          'rbb'),
+	('SR',            ondemand + bydate + live_byard,     'sr',           'sr'),
+	('SWR',           ondemand + bydate + live_byclient,  'swr',          'swr'),
+	('WDR',           ondemand + bydate + live_byard,     'wdr',          'wdr'),
+	('One',           ondemand + bydate + live_byard,     'one',          'one'),
+	('ARD-alpha',     ondemand + bydate + live_byard,     'ard-alpha',    'ardalpha'),
+	('Phoenix',       ondemand + bydate + live_byard,     'phoenix',      'phoenix'),
+	('Tagesschau24',  ondemand + bydate + live_byclient,  'tagesschau24', 'tagesschau24'),
+	('3sat',          live_byard,                         '3sat',         None),
+	('Arte',          live_byard,                         'arte',         None),
+	('KiKA',          live_byard,                         'KiKa',         None),
+	('Deutsche Welle',live_byard,                         'dw',           None),
+)
+
 modes = {
-	'libArdListCombined':           libArdListCombined,
-	'libArdListMainClassic':        libArdListMainClassic,
-	'libArdListVideos':             libArdListVideos,
-	'libArdListShows':              libArdListShows,
-	'libArdListChannel':            libArdListChannel,
-	'libArdListChannelDate':        libArdListChannelDate,
-	'libArdListChannelDateVideos':  libArdListChannelDateVideos,
-	'libArdListSearch':             libardneu.libArdListSearch,
-	'libArdPlayClassic':            libArdPlayClassic,
-	'libArdPlayHtml':               libardneu.libArdPlayHtml,
+	'libArdListMainMobile':           ( libArdListMainMobile, 'videos' ),
+	'libArdListChannelShows':         ( libArdListChannels, 'videos' ),
+	'libArdListChannelDates':         ( libArdListChannels, 'videos' ),
+	'libArdListChannelLivestreams':   ( libArdListChannels, 'videos' ),
+	'libArdListShowsByChannel':       ( libArdListShowsByChannel, 'videos' ),
+	'libArdListDateByChannel':        ( libArdListDateByChannel, 'videos' ),
+	'libArdListLivestreamsOfChannel': ( libArdListLivestreamsOfChannel, 'videos' ),
+	'libArdListShowVideosOfChannel':  ( libArdListShowVideosOfChannel, 'movies' ),
+	'libArdListDateVideosOfChannel':  ( libArdListDateVideosOfChannel, 'movies' ),
+	'libArdListSearch':               ( libArdListSearch, 'movies' ),
+	'libArdListShow':                 ( libArdListShow, 'movies' ),
+	'libArdPlay':                     ( libArdPlay, None ),
+	'libArdPlayHtml':                 ( libArdPlayHtml, None ),
 }
 
-playModes = ('libArdPlayClassic', 'libArdPlayHtml')
+playModes = ('libArdPlay', 'libArdPlayHtml')

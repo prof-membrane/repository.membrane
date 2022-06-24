@@ -26,7 +26,7 @@ def getHeader(Menu, tokenMenu = None, tokenPlayer = None):
 		header = { 'Api-Auth': 'Bearer ' + (tokenPlayer if tokenPlayer else libMediathek.f_open(libMediathek.pathUserdata('tokenPlayer'))) }
 	return header
 
-def parsePage(url, short = False):
+def parsePage(url):
 	response = getU(url,True)
 
 	j = json.loads(response)
@@ -35,7 +35,7 @@ def parsePage(url, short = False):
 	elif j['profile'] == 'http://zdf.de/rels/search/result-page':
 		return _parseSearchPage(j)
 	elif j['profile'] == 'http://zdf.de/rels/content/page-index':
-		return _parsePageIndex(j, short)
+		return _parsePageIndex(j)
 	elif j['profile'] == 'http://zdf.de/rels/content/page-index-teaser':
 		return _parseTeaser(j)
 	elif j['profile'] == 'http://zdf.de/rels/cmdm/resultpage-broadcasts':
@@ -82,11 +82,11 @@ def _parseSearchPage(j):
 	l.sort(key = lambda x: x['name'])
 	return l
 
-def _parsePageIndex(j, short = False):
+def _parsePageIndex(j):
 	l = []
-	for result in j['module'][0]['teaser'] if short else j['module'][0]['filterRef']['resultsWithVideo']['http://zdf.de/rels/search/results']:
-		target = result['target'] if short else result['http://zdf.de/rels/target']
-		d = _grepItem(target, short)
+	for result in j['module'][0]['filterRef']['resultsWithVideo']['http://zdf.de/rels/search/results']:
+		target = result['http://zdf.de/rels/target']
+		d = _grepItem(target)
 		if d:
 			d['_views'] = str(result.get('viewCount', None))
 			if not 'plot' in d:
@@ -110,18 +110,15 @@ def _parseBroadcast(j):
 				l.append(d)
 	return l
 
-def _grepItem(target, short = False):
+def _grepItem(target):
 	if target['profile'] == 'http://zdf.de/rels/not-found':
 		return False
 	if not ('contentType' in target):
 		return False
 	d = {}
-	if short:
-		d['name'] = target['title']
-	else:
-		d['name'] = target['teaserHeadline']
-		d['plot'] = target['teasertext']
-		d['thumb'] = _chooseImage(target.get('teaserImageRef', None))
+	d['name'] = target['teaserHeadline']
+	d['plot'] = target['teasertext']
+	d['thumb'] = _chooseImage(target.get('teaserImageRef', None))
 	#d['url'] = base + target['http://zdf.de/rels/brand']['http://zdf.de/rels/target']['canonical']
 	if target['contentType'] == 'brand' or target['contentType'] == 'category':
 		try:

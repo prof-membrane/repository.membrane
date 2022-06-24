@@ -1,3 +1,5 @@
+1.2.10
+- Umstellung auf neues Layout zur Anzeige der Videos
 1.2.9
 - Download-Funktionalität hinzugefügt
 1.2.8

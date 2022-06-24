@@ -59,11 +59,11 @@ def libWdrPlayJs():
 	return result
 
 modes = {
-	'libWdrListMain': libWdrListMain,
-	'libWdrListLetters': libWdrListLetters,
-	'libWdrListShows': libWdrListShows,
-	'libWdrListVideos': libWdrListVideos,
-	'libWdrListSearch': libWdrListSearch,
-	'libWdrPlay': libWdrPlay,
-	'libWdrPlayJs': libWdrPlayJs,
+	'libWdrListMain':   ( libWdrListMain, 'videos' ),
+	'libWdrListLetters':( libWdrListLetters, 'videos' ),
+	'libWdrListShows':  ( libWdrListShows, 'videos' ),
+	'libWdrListVideos': ( libWdrListVideos, 'movies' ),
+	'libWdrListSearch': ( libWdrListSearch, 'movies' ),
+	'libWdrPlay':       ( libWdrPlay, None ),
+	'libWdrPlayJs':     ( libWdrPlayJs, None ),
 }

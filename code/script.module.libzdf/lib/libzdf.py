@@ -55,11 +55,9 @@ def libZdfListMainClassic():
 	l = []
 	flavour = ' / Classic'
 	translation = libMediathek.getTranslation
-	# l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/meist-gesehen-100.json?profile=default'})
-	# l.append({'sort':'31031', '_name':translation(31031), 'mode':'libZdfListPage', '_type': 'dir', 'short': 'true', 'url':'https://api.zdf.de/content/documents/beliebte-filme-100.json?profile=default'})
 	l.append({'sort':'31032', '_name':translation(31032), 'mode':'libZdfListShows', '_type': 'dir'})
 	l.append({'sort':'31033'+flavour, '_name':translation(31033)+flavour, 'mode':'libZdfListChannel', '_type': 'dir'})
-	l.append({'sort':'31034'+flavour, '_name':translation(31034)+flavour, 'mode':'libZdfListPage', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
+	l.append({'sort':'31034'+flavour, '_name':translation(31034)+flavour, 'mode':'libZdfListRubrics', '_type': 'dir', 'url':'https://api.zdf.de/search/documents?q=%2A&contentTypes=category'})
 	l.append({'sort':'31039'+flavour, '_name':translation(31039)+flavour, 'mode':'libZdfSearch',   '_type': 'dir'})
 	return l
 
@@ -69,11 +67,11 @@ def libZdfListShows():
 	else:
 		return libZdfJsonParser.getAZ()
 
-def libZdfListPage():
-	return libZdfJsonParser.parsePage(params['url'], 'short' in params)
+def libZdfListRubrics():
+	return libZdfJsonParser.parsePage(params['url'])
 
-def libZdfListVideos():
-	return libZdfJsonParser.getVideos(params['url'])
+def libZdfListPage():
+	return libZdfJsonParser.parsePage(params['url'])
 
 def libZdfPlay():
 	result = libZdfJsonParser.getVideoUrl(params['url'])
@@ -125,17 +123,17 @@ def libZdfGetVideoHtml(url):
 	return libZdfJsonParser.getVideoUrl(re.compile('"contentUrl": "(.+?)"', re.DOTALL).findall(response)[0])
 
 modes = {
-	'libZdfListCombined':           libZdfListCombined,
-	'libZdfListMainClassic':        libZdfListMainClassic,
-	'libZdfListShows':              libZdfListShows,
-	'libZdfListVideos':             libZdfListVideos,
-	'libZdfListChannel':            libZdfListChannel,
-	'libZdfListChannelDate':        libZdfListChannelDate,
-	'libZdfListChannelDateVideos':  libZdfListChannelDateVideos,
-	'libZdfSearch':                 libZdfSearch,
-	'libZdfListPage':               libZdfListPage,
-	'libZdfPlay':                   libZdfPlay,
-	'libZdfPlayById':               libZdfPlayById,
+	'libZdfListCombined':         ( libZdfListCombined, 'videos' ),
+	'libZdfListMainClassic':      ( libZdfListMainClassic, 'videos' ),
+	'libZdfListShows':            ( libZdfListShows, 'videos' ),
+	'libZdfListChannel':          ( libZdfListChannel, 'videos' ),
+	'libZdfListChannelDate':      ( libZdfListChannelDate, 'videos' ),
+	'libZdfListChannelDateVideos':( libZdfListChannelDateVideos, 'movies' ),
+	'libZdfListRubrics':          ( libZdfListRubrics, 'videos' ),
+	'libZdfListPage':             ( libZdfListPage, 'movies' ),
+	'libZdfSearch':               ( libZdfSearch, 'movies' ),
+	'libZdfPlay':                 ( libZdfPlay, None ),
+	'libZdfPlayById':             ( libZdfPlayById, None ),
 }
 
 playModes = ('libZdfPlay', 'libZdfPlayById')

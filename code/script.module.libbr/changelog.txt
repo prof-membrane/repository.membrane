@@ -1,4 +1,6 @@
-﻿2.0.11
+﻿2.0.12
+- Umstellung auf neues Layout zur Anzeige der Videos
+2.0.11
 - Korrektur: Meistgesehen -> Neu
 2.0.10
 - Anzeige der Titel verbessert

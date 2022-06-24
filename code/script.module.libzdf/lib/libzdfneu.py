@@ -76,16 +76,16 @@ channels = (
 )
 
 modes = {
-	'libZdfListMainMobile':         libZdfListMainMobile,
-	'libZdfListChannelDates':       libZdfListChannelDates,
-	'libZdfListDateByChannel':      libZdfListDateByChannel,
-	'libZdfListDateVideosOfChannel':libZdfListDateVideosOfChannel,
-	'libZdfListLivestreams':        libZdfListLivestreams,
-	'libZdfListRubrics':            libZdfListRubrics,
-	'libZdfListCategory':           libZdfListCategory,
-	'libZdfListSearch':             libZdfListSearch,
-	'libZdfPlayLivestream':         libZdfPlayLivestream,
-	'libZdfPlayNeu':                libZdfPlayNeu,
+	'libZdfListMainMobile':         ( libZdfListMainMobile, 'videos' ),
+	'libZdfListChannelDates':       ( libZdfListChannelDates, 'videos' ),
+	'libZdfListDateByChannel':      ( libZdfListDateByChannel, 'videos' ),
+	'libZdfListDateVideosOfChannel':( libZdfListDateVideosOfChannel, 'movies' ),
+	'libZdfListLivestreams':        ( libZdfListLivestreams, 'videos' ),
+	'libZdfListRubrics':            ( libZdfListRubrics, 'videos' ),
+	'libZdfListCategory':           ( libZdfListCategory, 'movies' ),
+	'libZdfListSearch':             ( libZdfListSearch, 'movies' ),
+	'libZdfPlayLivestream':         ( libZdfPlayLivestream, None ),
+	'libZdfPlayNeu':                ( libZdfPlayNeu, None ),
 }
 
 playModes = ('libZdfPlayNeu', 'libZdfPlayLivestream')

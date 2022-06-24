@@ -1,4 +1,6 @@
-﻿2.1.24
+﻿2.1.25
+- Umstellung auf neues Layout zur Anzeige der Videos
+2.1.24
 - Meistgesehen funktioniert nicht mehr (HTTP-Error 410 - Gone)
 2.1.23
 - Rubriken/Classic funktioniert wieder

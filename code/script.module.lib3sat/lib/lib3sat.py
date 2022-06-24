@@ -72,11 +72,11 @@ def lib3satHtmlPlay(url = None):
 
 
 modes = {
-	'lib3satHtmlListMain': lib3satHtmlListMain,
-	'lib3satHtmlListLetters': lib3satHtmlListLetters,
-	'lib3satHtmlListDate': lib3satHtmlListDate,
-	'lib3satHtmlListDateVideos': lib3satHtmlListDateVideos,
-	'lib3satHtmlListShows': lib3satHtmlListShows,
-	'lib3satHtmlListSearch': lib3satHtmlListSearch,
-	'lib3satHtmlPlay': lib3satHtmlPlay,
+	'lib3satHtmlListMain':      ( lib3satHtmlListMain, 'videos' ),
+	'lib3satHtmlListLetters':   ( lib3satHtmlListLetters, 'videos' ),
+	'lib3satHtmlListDate':      ( lib3satHtmlListDate, 'videos' ),
+	'lib3satHtmlListDateVideos':( lib3satHtmlListDateVideos, 'movies' ),
+	'lib3satHtmlListShows':     ( lib3satHtmlListShows, 'movies' ),
+	'lib3satHtmlListSearch':    ( lib3satHtmlListSearch, 'movies' ),
+	'lib3satHtmlPlay':          ( lib3satHtmlPlay, None ),
 }

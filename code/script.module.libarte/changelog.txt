@@ -1,3 +1,5 @@
+1.0.26
+- Umstellung auf neues Layout zur Anzeige der Videos
 1.0.25
 - Bugfix: Einige Streams konnten nicht abgespielt werden
 1.0.23
