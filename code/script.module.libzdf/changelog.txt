@@ -1,4 +1,6 @@
-﻿2.1.25
+﻿2.1.26
+- Livestream-URLs werden gecached (analog ARD-Addon)
+2.1.25
 - Umstellung auf neues Layout zur Anzeige der Videos
 2.1.24
 - Meistgesehen funktioniert nicht mehr (HTTP-Error 410 - Gone)

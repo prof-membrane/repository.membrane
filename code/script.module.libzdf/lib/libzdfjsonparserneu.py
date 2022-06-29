@@ -4,6 +4,7 @@ import sys
 import json
 from datetime import date
 import libmediathek3 as libMediathek
+import libmediathek3utils as utils
 
 
 if sys.version_info[0] < 3: # for Python 2
@@ -58,6 +59,18 @@ def parseLivestreams():
 						d['thumb'] = thumb
 					d['mode'] = 'libZdfPlayLivestream'
 					result.append(d)
+	snapshot_file = 'livestream.json'
+	utils.f_mkdir(utils.pathUserdata(''))
+	if result:
+		utils.f_write(utils.pathUserdata(snapshot_file), json.dumps(result))
+	else:
+		try:
+			res = json.loads(utils.f_open(utils.pathUserdata(snapshot_file)))
+			for item in res:
+				item['name'] += ' (Snapshot)'
+			result = res 
+		except:
+			pass
 	return result
 
 
