@@ -4,6 +4,7 @@ import sys
 import json
 import re
 import libmediathek3 as libMediathek
+import libmediathek3utils as utils
 
 if sys.version_info[0] < 3: # for Python 2
 	from urllib import urlencode
@@ -11,7 +12,8 @@ else: # for Python 3
 	from urllib.parse import urlencode
 	from functools import reduce
 
-baseUrlJson = 'https://api.ardmediathek.de/public-gateway?'
+baseUrlJsonPageGateway = 'https://api.ardmediathek.de/public-gateway?'
+baseUrlJsonDirect = 'https://api.ardmediathek.de/page-gateway/pages/'
 baseUrlHtml = 'https://www.ardmediathek.de/video/'
 
 keyOperationName = 'operationName'
@@ -31,14 +33,21 @@ def deep_get(dictionary, keys, default=None):
 
 def parseLivestreams(partnerKey, clientKey):
 	pageIndex = pageIndexLivestreamPage
-	variables = '{"client":"%s","name":"home","personalized":false}'
-	sha256Hash = '9995d49ccbd97dfb67357e9e3505e4f022e405d0ad23fc3d21dd36c2e2de7bb8'
-	queryParams = {}
-	queryParams[keyOperationName] = pageNames[pageIndex]
-	queryParams[keyVariables] = variables % clientKey
-	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJson + urlencode(queryParams)
-	return parse(pageIndex, url, partnerKey)
+	url = baseUrlJsonDirect + clientKey + '/home'
+	result = parse(pageIndex, url, partnerKey)
+	snapshot_file = 'livestream.' + (partnerKey if partnerKey else clientKey) +'.json'
+	utils.f_mkdir(utils.pathUserdata(''))
+	if result:
+		utils.f_write(utils.pathUserdata(snapshot_file), json.dumps(result))
+	else:
+		try:
+			res = json.loads(utils.f_open(utils.pathUserdata(snapshot_file)))
+			for item in res:
+				item['name'] += ' (Snapshot)'
+			result = res 
+		except:
+			pass
+	return result
 
 def parseAZ(clientKey, letter):
 	pageIndex = pageIndexAZPage
@@ -48,7 +57,7 @@ def parseAZ(clientKey, letter):
 	queryParams[keyOperationName] = pageNames[pageIndex]
 	queryParams[keyVariables] = variables % clientKey
 	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJson + urlencode(queryParams)
+	url = baseUrlJsonPageGateway + urlencode(queryParams)
 	return parseLetter(pageIndex, url, letter)
 
 def parseShow(showId):
@@ -59,7 +68,7 @@ def parseShow(showId):
 	queryParams[keyOperationName] = pageNames[pageIndex]
 	queryParams[keyVariables] = variables % showId
 	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJson + urlencode(queryParams)
+	url = baseUrlJsonPageGateway + urlencode(queryParams)
 	return parse(pageIndex, url)
 
 def parseDate(partnerKey, clientKey, date):
@@ -70,7 +79,7 @@ def parseDate(partnerKey, clientKey, date):
 	queryParams[keyOperationName] = pageNames[pageIndex]
 	queryParams[keyVariables] = variables % (clientKey, date) # date = YYYY-MM-DD
 	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJson + urlencode(queryParams)
+	url = baseUrlJsonPageGateway + urlencode(queryParams)
 	channelKey = clientKey if partnerKey else None
 	return parse(pageIndex, url, partnerKey, channelKey)
 
@@ -211,60 +220,61 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None):
 	result = []
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
-	data = j.get('data',None)
-	if data:
-		page = data.get(pageNames[pageIndex],None)
-		if page:
-			widgets = [page] if pageIndex == pageIndexShowPage else page.get('widgets',[])
-			for widget in widgets:
-				if (channelKey is None) or (channelKey == widget.get('channelKey',None)):
-					teasers = widget.get('teasers',None)
-					if teasers:
-						for teaser in teasers:
-							if teaser:
-								type = teaser['type']
-								publicationService = teaser.get('publicationService',None)
-								if (
-								 	type in ('live','ondemand','broadcastMainClip','show')
-								 	and
-									(type == 'live') == (pageIndex == pageIndexLivestreamPage)
-									and
-									((partnerKey is None) or (publicationService and (partnerKey == publicationService.get('partner',None))))
-								):
-									documentId = deep_get(teaser, 'links.target.id')
-									name = teaser['shortTitle']
-									if documentId and name:
-										d = {}
-										d['documentId'] = documentId
-										d['url'] = deep_get(teaser, 'links.target.href')
-										d['name'] = name
-										d['plot'] = teaser.get('longTitle',None)
-										if (pageIndex == pageIndexProgramPage) and (partnerKey is None) and publicationService:
-											d['name'] = d['name'] + ' | [COLOR blue]' + publicationService['name'] + '[/COLOR]'
-										duration = teaser.get('duration', None)
-										if duration:
-											d['_duration'] = str(duration)
-										thumb = deep_get(teaser, 'images.aspect16x9.src')
-										if not thumb:
-											thumb = deep_get(teaser, 'images.aspect1x1.src')
-										if not thumb:
-											thumb = deep_get(teaser, 'images.aspect16x7.src')
-										if thumb:
-											d['thumb'] = (thumb.split('?')[0]).replace('{width}','1024')
-										if type == 'show':
-											d['_type'] = 'dir'
-											d['mode'] = 'libArdListShow'
+	if url.startswith(baseUrlJsonPageGateway):
+		page = j.get('data',{}).get(pageNames[pageIndex],None)
+	else:
+		page = j
+	if page:
+		widgets = [page] if pageIndex == pageIndexShowPage else page.get('widgets',[])
+		for widget in widgets:
+			if (channelKey is None) or (channelKey == widget.get('channelKey',None)):
+				teasers = widget.get('teasers',None)
+				if teasers:
+					for teaser in teasers:
+						if teaser:
+							type = teaser['type']
+							publicationService = teaser.get('publicationService',None)
+							if (
+							 	type in ('live','ondemand','broadcastMainClip','show')
+							 	and
+								(type == 'live') == (pageIndex == pageIndexLivestreamPage)
+								and
+								((partnerKey is None) or (publicationService and (partnerKey == publicationService.get('partner',None))))
+							):
+								documentId = deep_get(teaser, 'links.target.id')
+								name = teaser['shortTitle']
+								if documentId and name:
+									d = {}
+									d['documentId'] = documentId
+									d['url'] = deep_get(teaser, 'links.target.href')
+									d['name'] = name
+									d['plot'] = teaser.get('longTitle',None)
+									if (pageIndex == pageIndexProgramPage) and (partnerKey is None) and publicationService:
+										d['name'] = d['name'] + ' | [COLOR blue]' + publicationService['name'] + '[/COLOR]'
+									duration = teaser.get('duration', None)
+									if duration:
+										d['_duration'] = str(duration)
+									thumb = deep_get(teaser, 'images.aspect16x9.src')
+									if not thumb:
+										thumb = deep_get(teaser, 'images.aspect1x1.src')
+									if not thumb:
+										thumb = deep_get(teaser, 'images.aspect16x7.src')
+									if thumb:
+										d['thumb'] = (thumb.split('?')[0]).replace('{width}','1024')
+									if type == 'show':
+										d['_type'] = 'dir'
+										d['mode'] = 'libArdListShow'
+									else:
+										if pageIndex == pageIndexProgramPage:
+											d['_airedISO8601'] = teaser.get('broadcastedOn', None)
+										if pageIndex == pageIndexLivestreamPage:
+											d['_type'] = 'live'
+										elif pageIndex == pageIndexProgramPage:
+											d['_type'] = 'date'
 										else:
-											if pageIndex == pageIndexProgramPage:
-												d['_airedISO8601'] = teaser.get('broadcastedOn', None)
-											if pageIndex == pageIndexLivestreamPage:
-												d['_type'] = 'live'
-											elif pageIndex == pageIndexProgramPage:
-												d['_type'] = 'date'
-											else:
-												d['_type'] = 'video'
-											d['mode'] = 'libArdPlay'
-										result.append(d)
+											d['_type'] = 'video'
+										d['mode'] = 'libArdPlay'
+									result.append(d)
 	# "Alle Sender nach Datum" ist nicht sinnvoll vorsortiert
 	if pageIndex == pageIndexProgramPage and partnerKey is None:
 		result.sort(key = lambda x: x.get('_airedISO8601',None))
