@@ -178,14 +178,18 @@ def getVideoUrlHtml(url):
 		json_str = split[1]
 		json_str = json_str.split('</script>')[0];
 		j = json.loads(json_str)
-		for item in j.values():
-			widgets = item.get('widgets',None)
-			if widgets:
-				for widget in widgets:
-					if widget.get('type',None) == 'player_ondemand':
-						mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
-						if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
-							return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
+		if isinstance(j, list):
+			for listitem_outerlist in j:
+				if isinstance(listitem_outerlist, list):
+					for listitem_innerlist in listitem_outerlist:
+						if isinstance(listitem_innerlist, dict):
+							widgets = deep_get(listitem_innerlist, 'data.widgets')
+							if widgets and isinstance(widgets, list):
+								for widget in widgets:
+									if widget.get('type',None) == 'player_ondemand':
+										mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
+										if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
+											return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
 def extractBestQuality(streams, fnGetFinalUrl):
