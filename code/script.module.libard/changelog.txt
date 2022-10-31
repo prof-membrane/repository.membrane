@@ -1,3 +1,5 @@
+5.1.39
+- Wiedergabe und Download über die Suche funktioniert wieder
 5.1.38
 - Wiedergabe und Download über die Suche funktioniert wieder
 5.1.37

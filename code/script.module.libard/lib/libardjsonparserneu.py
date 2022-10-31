@@ -187,23 +187,23 @@ def getVideoUrlHtml(url):
 							if widgets and isinstance(widgets, list):
 								for widget in widgets:
 									if widget.get('type',None) == 'player_ondemand':
-										mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
+										mediaCollection = deep_get(widget, 'mediaCollection.embedded.streams')
 										if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
-											return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
+											return extractBestQuality(mediaCollection[0].get('media',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
 def extractBestQuality(streams, fnGetFinalUrl):
 	media = []
 	for item in streams:
 		if isinstance(item,dict) and (item.get('__typename','MediaStreamArray') == 'MediaStreamArray'):
-			stream = item.get('_stream',None)
+			stream = item.get('url',None)
 			if stream:
 				url = fnGetFinalUrl(stream)
 				if url:
 					if url.startswith('//'):
 						url = 'https:' + url
-					quality = item.get('_quality',-1);
-					if quality == 'auto':
+					quality = item.get('maxHResolutionPx',-1);
+					if item.get('isAdaptiveQualitySelectable',False):
 						media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
 					elif url[-4:].lower() == '.mp4':
 						try:
