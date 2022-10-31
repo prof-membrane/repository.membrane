@@ -197,13 +197,17 @@ def extractBestQuality(streams, fnGetFinalUrl):
 	for item in streams:
 		if isinstance(item,dict) and (item.get('__typename','MediaStreamArray') == 'MediaStreamArray'):
 			stream = item.get('url',None)
+			if not stream:
+				stream = item.get('_stream',None)
 			if stream:
 				url = fnGetFinalUrl(stream)
 				if url:
 					if url.startswith('//'):
 						url = 'https:' + url
 					quality = item.get('maxHResolutionPx',-1);
-					if item.get('isAdaptiveQualitySelectable',False):
+					if quality == -1:
+						quality = item.get('_quality',-1);
+					if (quality == 'auto') or item.get('isAdaptiveQualitySelectable',False):
 						media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
 					elif url[-4:].lower() == '.mp4':
 						try:
