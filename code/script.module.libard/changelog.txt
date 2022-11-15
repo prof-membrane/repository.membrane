@@ -1,0 +1,127 @@
+5.1.40
+- Sendungen nach A-Z funktioniert wieder
+5.1.39
+- Wiedergabe und Download über die Suche funktioniert wieder
+5.1.38
+- Wiedergabe und Download über die Suche funktioniert wieder
+5.1.37
+- Livestream "Das Erste" und andere funktionieren wieder
+5.1.36
+- Umstellung auf neues Layout zur Anzeige der Videos
+5.1.35
+- Classic-Mediathek z.Zt. nicht funktionsfähig
+5.1.34
+- Livestream "Das Erste" funktioniert wieder
+5.1.33
+- Suche in der ARD Mediathek funktioniert wieder
+5.1.32
+- Schönheitskorrektur
+5.1.31
+- Mobile-Version der ARD Mediathek wieder funktionsfähig
+5.1.30
+- Kompatibilität mit Python3 wiederhergestellt
+5.1.29
+- Suche in der ARD Mediathek funktioniert wieder
+5.1.28
+- Zusammenführung der Classic- und der Mobile-Version der ARD Mediathek
+5.1.27
+- Bugfix: nicht alle Livestreams der neuen ARD-Mediathek funktionierten
+5.1.26
+- Base-URL für Videos aus der Suchfunktion hat sich geändert
+5.1.25
+- Suche funktioniert jetzt auch mit Umlauten
+5.1.24
+- Suche funktioniert wieder
+5.1.23
+- Exception "inconsistent use of tabs and spaces in indentation" behoben
+5.1.22
+- Kleinere Schönheitskorrekturen
+5.1.21
+- Code vereinfacht
+5.1.20
+- Die Streaming-URLs wurden fälschlicherweise in Kleinbuchstaben umgewandelt
+5.1.19
+- Schönheitskorrektur
+5.1.18
+- Download-Funktionalität hinzugefügt
+5.1.17
+- Schönheitskorrektur bei "Sendungen nach Datum" / "Alle Sender"
+5.1.16
+- Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"
+5.1.15
+- Sendungs-Untertitel funktionieren jetzt auch in der neuen ARD-Mediathek
+- Sendungen nach A-Z glattgezogen
+- Livestreams glattgezogen
+5.1.14
+- Implementierung "Neue ARD-Mediathek"
+5.1.13
+- Versionsnummer nochmals korrigiert
+5.1.12
+- Umlautproblem behoben: htmlParser.unescape() akzeptiert nur ASCII-Strings
+- Vorbereitung für neue ARD-Mediathek
+5.1.11
+- Sendersortierung korrigiert
+- Funktionen list() und getMetadata() zentralisiert
+5.1.8
+- Sendungen nach A-Z funktioniert wieder
+5.1.7
+- Suche ist wieder verfügbar
+5.1.6
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Menüpunkte "Neu" und "Meistgesehen" entfernt
+- Thumbnail funktioniert wieder
+- Kleinere Anpassungen für Python3
+5.1.5
+- Bugfix: Es wurde nicht immer der Stream mit der besten Qualität verwendet
+5.1.4
+- Sendungen nach Datum: wg. fehlerhafter URL waren die Tage verschoben
+5.1.3
+- Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
+5.1.2
+- Qualitätsverbesserungen
+5.1.1
+- Disabled inputstream.adaptive for WDR streams
+5.1.0
+- Version bump
+1.1.0
+- Fetching videos from JSON interface
+- Code cleanup
+1.0.1
+- Removed xbmc* dependencies
+1.0.0
+- Code cleanup
+0.4.3
+- Code cleanup
+0.4.2
+- Improved date view
+0.4.1
+- Added "Next page" function
+- Fetching "By date" from the JSON API now
+- Removed search for now
+0.4.0
+- Renamed to libard
+- Moved to libmediathek3
+- Misc improvements
+0.3.4
+- Fixed "New" section
+0.3.3
+- Improved thumbnail support
+- Using a resolution of 1920x1080 for TV shows
+- Using a resolution of 384x216 for episodes
+0.3.2
+- Improved PVR support
+0.3.1
+- Misc fixes
+0.3.0
+- Added EM 2016 Special
+- Improved lots functions
+0.2.3
+- Added support for FSK ratings
+- Improved tags for subtitles
+- Improved tags for hearing impeded versions
+0.2.2
+- Added accumulative lists
+- Added dir caching function
+0.2.1
+- Prevent unwanted enties to show up

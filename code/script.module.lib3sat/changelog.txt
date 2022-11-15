@@ -1,0 +1,49 @@
+1.2.10
+- Umstellung auf neues Layout zur Anzeige der Videos
+1.2.9
+- Download-Funktionalität hinzugefügt
+1.2.8
+- Vereinheitlichung der Listeneinträge bei "Sendungen nach Datum"
+- Code entflochten
+1.2.7
+- Code vereinfacht
+1.2.6
+- Abhängigkeit zu mediathekxmlservice entfernt
+1.2.5
+- Beim Hinzufügen zu Favoriten gingen die Metadaten verloren
+- Kleinere Anpassungen für Python3
+1.2.4
+- Performance-Verbesserungen, Umstellung von BeautifulSoup3 auf BeautifulSoup4
+1.2.3
+- Neuprogrammierung, Umstellung vom XML-Service auf die HTML-Mediathek
+1.2.2
+- Behoben: Abbruch der Suche lieferte eine leere Trefferliste
+1.2.1
+- Liste "Sendungen nach Datum" : "Datum aussuchen" enfernt
+- Liste "Sendungen nach Datum" : Datum zusätzlich zum Wochentag
+1.2.0
+- Version bump
+1.1.0
+- Misc improvements
+1.0.1
+- Removed xbmc* dependencies
+1.0.0
+- Added Krypton workaround for searches
+0.2.5
+- Code cleanup
+0.2.4
+- Fixed search
+0.2.3
+- Small fixes
+0.2.2
+- Improved date search
+- Small fixes
+0.2.1
+- Switched to new libMediathek infrastructure
+0.2.0
+- Search added
+0.1.0
+- Added the usual categories
+- Switched to the xmlservice interface
+0.0.1
+- Initial release

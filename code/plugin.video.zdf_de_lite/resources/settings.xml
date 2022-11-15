@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32000">
+        <!-- setting id="use_mobile" type="bool" label="32001" default="false" /-->
+        <!-- setting id="use_mobile_prev_value" visible="false" type="bool" label="hidden" default="false" /-->
+        <!-- setting id="show_hint_mobile" visible="false" type="bool" label="32002" default="true" /-->
+        <setting id="ignore_adaptive" visible="true" type="bool" label="32003" default="false" />
+        <setting label="32010" type="lsep"/>
+        <setting id="download_dir" type="folder" label="32011" option="writeable" source="" default=""/>
+    </category>
+</settings>

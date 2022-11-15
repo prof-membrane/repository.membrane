@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.6" provider-name="68000a">
+    <requires>
+        <import addon="xbmc.python" version="2.25.0"/>
+        <import addon="script.module.libzdf" version="2.1.22" provider-name="68000a"/>
+    </requires>
+    <extension point="xbmc.python.pluginsource" library="default.py">
+        <provides>video</provides>
+    </extension>
+    <extension point="xbmc.addon.metadata">
+        <platform>all</platform>
+        <language>de</language>
+        <license>GNU GENERAL PUBLIC LICENSE. Version 2, June 1991</license>
+        <source>https://github.com/68000a/Gigathek/tree/master/code/plugin.video.zdf_de_lite</source>
+        <summary lang="en">Watch videos on demand from the ZDF Mediathek.</summary>
+        <description lang="en">Watch videos on demand from the ZDF Mediathek.</description>
+        <summary lang="de">Videos aus der Mediathek des ZDF</summary>
+        <description lang="de">Dieses Add-on bietet Zugriff auf die Inhalte der ZDF Mediathek. Vergangene Serien, Filme und Nachrichten der Sender ZDF, ZDF Info und ZDF Neo können hier abgerufen werden.</description>
+        <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
+        <assets>
+            <icon>icon.png</icon>
+            <fanart>fanart.png</fanart>
+        </assets>
+    </extension>
+</addon>

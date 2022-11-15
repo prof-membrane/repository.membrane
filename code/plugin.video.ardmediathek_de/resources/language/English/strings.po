@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+
+msgctxt "#32000"
+msgid "General"
+msgstr "General"
+
+msgctxt "#32001"
+msgid "Use classic version of ARD media library"
+msgstr "Use classic version of ARD media library"
+
+msgctxt "#32002"
+msgid "Show hint on classic version at start"
+msgstr "Show hint on classic version at start"
+
+msgctxt "#32003"
+msgid "Ignore adaptive streams if possible"
+msgstr "Ignore adaptive streams if possible"
+
+msgctxt "#32010"
+msgid "Download settings"
+msgstr "Download settings"
+
+msgctxt "#32011"
+msgid "Download directory"
+msgstr "Download directory"
+
+
+msgctxt "#32100"
+msgid "This addon has been converted to the new ARD media library. Usage of the classic version can be defined in the addon settings."
+msgstr "This addon has been converted to the new ARD media library. Usage of the classic version can be defined in the addon settings."
+
+msgctxt "#32101"
+msgid "Restart because of changed settings"
+msgstr "Restart because of changed settings"

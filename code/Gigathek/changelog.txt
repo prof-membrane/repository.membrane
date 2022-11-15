@@ -1,0 +1,10 @@
+[B]Version 1.0.18.1[/B]
+- Minimum Kodi version for Matrix repo set to 18.10.0
+[B]Version 1.0.18[/B]
+- Multi-Version Repo 1.0.18
+[B]Version 1.0.17[/B]
+- Krypton/Leia Version renamed to 1.0.17
+[B]Version 1.0.1[/B]
+- Matrix Support
+[B]Version 1.0.0[/B]
+- 68000a Github release (forked from https://github.com/prof-membrane/repository.membrane)
