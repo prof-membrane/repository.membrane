@@ -199,13 +199,14 @@ def parseDate(day,channel):
 	j = json.loads(response)
 	l = []
 	for epg in j['data']['viewer']['allLivestreams']['edges'][0]['node']['epg']:
-		broadcastEvent = epg['broadcastEvent']
-		publicationOf = broadcastEvent.get('publicationOf', None)
-		if publicationOf and publicationOf['essences']['edges']:
-			d = _buildVideoDict(publicationOf)
-			d['_airedISO8601'] = broadcastEvent['start']
-			d['_type'] = 'date'
-			l.append(d)
+		broadcastEvent = epg.get('broadcastEvent',None)
+		if broadcastEvent:
+			publicationOf = broadcastEvent.get('publicationOf', None)
+			if publicationOf and publicationOf['essences']['edges']:
+				d = _buildVideoDict(publicationOf)
+				d['_airedISO8601'] = broadcastEvent['start']
+				d['_type'] = 'date'
+				l.append(d)
 	return l
 
 def parseSearch(term):

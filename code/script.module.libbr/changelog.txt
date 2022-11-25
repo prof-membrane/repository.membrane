@@ -1,4 +1,6 @@
-﻿2.0.13
+﻿2.0.14
+- Weitere sporadische Exception bei "Sendungen nach Datum" behoben
+2.0.13
 - Sporadische Exception bei "Sendungen nach Datum" behoben
 2.0.12
 - Umstellung auf neues Layout zur Anzeige der Videos
