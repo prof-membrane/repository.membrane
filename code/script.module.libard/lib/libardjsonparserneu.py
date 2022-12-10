@@ -208,7 +208,7 @@ def extractBestQuality(streams, fnGetFinalUrl):
 					if quality == -1:
 						quality = item.get('_quality',-1);
 					if (quality == 'auto') or item.get('isAdaptiveQualitySelectable',False):
-						media.insert(0,{'url':url, 'type':'video', 'stream':'hls'})
+						media.insert(0,{'url':url.replace("index.m3u8", "master.m3u8"), 'type':'video', 'stream':'hls'})
 					elif url[-4:].lower() == '.mp4':
 						try:
 							quality = int(quality)
