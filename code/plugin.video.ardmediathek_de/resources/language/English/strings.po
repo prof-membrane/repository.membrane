@@ -28,6 +28,13 @@ msgctxt "#32011"
 msgid "Download directory"
 msgstr "Download directory"
 
+msgctxt "#32012"
+msgid "Broadcast date"
+msgstr "Broadcast date"
+
+msgctxt "#32013"
+msgid "Available to"
+msgstr "Available to"
 
 msgctxt "#32100"
 msgid "This addon has been converted to the new ARD media library. Usage of the classic version can be defined in the addon settings."

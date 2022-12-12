@@ -5,12 +5,15 @@ import json
 import re
 import libmediathek3 as libMediathek
 import libmediathek3utils as utils
+import xbmcaddon
 
 if sys.version_info[0] < 3: # for Python 2
 	from urllib import urlencode
 else: # for Python 3
 	from urllib.parse import urlencode
 	from functools import reduce
+
+addon = xbmcaddon.Addon()
 
 baseUrlJsonPageGateway = 'https://api.ardmediathek.de/public-gateway?'
 baseUrlJsonDirect = 'https://api.ardmediathek.de/page-gateway/pages/'
@@ -49,10 +52,10 @@ def parseLivestreams(partnerKey, clientKey):
 			pass
 	return result
 
-def parseAZ(clientKey, letter):
+def parseAZ(partnerKey, clientKey, letter):
 	pageIndex = pageIndexAZPage
 	url = baseUrlJsonDirect + clientKey + '/editorial/experiment-a-z'
-	return parse(pageIndex, url, None, None, letter)
+	return parse(pageIndex, url, partnerKey, None, letter)
 
 def parseShow(showId):
 	pageIndex = pageIndexShowPage
@@ -97,14 +100,18 @@ def parseSearchAPI(search_string):
 					d['documentId'] = id
 					d['url'] = baseUrlHtml + id
 					d['duration'] = str(item.get('duration',None))
-					d['name'] = name
+					d['name'] = deep_get(item, 'show.title')
+					if d['name']:
+						d['name'] = d['name'] + ' | ' + name
+					else:
+						d['name'] = name
 					d['plot'] = item.get('longTitle',None)
-					d['date'] = item.get('availableTo',None)
-					if d['date']:
-						d['plot'] = '[COLOR blue]Abrufbar bis ' + libMediathek.str_to_airedtime(d['date']).strftime('%d.%m.%Y') + ' | [/COLOR]' + d.get('plot','')
-					d['date'] = item.get('broadcastedOn',None)
-					if d['date']:
-						d['plot'] = '[COLOR blue]Sendedatum ' + libMediathek.str_to_airedtime(d['date']).strftime('%d.%m.%Y') + ' | [/COLOR]' + d.get('plot','')
+					availableTo = item.get('availableTo',None)
+					if availableTo:
+						d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32013) + ' ' + libMediathek.str_to_airedtime(availableTo).strftime('%d.%m.%Y')  + ' | [/COLOR]' + d.get('plot','')
+					broadcastedOn = item.get('broadcastedOn',None)
+					if broadcastedOn:
+						d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32012) + ' ' + libMediathek.str_to_airedtime(broadcastedOn).strftime('%d.%m.%Y')  + ' | [/COLOR]' + d.get('plot','')
 					thumb_id = '$Teaser:' + id
 					thumb_item = deep_get(item, 'images.aspect16x9')
 					if not thumb_item:
@@ -270,6 +277,13 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 								d['plot'] = teaser.get('longTitle',None)
 								if d['plot'] == name and page.get('synopsis', None):
 									d['plot'] = page['synopsis']
+								if pageIndex != pageIndexProgramPage:
+									availableTo = teaser.get('availableTo',None)
+									if availableTo and pageIndex != pageIndexLivestreamPage:
+										d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32013) + ' ' + libMediathek.str_to_airedtime(availableTo).strftime('%d.%m.%Y')  + ' | [/COLOR]' + d.get('plot','')
+									broadcastedOn = teaser.get('broadcastedOn',None)
+									if broadcastedOn and pageIndex != pageIndexLivestreamPage:
+										d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32012) + ' ' + libMediathek.str_to_airedtime(broadcastedOn).strftime('%d.%m.%Y')  + ' | [/COLOR]' + d.get('plot','')
 								if (pageIndex in (pageIndexAZPage, pageIndexProgramPage)) and (partnerKey is None) and publicationService:
 									d['name'] = d['name'] + ' | [COLOR blue]' + publicationService['name'] + '[/COLOR]'
 								duration = teaser.get('duration', None)

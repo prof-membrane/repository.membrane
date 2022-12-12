@@ -38,7 +38,7 @@ def libArdListChannels():
 	return l
 
 def libArdListShowsByChannel():
-	return libMediathek.populateDirAZ('libArdListShowVideosOfChannel', [], params['channel'])
+	return libMediathek.populateDirAZ('libArdListShowVideosOfChannel', ['#'], params['channel'])
 
 def libArdListDateByChannel():
 	return libMediathek.populateDirDate('libArdListDateVideosOfChannel', params['channel'])
@@ -51,10 +51,9 @@ def libArdListLivestreamsOfChannel():
 
 def libArdListShowVideosOfChannel():
 	channel = channels[int(params['channel'])]
+	partnerKey = channel[2]
 	letter = params['name'].upper()
-	if letter == '#':
-		letter = '09'
-	return libArdJsonParserNeu.parseAZ(channel[3], letter)
+	return libArdJsonParserNeu.parseAZ(partnerKey, channel[3], letter)
 
 def libArdListDateVideosOfChannel():
 	channel = channels[int(params['channel'])]
