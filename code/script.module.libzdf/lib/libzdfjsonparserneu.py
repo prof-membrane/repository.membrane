@@ -5,6 +5,7 @@ import json
 from datetime import date
 import libmediathek3 as libMediathek
 import libmediathek3utils as utils
+import xbmcaddon
 
 
 if sys.version_info[0] < 3: # for Python 2
@@ -13,6 +14,7 @@ else: # for Python 3
 	from urllib.parse import urlencode
 	from functools import reduce
 
+addon = xbmcaddon.Addon()
 baseUrlJson = 'https://zdf-cdn.live.cellular.de/mediathekV2/'
 
 
@@ -132,7 +134,14 @@ def parse(url, channel, clusterkey, isSearch = False):
 							d['plot'] = item.get('headline','')
 							if d['plot']:
 								d['plot'] = '[B]' + d['plot'] + '[/B][CR]'
-							d['plot'] = d['plot'] + item.get('beschreibung',None)
+							d['plot'] = d['plot'] + item.get('beschreibung','')
+							availableTo = item.get('timetolive',None)
+							if availableTo:
+								d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32013) + ' ' + availableTo.split()[0]  + ' | [/COLOR]' + d.get('plot','')
+							if channel == '':
+								broadcastedOn = item.get('airtime',None)
+								if broadcastedOn:
+									d['plot'] = '[COLOR blue]' + addon.getLocalizedString(32012) + ' ' + broadcastedOn.split()[0]  + ' | [/COLOR]' + d.get('plot','')
 							duration = item.get('length', None)
 							if duration:
 								d['_duration'] = str(duration)

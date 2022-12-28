@@ -28,6 +28,13 @@ msgctxt "#32011"
 msgid "Download directory"
 msgstr "Download directory"
 
+msgctxt "#32012"
+msgid "Broadcast date"
+msgstr "Broadcast date"
+
+msgctxt "#32013"
+msgid "Available to"
+msgstr "Available to"
 
 msgctxt "#32100"
 msgid "Usage of the mobile version can be defined in the addon settings."
