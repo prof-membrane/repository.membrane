@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.kikamediathek" name="KiKa Mediathek" version="2.0.6" provider-name="68000a">
+<addon id="plugin.video.kikamediathek" name="KiKa Mediathek" version="2.0.7" provider-name="68000a">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
-        <import addon="script.module.libkika" version="2.0.7" provider-name="68000a"/>
+        <import addon="script.module.libkika" version="2.0.8" provider-name="68000a"/>
     </requires>
     <extension point="xbmc.python.pluginsource" library="default.py">
         <provides>video</provides>
@@ -19,7 +19,7 @@
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
         <assets>
             <icon>icon.png</icon>
-            <fanart>fanart.png</fanart>
+            <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
 </addon>

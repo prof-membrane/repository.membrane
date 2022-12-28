@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.7" provider-name="68000a">
+<addon id="plugin.video.zdf_de_lite" name="ZDF Mediathek" version="4.1.8" provider-name="68000a">
     <requires>
         <import addon="xbmc.python" version="2.25.0"/>
         <import addon="script.module.libzdf" version="2.1.27" provider-name="68000a"/>
@@ -19,7 +19,7 @@
         <disclaimer lang="de">Dieses Add-on wird von keiner Sendeanstalt unterstützt und ist daher inoffiziell.</disclaimer>
         <assets>
             <icon>icon.png</icon>
-            <fanart>fanart.png</fanart>
+            <fanart>fanart.jpg</fanart>
         </assets>
     </extension>
 </addon>
