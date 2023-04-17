@@ -58,8 +58,8 @@ def libBrListSection():
 
 def libBrListChannel():
 	l = []
-	l.append({'_name':'ARD-Alpha', 'mode':'libBrListChannelDate','channel':'ARD_alpha', '_type':'dir'})
 	l.append({'_name':'BR', 'mode':'libBrListChannelDate','channel':'BR_Fernsehen', '_type':'dir'})
+	l.append({'_name':'ARD-Alpha', 'mode':'libBrListChannelDate','channel':'ARD_alpha', '_type':'dir'})
 	return l
 
 def libBrListChannelDate():
