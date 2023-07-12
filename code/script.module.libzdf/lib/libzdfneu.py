@@ -52,7 +52,9 @@ def libZdfListSearch():
 		return None
 
 def libZdfPlayLivestream():
-	return dict (media = [{'url':params['url'], 'type':'video', 'stream':params['stream']}])
+	result = dict (media = [{'url':params['url'], 'type':'video', 'stream':params['stream']}])
+	result = libMediathek.getMetadata(result)
+	return result
 
 def libZdfPlayNeu():
 	result = libZdfJsonParserNeu.parseVideo(params['url'])

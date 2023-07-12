@@ -60,6 +60,7 @@ def parseLivestreams():
 					if thumb:
 						d['thumb'] = thumb
 					d['mode'] = 'libZdfPlayLivestream'
+					d['live'] = 'true'
 					result.append(d)
 	snapshot_file = 'livestream.json'
 	utils.f_mkdir(utils.pathUserdata(''))

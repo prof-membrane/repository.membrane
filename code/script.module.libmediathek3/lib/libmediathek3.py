@@ -63,6 +63,7 @@ def _chooseBitrate(l, force_MP4 = False):
 
 	return listitem,url
 
+
 def play(d,external=None,download_dir=None):
 	"""
 	if 'lang' in d['media'][0]:
@@ -166,3 +167,61 @@ def play(d,external=None,download_dir=None):
 	else:
 		pluginhandle = int(sys.argv[1])
 		xbmcplugin.setResolvedUrl(pluginhandle, True, listitem)
+		if ('metadata' in d) and (d['metadata'].get('live', None) == 'true'):
+			from threading import Thread
+			bg_thread = Thread (target = ShowSeekPos, args = (xbmc.Player(), url))
+			bg_thread.start()
+
+
+def ShowSeekPos(player, url):
+	monitor = xbmc.Monitor()
+	icon = ""									# -> Kodi's i-Symbol
+	now = time.mktime(datetime.now().timetuple())	# Unix-Format 1489094334.0
+	now_dt = datetime.fromtimestamp(int(now))
+	StartTime = now_dt.strftime("%H:%M:%S")
+
+	# Maximal 10 Sekunden bis sich der Player initialisiert hat (Raspi, empirisch)
+	i = 0
+	TotalTime = 0
+	while not monitor.waitForAbort(1) and i < 10:
+		xbmc.sleep(100)
+		if player.isPlaying():
+			TotalTime = int(player.getTotalTime())	# sec, float -> int, max. Puffergröße
+			if TotalTime:
+				break
+		i += 1
+
+	if not TotalTime:
+		return
+
+	LastSeek = int(player.getTime())			# Basis-Wert für akt. Uhrzeit
+	LastBufTime = now_dt						# für sync errors
+
+	while not monitor.waitForAbort(1):
+		xbmc.sleep(100)
+		if player.isPlaying():
+			try:
+				play_time = player.getTime()	# akt. Pos im Puffer (0=Pufferstart)
+			except:
+				play_time = LastSeek
+
+			p = int(play_time)
+
+			# regelm. Schwankung bei Livestreams 6-10 (empirisch):
+			if abs(LastSeek-p) > 10:			# rückwärts/vorwärts im Puffer
+				pos_sec = TotalTime - p			# je kleiner p desto größer der Zeitabzug
+				now = time.mktime(datetime.now().timetuple()) # Unix-Format 1489094334.0
+				time_sec = int(now) - pos_sec	# Pos-Sekunden von akt. Zeit abziehen
+				new_dt = datetime.fromtimestamp(time_sec)
+				t_string = new_dt.strftime("%H:%M:%S")
+
+				if LastBufTime != new_dt:		# skip_sync_error
+					LastBufTime = new_dt
+					xbmcgui.Dialog().notification(t_string, "Livestream-Position", icon, 5000, sound = False)
+
+			LastSeek = max(0,min(p,TotalTime))
+
+		else:
+			break
+
+	return

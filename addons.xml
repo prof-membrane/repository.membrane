@@ -181,7 +181,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libard" name="libard" version="5.1.42" provider-name="68000a">
+    <addon id="script.module.libard" name="libard" version="5.1.43" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.34"/>
@@ -240,7 +240,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.34" provider-name="68000a">
+    <addon id="script.module.libmediathek3" name="libmediathek3" version="1.5.35" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
         </requires>
@@ -269,7 +269,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libzdf" name="libzdf" version="2.1.27" provider-name="68000a">
+    <addon id="script.module.libzdf" name="libzdf" version="2.1.28" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.34"/>

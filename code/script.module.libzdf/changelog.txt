@@ -1,4 +1,6 @@
-﻿2.1.27
+﻿2.1.28
+- Stream-Position (Uhrzeit) einblenden bei vor-/zurückspulen im Livestream
+2.1.27
 - Mobile-Version: Sendedatum und/oder Abrufbar-bis-Datum hinzugefügt
 2.1.26
 - Livestream-URLs werden gecached (analog ARD-Addon)

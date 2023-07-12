@@ -1,4 +1,6 @@
-﻿1.5.34
+﻿1.5.35
+- Stream-Position (Uhrzeit) einblenden bei vor-/zurückspulen im Livestream
+1.5.34
 - Umstellung auf neues Layout zur Anzeige der Videos
 1.5.33
 - Änderungen aus 1.5.32 wieder rückgängig gemacht

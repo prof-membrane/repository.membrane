@@ -325,6 +325,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 										d['_airedISO8601'] = teaser.get('broadcastedOn', None)
 									if pageIndex == pageIndexLivestreamPage:
 										d['_type'] = 'live'
+										d['live'] = 'true' 
 									elif pageIndex == pageIndexProgramPage:
 										d['_type'] = 'date'
 									else:

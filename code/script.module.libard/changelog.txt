@@ -1,3 +1,5 @@
+5.1.43
+- Stream-Position (Uhrzeit) einblenden bei vor-/zurückspulen im Livestream
 5.1.42
 - Sendungen nach A-Z funktioniert wieder
 5.1.41

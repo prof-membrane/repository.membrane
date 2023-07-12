@@ -188,7 +188,7 @@ def getMetadata(result):
 	if result:
 		metadata = {}
 		params = get_params()
-		for key in ('name', 'plot', 'thumb'):
+		for key in ('name', 'plot', 'thumb', 'live'):
 			value = params.get(key, None)
 			if value:
 				metadata[key] = value
