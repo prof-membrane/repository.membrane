@@ -31,8 +31,10 @@ pageIndexPlayerPage = 3
 pageIndexShowPage = 4
 
 
+
 def deep_get(dictionary, keys, default=None):
 	return reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, keys.split('.'), dictionary)
+
 
 def parseLivestreams(partnerKey, clientKey):
 	pageIndex = pageIndexLivestreamPage
@@ -52,15 +54,18 @@ def parseLivestreams(partnerKey, clientKey):
 			pass
 	return result
 
+
 def parseAZ(partnerKey, clientKey, letter):
 	pageIndex = pageIndexAZPage
 	url = baseUrlJsonDirect + clientKey + '/editorial/experiment-a-z'
 	return parse(pageIndex, url, partnerKey, None, letter)
 
+
 def parseShow(showId):
 	pageIndex = pageIndexShowPage
 	url = baseUrlJsonDirect + 'ard/grouping/' + showId
 	return parse(pageIndex, url)
+
 
 def parseDate(partnerKey, clientKey, date):
 	pageIndex = pageIndexProgramPage
@@ -74,7 +79,9 @@ def parseDate(partnerKey, clientKey, date):
 	channelKey = clientKey if partnerKey else None
 	return parse(pageIndex, url, partnerKey, channelKey)
 
+
 def getVideoUrl(url):
+	result = None
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
 	widgets = j.get('widgets',None)
@@ -82,9 +89,13 @@ def getVideoUrl(url):
 		for widget in widgets:
 			if widget.get('type','').startswith('player'):
 				mediaCollection = deep_get(widget, 'mediaCollection.embedded._mediaArray')
-				if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
-					return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
-	return None
+				result = extract (mediaCollection)
+				if not result:
+					mediaCollection = deep_get(widget, 'mediaCollection.embedded._alternativeMediaArray')
+					if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
+						result = extract (mediaCollection[0].get('_mediaArray', []))
+	return result
+
 
 def parseSearchAPI(search_string):
 	l = []
@@ -129,6 +140,7 @@ def parseSearchAPI(search_string):
 		pass
 	return l
 
+
 def parseSearchHtml(search_string):
 	l = []
 	response = libMediathek.getUrl('https://www.ardmediathek.de/suche/'+search_string)
@@ -166,6 +178,7 @@ def parseSearchHtml(search_string):
 							l.append(d)
 	return l
 
+
 def getVideoUrlHtml(url):
 	response = libMediathek.getUrl(url)
 	split = response.split('<script id="fetchedContextValue" type="application/json">');
@@ -187,37 +200,45 @@ def getVideoUrlHtml(url):
 											return extractBestQuality(mediaCollection[0].get('media',[]), lambda x: None if isinstance(x,list) else x)
 	return None
 
+
+def extract(mediaCollection): 
+	if mediaCollection and isinstance(mediaCollection,list) and isinstance(mediaCollection[0],dict):
+		return extractBestQuality(mediaCollection[0].get('_mediaStreamArray',[]), lambda x: None if isinstance(x,list) else x)
+	return None
+
+
 def extractBestQuality(streams, fnGetFinalUrl):
-	media = []
-	for item in streams:
-		if isinstance(item,dict) and (item.get('__typename','MediaStreamArray') == 'MediaStreamArray'):
-			stream = item.get('url',None)
-			if not stream:
-				stream = item.get('_stream',None)
-			if stream:
-				url = fnGetFinalUrl(stream)
-				if url:
-					if url.startswith('//'):
-						url = 'https:' + url
-					quality = item.get('maxHResolutionPx',-1);
-					if quality == -1:
-						quality = item.get('_quality',-1);
-					if (quality == 'auto') or item.get('isAdaptiveQualitySelectable',False):
-						media.insert(0,{'url':url.replace("index.m3u8", "master.m3u8"), 'type':'video', 'stream':'hls'})
-					elif url[-4:].lower() == '.mp4':
-						try:
-							quality = int(quality)
-						except ValueError:
-							pass
-						else:
-							media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
-	ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
-	while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
-		del media[0]
-	if media:
-		return dict(media = media)
-	else:
-		return None
+	if streams:
+		media = []
+		for item in streams:
+			if isinstance(item,dict) and (item.get('__typename','MediaStreamArray') == 'MediaStreamArray'):
+				stream = item.get('url',None)
+				if not stream:
+					stream = item.get('_stream',None)
+				if stream:
+					url = fnGetFinalUrl(stream)
+					if url:
+						if url.startswith('//'):
+							url = 'https:' + url
+						quality = item.get('maxHResolutionPx',-1);
+						if quality == -1:
+							quality = item.get('_quality',-1);
+						if (quality == 'auto') or item.get('isAdaptiveQualitySelectable',False):
+							media.insert(0,{'url':url.replace("index.m3u8", "master.m3u8"), 'type':'video', 'stream':'hls'})
+						elif url[-4:].lower() == '.mp4':
+							try:
+								quality = int(quality)
+							except ValueError:
+								pass
+							else:
+								media.append({'url':url, 'type':'video', 'stream':'mp4', 'bitrate':quality})
+		ignore_adaptive = libMediathek.getSettingBool('ignore_adaptive')
+		while ignore_adaptive and len(media) > 1 and media[0]['stream'] == 'hls':
+			del media[0]
+		if media:
+			return dict(media = media)
+	return None
+
 
 def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 	result = []
