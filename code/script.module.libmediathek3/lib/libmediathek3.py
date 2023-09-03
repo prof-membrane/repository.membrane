@@ -208,7 +208,7 @@ def ShowSeekPos(player, url):
 			p = int(play_time)
 
 			# regelm. Schwankung bei Livestreams 6-10 (empirisch):
-			if abs(LastSeek-p) > 10:			# rückwärts/vorwärts im Puffer
+			if abs(LastSeek-p) >= 20:			# rückwärts/vorwärts im Puffer
 				pos_sec = TotalTime - p			# je kleiner p desto größer der Zeitabzug
 				now = time.mktime(datetime.now().timetuple()) # Unix-Format 1489094334.0
 				time_sec = int(now) - pos_sec	# Pos-Sekunden von akt. Zeit abziehen
