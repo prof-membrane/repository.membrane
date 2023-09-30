@@ -1,4 +1,6 @@
-﻿2.0.15
+﻿2.0.16
+- "Sendungen nach Datum" etwas robuster gemacht
+2.0.15
 - Sortierung geändert: "BR" jetzt vor "ARD Alpha"
 2.0.14
 - Weitere sporadische Exception bei "Sendungen nach Datum" behoben

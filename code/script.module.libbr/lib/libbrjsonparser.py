@@ -194,9 +194,16 @@ def parseDate(day,channel):
 	variables = {"slots": ["MORNING","NOON","EVENING","NIGHT"], "day": day, "broadcasterId":"av:http://ard.de/ontologies/ard#"+channel}
 	p = json.dumps({'query': queries.getQueryDate(), 'variables':variables})
 	libMediathek.log(p)
-	response = libMediathek.getUrl(graphqlUrl,header,post=p)
-	libMediathek.log(response)
-	j = json.loads(response)
+	retry = 3 
+	while retry:
+		response = libMediathek.getUrl(graphqlUrl,header,post=p)
+		libMediathek.log(response)
+		j = json.loads(response)
+		if j and not 'errors' in j:
+			break
+		retry -= 1
+		# import xbmc
+		# xbmc.log('libbr: some errors in retrieving date videos, %s' % ('retrying...' if retry else 'giving up'), xbmc.LOGINFO)
 	l = []
 	for epg in j['data']['viewer']['allLivestreams']['edges'][0]['node']['epg']:
 		broadcastEvent = epg.get('broadcastEvent',None)
