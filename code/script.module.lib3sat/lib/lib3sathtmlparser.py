@@ -129,6 +129,7 @@ def grepItem(target):
 
 
 def getU(url, api_token):
+	# import xbmc
 	# xbmc.log('api_token %s, url = %s' % (api_token, url), xbmc.LOGFATAL)
 	header = { 'Api-Auth' : 'Bearer ' + api_token }
 	response = libMediathek.getUrl(url,header)

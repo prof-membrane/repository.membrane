@@ -10,6 +10,7 @@ base = 'http://www1.wdr.de'
 def parse(url):
 	response = libMediathek.getUrl(url)
 	s = response.split('<h2 class="headline">Suchergebnis</h2>')[-1]
+	#import xbmc
 	#xbmc.log(response)
 	videos = s.split('<div class="media mediaA">')[1:]
 	l = []
