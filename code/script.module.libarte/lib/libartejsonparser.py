@@ -19,6 +19,9 @@ opa_token = {"Authorization": "Bearer Nzc1Yjc1ZjJkYjk1NWFhN2I2MWEwMmRlMzAzNjI5Nm
 emac_url = 'https://api.arte.tv/api/emac/v3/' + current_lang + '/web'
 emac_token = {"Authorization": "Bearer MWZmZjk5NjE1ODgxM2E0MTI2NzY4MzQ5MTZkOWVkYTA1M2U4YjM3NDM2MjEwMDllODRhMjIzZjQwNjBiNGYxYw"}
 
+player_url = "https://api.arte.tv/api/player/v2/config/%s/%s"
+player_token = {"Authorization": "Bearer MzYyZDYyYmM1Y2Q3ZWRlZWFjMmIyZjZjNTRiMGY4MzY4NzBhOWQ5YjE4MGQ1NGFiODJmOTFlZDQwN2FkOTZjMQ"}
+
 magazines_url = 'http://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/magazines/' +  current_lang;
 
 stream_params = '&quality=$in:XQ,HQ,SQ&mediaType=hls&language=' + current_lang + '&channel=' + current_lang.upper()
@@ -202,50 +205,60 @@ qualities = {
 
 def getVideoUrl(url, documentId):
 	result = None
+	prefer_opa_api = libMediathek.getSetting('api') == 'OPAv3'
+	getVideoUrl_functions = (getVideoUrl_OPAv3, getVideoUrl_Default) if prefer_opa_api else (getVideoUrl_Default, getVideoUrl_OPAv3)
+	for function in getVideoUrl_functions: 
+		result = function(url, documentId)
+		if result:
+			break
+	return result
+
+def getVideoUrl_OPAv3(url, documentId):
+	result = None
 	url = opa_url + url
 	response = libMediathek.getUrl(url, opa_token)
 	j = json.loads(response)
-	if len(j['videoStreams']) > 0:
-		storedLang = 0
-		bitrate = 0
-		hls_videos = [value for value in j['videoStreams'] if value['mediaType'] == 'hls']
-		for video in hls_videos:
-			voice_subtitle = video['audioCode'].split('-');
+	storedLang = 0
+	bitrate = 0
+	hls_videos = [value for value in j['videoStreams'] if value['mediaType'] == 'hls']
+	for video in hls_videos:
+		voice_subtitle = video['audioCode'].split('-');
+		voice = voice_subtitle[0].split('[')[0]
+		subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
+		currentLang = voices.get(voice, lambda:0)()
+		# if currentLang is native language => prefer "no subtitle"
+		# if currentLang is foreign language => prefer subtitle in native language
+		currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
+		currentBitrate = video['bitrate']
+		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
+			storedLang = currentLang
+			bitrate = currentBitrate
+			result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
+	return {'media': [result]} if result else None
+
+def getVideoUrl_Default(url, documentId):
+	result = None
+	url = player_url % (current_lang, documentId)
+	response = libMediathek.getUrl(url, player_token)
+	j = json.loads(response)
+	storedLang = 0
+	bitrate = 0
+	hls_videos = [value for value in j['data']['attributes']['streams'] if 'HLS' in value['protocol']]
+	for video in hls_videos:
+		if ('versions' in video) and len(video['versions']) > 0:
+			voice_subtitle = video['versions'][0]['eStat']['ml5'].split('-');
 			voice = voice_subtitle[0].split('[')[0]
 			subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
-			currentLang = voices.get(voice, lambda:0)()
-			# if currentLang is native language => prefer "no subtitle"
-			# if currentLang is foreign language => prefer subtitle in native language
-			currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
-			currentBitrate = video['bitrate']
-			if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
-				storedLang = currentLang
-				bitrate = currentBitrate
-				result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
-		return {'media': [result]} if result else None
-	else:
-		url = 'https://api.arte.tv/api/player/v2/config/' + current_lang + '/' + documentId
-		response = libMediathek.getUrl(url)
-		j = json.loads(response)
-		storedLang = 0
-		bitrate = 0
-		hls_videos = [value for value in j['data']['attributes']['streams'] if value['protocol'][0:3] == 'HLS']
-		for video in hls_videos:
-			if ('versions' in video) and len(video['versions']) > 0:
-				voice_subtitle = video['versions'][0]['eStat']['ml5'].split('-');
-				voice = voice_subtitle[0].split('[')[0]
-				subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
-			else:
-				voice = ''
-				subtitle = ''
-			currentLang = voices.get(voice, lambda:0)()
-			# if currentLang is native language => prefer "no subtitle"
-			# if currentLang is foreign language => prefer subtitle in native language
-			currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
-			currentBitrate = qualities.get(video['mainQuality']['code'], 0)
-			if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
-				storedLang = currentLang
-				bitrate = currentBitrate
-				result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
-		return {'media': [result]} if result else None
-
+		else:
+			voice = ''
+			subtitle = ''
+		currentLang = voices.get(voice, lambda:0)()
+		# if currentLang is native language => prefer "no subtitle"
+		# if currentLang is foreign language => prefer subtitle in native language
+		currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
+		currentBitrate = qualities.get(video['mainQuality']['code'], 0)
+		if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
+			storedLang = currentLang
+			bitrate = currentBitrate
+			result = {'url':video['url'], 'type': 'video', 'stream':'hls'}
+	return {'media': [result]} if result else None

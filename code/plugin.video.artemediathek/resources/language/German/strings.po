@@ -10,6 +10,10 @@ msgctxt "#32001"
 msgid "Language"
 msgstr "Sprache"
 
+msgctxt "#32002"
+msgid "Preferred Stream API"
+msgstr "Bevorzugtes Stream API"
+
 
 msgctxt "#32100"
 msgid "Broadcast date"

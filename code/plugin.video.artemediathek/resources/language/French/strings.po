@@ -1,4 +1,4 @@
-msgid ""
+﻿msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Main\n"
 
@@ -9,6 +9,10 @@ msgstr "Général"
 msgctxt "#32001"
 msgid "Language"
 msgstr "Langue"
+
+msgctxt "#32002"
+msgid "Preferred Stream API"
+msgstr "Stream API préférée"
 
 
 msgctxt "#32100"

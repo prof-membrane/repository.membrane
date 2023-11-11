@@ -52,10 +52,10 @@
         </extension>
     </addon>
 
-    <addon id="plugin.video.artemediathek" name="Arte Mediathek" version="1.0.11" provider-name="68000a">
+    <addon id="plugin.video.artemediathek" name="Arte Mediathek" version="1.0.12" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0"/>
-            <import addon="script.module.libarte" version="1.0.26"/>
+            <import addon="script.module.libarte" version="1.0.27"/>
         </requires>
         <extension point="xbmc.python.pluginsource" library="default.py">
             <provides>video</provides>
@@ -197,7 +197,7 @@
         </extension>
     </addon>
 
-    <addon id="script.module.libarte" name="libarte" version="1.0.26" provider-name="68000a">
+    <addon id="script.module.libarte" name="libarte" version="1.0.27" provider-name="68000a">
         <requires>
             <import addon="xbmc.python" version="2.25.0" />
             <import addon="script.module.libmediathek3" version="1.5.34"/>

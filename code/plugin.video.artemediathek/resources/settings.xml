@@ -2,5 +2,6 @@
 <settings>
     <category label="32000">
         <setting id="lang" type="select" label="32001" values="de|fr" />
+        <setting id="api" type="select" label="32002" values="Default|OPAv3" />
     </category>
 </settings>
