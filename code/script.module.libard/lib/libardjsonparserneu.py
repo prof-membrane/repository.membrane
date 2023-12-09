@@ -15,21 +15,15 @@ else: # for Python 3
 
 addon = xbmcaddon.Addon()
 
-baseUrlJsonPageGateway = 'https://api.ardmediathek.de/public-gateway?'
 baseUrlJsonDirect = 'https://api.ardmediathek.de/page-gateway/pages/'
 baseUrlHtml = 'https://www.ardmediathek.de/video/'
+baseUrlProgramAPI = 'https://programm-api.ard.de/program/api/program?day='
+baseUrlDocuments = 'https://api.ardmediathek.de/page-gateway/pages/ard/item/'
 
-keyOperationName = 'operationName'
-keyVariables = 'variables'
-keyExtensions = 'extensions'
-extensions = '{"persistedQuery":{"version":1,"sha256Hash":"%s"}}'
-pageNames = ('showsPage','programPage','defaultPage','playerPage','showPage')
 pageIndexAZPage = 0
 pageIndexProgramPage = 1
 pageIndexLivestreamPage = 2
-pageIndexPlayerPage = 3
-pageIndexShowPage = 4
-
+pageIndexShowPage = 3
 
 
 def deep_get(dictionary, keys, default=None):
@@ -69,13 +63,7 @@ def parseShow(showId):
 
 def parseDate(partnerKey, clientKey, date):
 	pageIndex = pageIndexProgramPage
-	variables = '{"client":"%s","startDate":"%s"}'
-	sha256Hash = 'b3f152bfb679d8246594cf7f807860acdb1bf5479801dcace1307d6f6e2a2e23'
-	queryParams = {}
-	queryParams[keyOperationName] = pageNames[pageIndex]
-	queryParams[keyVariables] = variables % (clientKey, date) # date = YYYY-MM-DD
-	queryParams[keyExtensions] = extensions % sha256Hash
-	url = baseUrlJsonPageGateway + urlencode(queryParams)
+	url = baseUrlProgramAPI + date  # date = YYYY-MM-DD
 	channelKey = clientKey if partnerKey else None
 	return parse(pageIndex, url, partnerKey, channelKey)
 
@@ -243,21 +231,19 @@ def extractBestQuality(streams, fnGetFinalUrl):
 def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 	result = []
 	response = libMediathek.getUrl(url)
-	j = json.loads(response)
-	if url.startswith(baseUrlJsonPageGateway):
-		page = j.get('data',{}).get(pageNames[pageIndex],None)
-	else:
-		page = j
+	page = json.loads(response)
 	if page:
-		widgets = page.get('widgets',[])
+		widgets = page.get('channels' if pageIndex == pageIndexProgramPage else 'widgets',[])
 		for widget in widgets:
 			if (
-				((channelKey is None) or (channelKey == widget.get('channelKey',None)))
+				((channelKey is None) or (channelKey == widget.get('id' if pageIndex == pageIndexProgramPage else 'channelKey',None)))
 				and 
 				((letter is None) or (letter == widget.get('title',None)))
 			):
 				teasers = []
-				if (
+				if pageIndex == pageIndexProgramPage:
+					teasers = [item for sublist in widget.get('timeSlots',(())) for item in sublist]
+				elif (
 					not (letter is None) 
 					and 
 					deep_get(widget, 'pagination.totalElements', 0) > deep_get(widget, 'pagination.pageSize', 0)
@@ -280,24 +266,37 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 				for teaser in teasers:
 					if teaser:
 						type = teaser['type']
-						publicationService = teaser.get('publicationService',None)
+						publicationService = (widget if pageIndex == pageIndexProgramPage else teaser).get('publicationService',None)
 						if (
-						 	type in ('live','ondemand','broadcastMainClip','show')
+						 	type in ('live','ondemand','broadcastMainClip','show','epg')
 						 	and
 							(type == 'live') == (pageIndex == pageIndexLivestreamPage)
 							and
-							((partnerKey is None) or (publicationService and (partnerKey == publicationService.get('partner',None))))
+							(
+								(partnerKey is None)
+								or
+								(
+									publicationService
+									and
+									((channelKey if pageIndex == pageIndexProgramPage else partnerKey) == publicationService.get('partner',None))
+								)
+							)
 						):
-							documentId = deep_get(teaser, 'links.target.id')
-							name = teaser['shortTitle']
+							documentId = deep_get(teaser, 'links.target.' + ('urlId' if pageIndex == pageIndexProgramPage else 'id'))
+							if pageIndex == pageIndexProgramPage:
+								name = teaser['coreTitle'] + ' | ' + teaser['title']
+							else: 
+								name = teaser['shortTitle']
 							if documentId and name:
 								d = {}
 								d['documentId'] = documentId
 								d['url'] = deep_get(teaser, 'links.target.href')
+								if not d['url']:
+									d['url'] = baseUrlDocuments + documentId
 								d['name'] = name
-								d['plot'] = teaser.get('longTitle',None)
-								if d['plot'] == name and page.get('synopsis', None):
-									d['plot'] = page['synopsis']
+								d['plot'] = (teaser if pageIndex == pageIndexProgramPage else page).get('synopsis', None)
+								if not d['plot']:
+									d['plot'] = teaser.get('longTitle',None)
 								if pageIndex != pageIndexProgramPage:
 									availableTo = teaser.get('availableTo',None)
 									if availableTo and pageIndex != pageIndexLivestreamPage:

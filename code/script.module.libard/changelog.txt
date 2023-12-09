@@ -1,3 +1,5 @@
+5.1.44
+- Sendungen nach Datum: Umstellung auf anderes API
 5.1.43
 - Stream-Position (Uhrzeit) einblenden bei vor-/zurückspulen im Livestream
 5.1.42

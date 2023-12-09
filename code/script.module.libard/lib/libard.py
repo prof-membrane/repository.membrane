@@ -100,12 +100,12 @@ channels = (
 	('SWR',           ondemand + bydate + live_byclient,  'swr',          'swr'),
 	('WDR',           ondemand + bydate + live_byard,     'wdr',          'wdr'),
 	('One',           ondemand + bydate + live_byard,     'one',          'one'),
-	('ARD-alpha',     ondemand + bydate + live_byard,     'ard-alpha',    'ardalpha'),
+	('ARD-alpha',     ondemand + bydate + live_byard,     'ard-alpha',    'alpha'),
 	('Phoenix',       ondemand + bydate + live_byard,     'phoenix',      'phoenix'),
 	('Tagesschau24',  ondemand + bydate + live_byclient,  'tagesschau24', 'tagesschau24'),
-	('3sat',          live_byard,                         '3sat',         None),
-	('Arte',          live_byard,                         'arte',         None),
-	('KiKA',          live_byard,                         'KiKa',         None),
+	('3sat',          bydate + live_byard,                '3sat',         '3sat'),
+	('Arte',          bydate + live_byard,                'arte',         'arte'),
+	('KiKA',          bydate + live_byard,                'KiKa',         'kika'),
 	('Deutsche Welle',live_byard,                         'dw',           None),
 )
 
