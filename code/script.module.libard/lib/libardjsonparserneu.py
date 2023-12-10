@@ -244,7 +244,7 @@ def parse(pageIndex, url, partnerKey=None, channelKey=None, letter=None):
 				if pageIndex == pageIndexProgramPage:
 					teasers = [item for sublist in widget.get('timeSlots',(())) for item in sublist]
 				elif (
-					not (letter is None) 
+					letter is not None 
 					and 
 					deep_get(widget, 'pagination.totalElements', 0) > deep_get(widget, 'pagination.pageSize', 0)
 				):

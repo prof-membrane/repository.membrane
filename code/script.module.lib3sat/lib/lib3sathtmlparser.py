@@ -16,11 +16,11 @@ preferred_resolutions = [['384w', '768w', '1280w', '1920w', '2400w'], ['240w', '
 
 
 def chooseImage(pictureList, thumbnail_type):
-	if not (pictureList is None):
+	if pictureList:
 		for pictureItem in pictureList:
 			if hasattr(pictureItem,'attrs') and (thumbnail_type[preferred_thumbnail_type] in pictureItem.attrs.get('class', [])):
 				pictureSources = pictureItem.attrs.get('data-srcset', None)
-				if not (pictureSources is None):
+				if pictureSources:
 					pictures = pictureSources.split(',')
 					for index, item in enumerate(pictures):
 						pictures[index] = item.split(' ')
@@ -43,27 +43,27 @@ def getDate(date_str):
 	for article in articles:
 		d = {}
 		name = article.find('h3')
-		if not (name is None):
+		if name:
 			d['_type'] = 'date'
 			d['mode'] = 'lib3satHtmlPlay'
 			d['name'] = name.text
 			airedtime_begin = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-begin', None))
-			if not (airedtime_begin is None):
+			if airedtime_begin:
 				airedtime = datetime (airedtime_begin.year, airedtime_begin.month, airedtime_begin.day, airedtime_begin.hour, int(airedtime_begin.minute / 5) * 5)
 				d['_airedtime'] = airedtime.strftime('%H:%M')
 				airedtime_end = libMediathek.str_to_airedtime(article.attrs.get('data-airtime-end', None))
-				if not (airedtime_end is None):
+				if airedtime_end:
 					d['duration'] = str((airedtime_end - airedtime_begin).seconds)
 			plot = article.find('p', {'class': 'teaser-epg-text'})
-			if not (plot is None):
+			if plot:
 				d['plot'] = plot.text
 			picture = article.find('picture')
-			if not (picture is None):
+			if picture:
 				d['thumb'] = chooseImage(picture.contents, thumbnail1_types)
 			url = article.find('a', {'data-link': (lambda x: not(x is None))})
-			if not (url is None) and not (url.attrs is None):
+			if url and url.attrs:
 				href = url.attrs.get('href', None)
-				if not (href is None):
+				if href:
 					d['url'] = base + href
 			l.append(d)
 	return l
@@ -77,10 +77,10 @@ def getAZ(url):
 	for article in articles:
 		d = {}
 		name_link = article.find('a',  {'class': 'teaser-title-link'})
-		if not (name_link is None) and not (name_link.attrs is None):
+		if name_link and name_link.attrs:
 			href = name_link.attrs.get('href', None)
 			name_attr = article.find('p',  {'class': 'a--headline'})
-			if len(name_attr) > 0 and not (href is None):
+			if len(name_attr) > 0 and href:
 				name = name_attr.text
 				d['_type'] = 'video'
 				d['mode'] = 'lib3satHtmlPlay'
@@ -88,7 +88,7 @@ def getAZ(url):
 				d['plot'] = name
 				d['url'] = base + href
 				picture = article.find('picture')
-				if not (picture is None):
+				if picture:
 					d['thumb'] = chooseImage(picture.contents, thumbnail2_types)
 				l.append(d)
 	return l
@@ -180,9 +180,9 @@ def lib3satHtmlPlay(url):
 	response = libMediathek.getUrl(url)
 	soup = bs.BeautifulSoup(response, 'html.parser')
 	playerbox = soup.find('div', {'class': 'b-playerbox'})
-	if not (playerbox is None) and (hasattr(playerbox,'attrs')):
+	if playerbox and hasattr(playerbox,'attrs'):
 		jsb_str = playerbox.attrs.get('data-zdfplayer-jsb', None)
-		if not (jsb_str is None):
+		if jsb_str:
 			jsb = json.loads(jsb_str)
 			content_link = jsb['content']
 			api_token = jsb['apiToken']

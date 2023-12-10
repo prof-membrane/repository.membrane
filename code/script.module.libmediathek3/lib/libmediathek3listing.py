@@ -216,7 +216,7 @@ def list(modes, defaultMode, *playModes):
 				else:
 					libmediathek3.play(res,download_dir=params.get('download_dir',None))
 			else:
-				if not (res is None):
+				if res is not None:
 					addEntries(res)
 					if isinstance(fn, tuple):
 						xbmcplugin.setContent(handle, content=fn[1])
