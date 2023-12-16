@@ -57,7 +57,8 @@ def parseVideos(id,type=None,grepShowFromVideo=False):
 				d['_duration'],d['m3u8'] = re.compile('<media:content duration="(.+?)".+?url="(.+?)"', re.DOTALL).findall(mediagroup)[0]
 			except:
 				libMediathek.log(item)
-				d['name'] = '##################'+ re.compile('<title>(.+?)</title>', re.DOTALL).findall(item)[0]
+				# war: d['name'] = '##################'+ re.compile('<title>(.+?)</title>', re.DOTALL).findall(item)[0]
+				continue
 			if '<content:encoded>' in item:
 				d['plot'] = re.compile('<content:encoded>(.+?)</content:encoded>', re.DOTALL).findall(item)[0].replace('\n ','\n')
 			d['_channel'] = re.compile('<dc:creator>(.+?)</dc:creator>', re.DOTALL).findall(item)[0]
