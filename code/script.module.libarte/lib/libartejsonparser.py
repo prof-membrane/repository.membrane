@@ -173,15 +173,15 @@ def getSearch(s):
 nativeVoice = '__NATIVE_VOICE__'
 
 voices = {
-	'VO':   lambda: 1,                        # Original Voice
-	'VE':   lambda: 2,                        # Other Voice
-	'VFAUD':lambda: 3 if lang_german else 6,  # Audio Description Francaise
-	'VOF':  lambda: 4 if lang_german else 7,  # Original Voice Francaise
-	'VF':   lambda: 5 if lang_german else 8,  # Voice Francaise
-	nativeVoice:  lambda: 6,                  # Internal use
-	'VAAUD':lambda: 6 if lang_german else 3,  # Audio Description Allemande
-	'VOA':  lambda: 7 if lang_german else 4,  # Original Voice Allemande
-	'VA':   lambda: 8 if lang_german else 5,  # Voice Allemande
+	'VFAUD':lambda: 1 if lang_german else 6,  # Audio Description Francaise
+	'VOF':  lambda: 2 if lang_german else 7,  # Original Voice Francaise
+	'VF':   lambda: 3 if lang_german else 8,  # Voice Francaise
+	'VE':   lambda: 4,                        # Other Voice
+	'VO':   lambda: 5,                        # Original Voice
+	nativeVoice:  lambda: 5,                  # Internal use
+	'VAAUD':lambda: 6 if lang_german else 1,  # Audio Description Allemande
+	'VOA':  lambda: 7 if lang_german else 2,  # Original Voice Allemande
+	'VA':   lambda: 8 if lang_german else 3,  # Voice Allemande
 }
 
 subtitles = {

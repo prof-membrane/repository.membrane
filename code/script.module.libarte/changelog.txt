@@ -1,4 +1,6 @@
-﻿1.0.31
+﻿1.0.32
+- Stream-Auswahl verbessert
+1.0.31
 - Use https instead of http
 1.0.30
 - Sendungen nach Datum funktioniert wieder
