@@ -1,4 +1,8 @@
-﻿1.0.32
+﻿1.0.33
+- Sendungen nach A-Z funktioniert wieder
+- Download funktioniert wieder wenn Stream-API "HbbTV" eingestellt ist
+- Stream-API "OPAv3" wurde am 21.10.2026 (vermutlich dauerhaft) abgeschaltet
+1.0.32
 - Stream-Auswahl verbessert
 1.0.31
 - Use https instead of http

@@ -13,6 +13,7 @@ lang_german  = libMediathek.getSetting('lang') in ('de','0','',None)
 current_lang = 'de' if lang_german else 'fr'
 addon = xbmcaddon.Addon()
 
+hbbtv_url = 'https://www.arte.tv/hbbtv-mw/api/1/player/%s?lang=%s'
 opa_url = 'https://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/streams/%s/SHOW/%s';
 
 emac_url = 'https://api.arte.tv/api/emac/v3/' + current_lang + '/web/'
@@ -21,7 +22,8 @@ emac_token = {"Authorization": "Bearer MWZmZjk5NjE1ODgxM2E0MTI2NzY4MzQ5MTZkOWVkY
 player_url = "https://api.arte.tv/api/player/v2/config/%s/%s"
 player_token = {"Authorization": "Bearer MzYyZDYyYmM1Y2Q3ZWRlZWFjMmIyZjZjNTRiMGY4MzY4NzBhOWQ5YjE4MGQ1NGFiODJmOTFlZDQwN2FkOTZjMQ"}
 
-magazines_url = 'https://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/magazines/' +  current_lang;
+# magazines_url = 'https://www.arte.tv/hbbtvv2/services/web/index.php/OPA/v3/magazines/' +  current_lang;
+magazines_url = 'https://api.arte.tv/api/emac/v3/' + current_lang + '/web/pages/MAGAZINES/'
 
 stream_params = '&quality=$in:XQ,HQ,SQ&mediaType=hls&language=' + current_lang + '&channel=' + current_lang.upper()
 
@@ -93,15 +95,16 @@ def getVideos(url):
 		collection_subcollection = [item for item in zones if item.get('code',{}).get('name',None) == 'collection_subcollection']
 		collection_videos = [item for item in zones if item.get('code',{}).get('name',None) == 'collection_videos']
 		for subcollection in collection_subcollection:
-			collectionId_subcollectionId = subcollection.get('code',{}).get('id','').split('_')
-			if len(collectionId_subcollectionId) == 2:
-				subcollection['programId'] = '/data/COLLECTION_SUBCOLLECTION/?collectionId=%s&subCollectionId=%s' % tuple(collectionId_subcollectionId)
-				subcollection['kind'] = { 'isCollection': True }
-				if collection_content:
-					image_data = collection_content[0].get('data', [])
-					if image_data:
-						subcollection['images'] = image_data[0].get('images',{})
-				data.append(subcollection)
+			if subcollection.get('data', None):
+				collectionId_subcollectionId = subcollection.get('code',{}).get('id','').split('_')
+				if len(collectionId_subcollectionId) == 2:
+					subcollection['programId'] = '/data/COLLECTION_SUBCOLLECTION/?collectionId=%s&subCollectionId=%s' % tuple(collectionId_subcollectionId)
+					subcollection['kind'] = { 'isCollection': True }
+					if collection_content:
+						image_data = collection_content[0].get('data', [])
+						if image_data:
+							subcollection['images'] = image_data[0].get('images',{})
+					data.append(subcollection)
 		for videos in collection_videos:
 			data += videos.get('data',[])
 	for video in data:
@@ -114,8 +117,12 @@ def getMagazines():
 	url = magazines_url
 	response = libMediathek.getUrl(url)
 	j = json.loads(response)
-	for video in j['magazines']:
-		l.append(_parse_data(video))
+	zones = j.get('zones', None)
+	if zones:
+		zone0 = zones[0]
+		if zone0:
+			for video in zone0.get('data', []):
+				l.append(_parse_data(video))
 	return l
 
 
@@ -203,13 +210,47 @@ qualities = {
 
 def getVideoUrl(url, documentId):
 	result = None
-	prefer_opa_api = libMediathek.getSetting('api') == 'OPAv3'
-	getVideoUrl_functions = (getVideoUrl_OPAv3, getVideoUrl_Default) if prefer_opa_api else (getVideoUrl_Default, getVideoUrl_OPAv3)
+	preferred_api = libMediathek.getSetting('api')
+	if preferred_api == 'HbbTV': 
+		getVideoUrl_functions = (getVideoUrl_HbbTV, getVideoUrl_OPAv3, getVideoUrl_Default)
+	elif preferred_api == 'OPAv3':
+		getVideoUrl_functions = (getVideoUrl_OPAv3, getVideoUrl_HbbTV, getVideoUrl_Default)
+	else: 
+		getVideoUrl_functions = (getVideoUrl_Default, getVideoUrl_HbbTV, getVideoUrl_OPAv3)
 	for function in getVideoUrl_functions:
 		result = function(url, documentId)
 		if result:
 			break
 	return result
+
+def getVideoUrl_HbbTV(url, documentId):
+	result = None
+	url = hbbtv_url % (documentId, current_lang)
+	response = libMediathek.getUrl(url)
+	j = json.loads(response)
+	storedLang = 0
+	bitrate = 0
+	storedLang = 0
+	bitrate = 0
+	item = j.get('item', None)
+	if item:
+		hls_videos = item.get('streams', [])
+		for video in hls_videos:
+			mainQuality = video.get('mainQuality', {})
+			currentBitrate = qualities.get(mainQuality.get('code', None), 0)
+			for version in video.get('versions', []):
+				voice_subtitle = version['code'].split('-');
+				voice = voice_subtitle[0].split('[')[0]
+				subtitle = voice_subtitle[1].split('[')[0] if len(voice_subtitle) > 1 else '';
+				currentLang = voices.get(voice, lambda:0)()
+				# if currentLang is native language => prefer "no subtitle"
+				# if currentLang is foreign language => prefer subtitle in native language
+				currentLang = currentLang * 10 + subtitles.get(subtitle, lambda: 9 if (currentLang >= voices[nativeVoice]()) else 0)()
+				if currentLang > storedLang or (currentLang == storedLang and currentBitrate > bitrate):
+					storedLang = currentLang
+					bitrate = currentBitrate
+					result = {'url':video['url'], 'type': 'video', 'stream': 'mp4' }
+	return {'media': [result]} if result else None
 
 def getVideoUrl_OPAv3(url, documentId):
 	result = None
