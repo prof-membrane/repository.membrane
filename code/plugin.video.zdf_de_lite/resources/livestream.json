@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Das ZDF im Livestream",
+    "plot": "[B]ZDF[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://zdf-hls-15.akamaized.net/hls/live/2016498/de/high/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400-zdf-100~1280x720?cb=1619595262367"
+  },
+  {
+    "name": "ZDFinfo im Livestream",
+    "plot": "[B]Doku | ZDFinfo Doku[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://zdf-hls-17.akamaized.net/hls/live/2016500/de/high/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400-zdfinfo-100~1280x720?cb=1685531948465"
+  },
+  {
+    "name": "ZDFneo im Livestream",
+    "plot": "[B]ZDFneo[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://zdf-hls-16.akamaized.net/hls/live/2016499/de/high/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400-zdfneo-100~1280x720?cb=1685544669210"
+  },
+  {
+    "name": "3sat im Livestream",
+    "plot": "[B]3sat[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://zdf-hls-18.akamaized.net/hls/live/2016501/dach/high/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400-3sat-100~1280x720?cb=1685536921052"
+  },
+  {
+    "name": "KiKA im Livestream",
+    "plot": "[B]kika[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://kikageohls.akamaized.net/hls/live/2022693/livetvkika_de/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400_kika-100~1280x720?cb=1479309336008"
+  },
+  {
+    "name": "phoenix im Livestream",
+    "plot": "[B]Phoenix[/B][CR]phoenix im Livestream: Rund um die Uhr die Sendungen des TV-Programms im Live-TV der ZDFmediathek",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://zdf-hls-19.akamaized.net/hls/live/2016502/de/high/master.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/phoenix-logo-stream-100~1280x720?cb=1733836141573"
+  },
+  {
+    "name": "arte im Livestream",
+    "plot": "[B]arte[/B][CR]Die Sendungen des TV-Programms im Live-TV",
+    "_type": "live",
+    "stream": "hls",
+    "url": "https://artelivezdf.akamaized.net/hls/live/2030993/artelive_de/index.m3u8",
+    "mode": "libZdfPlayLivestream",
+    "thumb": "https://www.zdf.de/assets/2400-arte-100~1280x720?cb=1685531903983"
+  }
+]

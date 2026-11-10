@@ -1,0 +1,28 @@
+﻿msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Main\n"
+
+msgctxt "#32000"
+msgid "General"
+msgstr "Général"
+
+msgctxt "#32001"
+msgid "Language"
+msgstr "Langue"
+
+msgctxt "#32002"
+msgid "Preferred Stream API"
+msgstr "Stream API préférée"
+
+msgctxt "#32010"
+msgid "Stream API / Download settings"
+msgstr "Stream API / Paramètres de téléchargement"
+
+msgctxt "#32011"
+msgid "Download directory"
+msgstr "Répertoire de téléchargement"
+
+
+msgctxt "#32100"
+msgid "Broadcast date"
+msgstr "Date de diffusion"

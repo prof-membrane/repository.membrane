@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32000">
+        <!-- setting id="use_mobile" type="bool" label="32001" default="false" /-->
+        <!-- setting id="use_mobile_prev_value" visible="false" type="bool" label="hidden" default="false" /-->
+        <!-- setting id="show_hint_mobile" visible="false" type="bool" label="32002" default="true" /-->
+        <setting id="ignore_adaptive" type="bool" label="32003" default="false"/>
+        <setting label="32010" type="lsep"/>
+        <setting id="download_dir" type="folder" label="32011" option="writeable" source="" default=""/>
+        <setting label="32020" type="lsep"/>
+        <setting id="livestream_via_api" type="bool" label="32021" default="false"/>
+        <setting id="livestream_from_addondata" type="bool" label="32022" default="false" subsetting="true" visible="eq(-1,false)"/>
+    </category>
+</settings>

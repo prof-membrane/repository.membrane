@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: XBMC Main\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+
+msgctxt "#32000"
+msgid "General"
+msgstr "General"
+
+msgctxt "#32001"
+msgid "Use mobile version of ZDF media library"
+msgstr "Use mobile version of ZDF media library"
+
+msgctxt "#32002"
+msgid "Show hint on mobile version at start"
+msgstr "Show hint on mobile version at start"
+
+msgctxt "#32003"
+msgid "Ignore adaptive streams if possible"
+msgstr "Ignore adaptive streams if possible"
+
+msgctxt "#32010"
+msgid "Download settings"
+msgstr "Download settings"
+
+msgctxt "#32011"
+msgid "Download directory"
+msgstr "Download directory"
+
+msgctxt "#32012"
+msgid "Broadcast date"
+msgstr "Broadcast date"
+
+msgctxt "#32013"
+msgid "Available to"
+msgstr "Available to"
+
+msgctxt "#32020"
+msgid "Livestream settings"
+msgstr "Livestream settings"
+
+msgctxt "#32021"
+msgid "Fetch livestream URLs via API"
+msgstr "Fetch livestream URLs via API"
+
+msgctxt "#32022"
+msgid "Read livestream URLs from 'livestream.json' in ADDON_DATA"
+msgstr "Read livestream URLs from 'livestream.json' in ADDON_DATA"
+
+msgctxt "#32100"
+msgid "Usage of the mobile version can be defined in the addon settings."
+msgstr "Usage of the mobile version can be defined in the addon settings."
+
+msgctxt "#32101"
+msgid "Restart because of changed settings"
+msgstr "Restart because of changed settings"

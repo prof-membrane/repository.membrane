@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="32000">
+        <setting id="lang" type="select" label="32001" values="de|fr" />
+        <setting label="32010" type="lsep"/>
+        <setting id="api" type="select" label="32002" values="Default|HbbTV|OPAv3" />
+        <setting id="download_dir" type="folder" label="32011" option="writeable" source="" default="" subsetting="true" visible="eq(-1,1)"/>
+    </category>
+</settings>
